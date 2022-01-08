@@ -1,0 +1,85 @@
+.form-group-alto {
+    margin-bottom: 3px;
+}
+
+.form-validar {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    margin-bottom: 3px;
+}
+
+.panel-border {
+    border: none;
+    margin-bottom: 0px;
+}
+
+.legend-border {
+    padding-bottom: 3px;
+    padding-top: 3px;
+}
+
+#contrato_detalle {
+    height: 50px !important;
+}
+
+#observacion {
+    height: 52px !important;
+}
+
+#userUpdateModal .modal-dialog {
+    width: 40% !important;
+    z-index: 1 !important;
+}
+
+.datepicker.dropdown-menu {
+    z-index: 1050 !important;
+}
+
+.filaSeleccionada {
+    background: #ECF0F5 !important;
+}
+
+.filaCancelada {
+    background: #FFFFFF !important;
+}
+
+.messages {
+    float: left;
+    font-family: sans-serif;
+    display: none;
+}
+
+.info {
+    padding: 10px;
+    border-radius: 10px;
+    background: orange;
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
+}
+
+
+/*.before{
+        padding: 10px;
+        border-radius: 10px;
+        background: blue;
+        color: #fff;
+        font-size: 18px;
+        text-align: center;
+    }
+    .success{
+        padding: 10px;
+        border-radius: 10px;
+        background: green;
+        color: #fff;
+        font-size: 18px;
+        text-align: center;
+    }
+    .error{
+        padding: 10px;
+        border-radius: 10px;
+        background: red;
+        color: #fff;
+        font-size: 18px;
+        text-align: center;
+    }*/
