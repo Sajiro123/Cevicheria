@@ -96,6 +96,8 @@ function EliminarPersona($array){
 	$sql="";
     $sql="update persona set deleted=1 where idpersona='$array->idpersona'";
     $resultado  = runSQLReporte($sql);
+    $sql="update usuario set deleted=1 where idpersona='$array->idpersona'";
+    $resultado  = runSQLReporte($sql);
     echo $resultado; 
 } 
 

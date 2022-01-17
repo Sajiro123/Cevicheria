@@ -141,8 +141,8 @@
                     <div class="col-sm-4 col-xs-6">
                         <select name="idperfil" class="form-control form-control-sm"  aria-invalid="false" style="">
                             <option value="1">Cocinero</option>
-                            <option value="2">Caja</option>
-
+                            <option value="2">Mozo</option>
+                            <option value="3">Caja</option>
                         </select>
                     </div>
                     <!-- <label class="col-sm-2 col-xs-6 text-primary ng-scope"></label>
