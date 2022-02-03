@@ -13,7 +13,7 @@ switch ($function) {
 		CargarDataCategoria();
 		break;
 	case "CargarDataProducto":
-		CargarDataProducto($_REQUEST['categoria']); 
+		CargarDataProducto(); 
 		break; 
 	case "InsertarProducto":
 		InsertarProducto($_REQUEST['total'],$_REQUEST['total_pedidos'],$_REQUEST['fechapedido']); 
@@ -48,50 +48,25 @@ switch ($function) {
 
 function CargarDataCategoria(){
 	$sql="";
-    $sql="select distinct c.ID,c.NAME from categories c inner join products ca on c.ID=ca.CATEGORY";
+    $sql="select c.idcategoria,c.nombre,c.url_imagen from categoria c where c.deleted is  null";
     $resultado  = runSQL($sql);
     echo $resultado; 
 }
 
-function CargarDataProducto($categoria){
-	$sql="";
-    $sql="select  * FROM products WHERE CATEGORY='$categoria'";
-	// print $sql;
-    $resultado  = runSQLReporte($sql);
-   
-     if (mysqli_num_rows($resultado)) {
-        echo '{"data":[';
-        $first = true;
-
-        while ($row=mysqli_fetch_array($resultado)) {
-            //contador
-             //$dato2=str_replace("*"," ",$id_claves[2]);
-            $campo2=utf8_encode($row['ID']);
-            $campo3=utf8_encode($row['NAME']);
-            $campo4=utf8_encode($row['PRICESELL']);
-     
-            
-            //formando json
-            if ($first) {
-                $first = false;
-            } else {    
-                echo ',';
-            }
-            echo json_encode(array('ID'=>$campo2,
-								  'NAME'=>$campo3,
-								  'PRICEBUY'=>$campo4));
-        }
-        echo ']}';
-    }
+function CargarDataProducto(){ 
+    $sql="";
+    $sql="select  * FROM producto WHERE deleted is null";
+    $resultado  = runSQL($sql);
+    echo $resultado;  
 }
  
 function InsertarProducto($total,$total_pedidos,$fecha){
     $idcliente=$_SESSION['id_user'];
-    $fecha=formatFecha($fecha, 'yyyy-mm-dd');
+    // $fecha=formatFecha($fecha, 'yyyy-mm-dd');
 
  	$sql=""; 
 	$sql="insert into pedido
-	(idcliente
+	(id_created_at
 	 ,fecha
 	 ,total
 	 ,total_pedidos ,

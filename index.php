@@ -6,6 +6,10 @@
      date_default_timezone_set("America/Lima");
      $fechadia=date('Y-m-d');
      $manana = date('Y-m-d',strtotime ( '+1 day' , strtotime ( $fechadia ))); 
+
+     function CerrarSesionPhp(){
+      session_destroy();
+     }
    ?>
 <!DOCTYPE html>
 <html>
@@ -18,7 +22,7 @@
       <link href="css\page_css\layout.css" rel="stylesheet" type="text/css" />      
       <link href="css\sweetalert2.css" rel="stylesheet" type="text/css" />      
       <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
-
+      <link href="css\page_css\side.css" rel="stylesheet" type="text/css" />       
       <script type="text/javascript" src="js\jquery-3.1.1.js"></script>
       <script src="css\bootstrap\js\bootstrap.bundle.min.js" ></script>
       <script src="css\bootstrap\js\fontawesome.js" ></script>
@@ -31,73 +35,74 @@
 
       <script type="text/javascript" src="./js/page_js/nuevousuario.js"></script> 
    </head>
-
+ 
    <body class="skin-blue">
- <nav class="navbar navbar-expand-md navbar-dark bg-primary">
-  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <a class="navbar-brand" href="#">
-    <img src="https://v4-alpha.getbootstrap.com/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-    <span class="menu-collapsed">My Bar</span>
-  </a>
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-     
-      
-      <!-- This menu is hidden in bigger devices with d-sm-none. 
-           The sidebar isn't proper for smaller screens imo, so this dropdown menu can keep all the useful sidebar itens exclusively for smaller screens  -->
-      <li class="nav-item dropdown d-sm-block d-md-none">
-        <a class="nav-link dropdown-toggle" href="#" id="smallerscreenmenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Menu
-        </a>
-        <div class="dropdown-menu" aria-labelledby="smallerscreenmenu">
-            <a class="dropdown-item" href="#">Dashboard</a>
-            <a class="dropdown-item" href="#">Profile</a>
-            <a class="dropdown-item" href="#">Tasks</a>
-            <a class="dropdown-item" href="#">Etc ...</a>
-        </div>
-      </li><!-- Smaller devices menu END -->
-      
-    </ul>
-  </div>
-</nav> 
 
 
-<!-- Bootstrap row -->
-<div class="row" id="body-row">
-    <!-- Sidebar -->
-    <div id="sidebar-container" class="sidebar-expanded d-none d-md-block"><!-- d-* hiddens the Sidebar in smaller devices. Its itens can be kept on the Navbar 'Menu' -->
-        <!-- Bootstrap List Group -->
-        <ul class="list-group">
-            <!-- Separator with title -->
-            <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
-                <small>MAIN MENU</small>
-            </li>
-            <!-- /END Separator -->
-            <!-- Menu with submenu -->
-            <a href="#submenu1" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-start align-items-center">
-                    <span class="fa fa-dashboard fa-fw mr-3"></span> 
-                    <span class="menu-collapsed">Mantenimiento</span>
-                    <span class="submenu-icon ml-auto"></span>
-                </div>
-            </a>
-            <!-- Submenu content -->
-            <div id='submenu1' class="collapse sidebar-submenu">
-                <a href="?page=usuario" class="list-group-item list-group-item-action  text-dark">
-                    <span class="menu-collapsed">Usuarios</span>
-                </a> 
+<div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+            <img width='100%' class="img-responsive" src="images/logo.png" alt="ESDINAMICO Logo"  style="width:100%;height:100%;text-align:center;margin-top: -21px;"  />
             </div>
-             
-            <!-- Submenu content -->
-             
-        </ul><!-- List Group END-->
-    </div><!-- sidebar-container END -->
 
-    <!-- MAIN -->
-    <div class="col">
-             <?php
+            <ul class="list-unstyled components">
+                <p style="border-style: dashed;font-weight: bold;">Cevicheria Willy Gourmet</p>
+                <li class="active">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Mantenimiento</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="?page=usuario">
+                            <span>Usuarios</span>
+                            </a> 
+                        </li> 
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">About</a>
+                </li>                
+            </ul> 
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                        <!-- <span>Toggle Sidebar</span> -->
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Page</a>
+                            </li>
+                            <li>
+                                <a  href="logout.php" onclick="CerrarSesion()" >
+                                    <i class="fa fa-sign-out"></i> Cerrar sesión
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <?php
                            $page=null;
                            if(isset($_GET['page'])){
                               $page = $_GET['page'];  
@@ -118,13 +123,38 @@
                               case 'editarusuario':  
                                   include('views\editarusuario.php');
                                     break; 
-                                  
+                              case 'NuevoPedido':  
+                                  include('subdominio\nuevoPedido.php');
+                                      break; 
+                                          
+
+                                    
                            }
 
-                     ?>
+                     ?>    
+        </div>
+    </div>
 
-          </div>
-    
-</div><!-- body-row END -->
+<?php if ($_SESSION['idperfil']== 2) { ?> <!--MOZO -->
+        <script>
+            $('#sidebar-container').remove();
+        </script>
+        <?php 
+            }  
+            ?>  
+            
    </body>
+   <script> 
+     
+     $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+        
+
+        function CerrarSesion(){ 
+          location.reload();
+      }
+        </script>
 </html>
