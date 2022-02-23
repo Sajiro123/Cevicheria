@@ -1,4 +1,4 @@
-<script type="text/javascript" src="./js/page_js/NuevoPedido.js"></script>
+<script type="text/javascript" src="./js/page_js/EditarPedido.js"></script>
 <style>
    body{
    font-family: 'Open Sans', sans-serif;
@@ -21,15 +21,20 @@
 if(isset($_GET['mesa'])){
    $mesaid = $_GET['mesa'];  
 }
+if(isset($_GET['idpedido'])){
+    $idpedido = $_GET['idpedido'];  
+ }
 ?>
 <input type="hidden" id="idmesas" name="" value="<?php echo $mesaid?>">
+<input type="hidden" id="idpedido" name="" value="<?php echo $idpedido?>">
+
 <div class="row">
 
 <section class="content col-md-12 col-xl-9 col-sm-12 col-lg-9 modal-body">
    <div class="col-md-12">
       <div class="card">
             <div class="card-header">
-            <h5 >NUEVO PEDIDO</h5> 
+            <h5 >EDITAR PEDIDO</h5> 
             </div>
          <div class="card-body">
                            <i class="fas fa-arrow-alt-circle-left" onclick="RegresarProducto()" style="font-size: 47px;cursor: pointer;margin-top: -15px;display:none" id="idregresar"></i>
@@ -102,8 +107,8 @@ if(isset($_GET['mesa'])){
             </div>
             <br/><br/><br/>
             <hr/>
-            <a type="submit" onclick="RegistrarPedido()" id="Guardar_tabla" class="btn btn-lg btn-primary summary-btn-process-pay col-md-12">
-            Generar Pedido
+            <a type="submit" onclick="EditarPedido()" id="Guardar_tabla" class="btn btn-lg btn-primary summary-btn-process-pay col-md-12">
+            Actualizar Pedido
             </a>
             <br/><br/><br/>
             <hr/>

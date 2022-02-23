@@ -12,35 +12,39 @@ switch ($function) {
 	case "CargarDataCategoria":
 		CargarDataCategoria();
 		break;
+    case "ListarPedidosMesa":
+		ListarPedidosMesa();
+		break; 
 	case "CargarDataProducto":
 		CargarDataProducto(); 
-		break; 
+		break;  
+	case "EditarProducto":
+		EditarProducto($_REQUEST['idpedido'],$_REQUEST['total'],$_REQUEST['total_pedidos'],$_REQUEST['fechapedido'],$_REQUEST['mesa']); 
+			break;   
 	case "InsertarProducto":
-		InsertarProducto($_REQUEST['total'],$_REQUEST['total_pedidos'],$_REQUEST['fechapedido']); 
+		InsertarProducto($_REQUEST['total'],$_REQUEST['total_pedidos'],$_REQUEST['fechapedido'],$_REQUEST['mesa']); 
 			break; 
 	case "InsertarProductoDetalle":
 		InsertarProductoDetalle($_REQUEST['detalle_total']); 
 			break; 
+	case "EditarProductoDetalle":
+		InsertarProductoDetalle($_REQUEST['detalle_total']); 
+			break; 
+    case "ListarMesas":
+		ListarMesas(); 
+			break;  
     case "ReportePedido":
         ReportePedido($_REQUEST['fechainicio'],$_REQUEST['fechafin']);
                 break; 
-    case "ReporteProductoDetalle":
-        if (isset($_REQUEST['cliente'])) {
-            $cliente=$_REQUEST['cliente'];
-        }
-
-         
-
-         if (isset($_REQUEST['reportepdf'])) {
-            ReportePedidoID($_REQUEST['idproducto'],true,$cliente);
-            break;     
-        }else{
-            ReportePedidoID($_REQUEST['idproducto'],false,$cliente);
-            break;     
-        }
-        
- 
-                
+    case "DeletePedidoMesa": 
+        DeletePedidoMesa($_REQUEST['mesa'],$_REQUEST['idpedido']);
+                break;  
+    case "ReporteProductoDetalle": 
+        ReporteProductoDetalle($_REQUEST['idpedido']);
+                break;  
+    case "TicketPdf": 
+        TicketPdf($_REQUEST['idpedido']);
+                break;  
 	default:
 		# code...
 		break;
@@ -53,16 +57,60 @@ function CargarDataCategoria(){
     echo $resultado; 
 }
 
+function ListarMesas(){
+	$sql="";
+    $sql="select * from mesa c where c.deleted is  null";
+    $resultado  = runSQL($sql);
+    echo $resultado; 
+} 
+
+function ListarPedidosMesa(){
+	$sql="";
+    $sql="select  p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad FROM pedido p". 
+    " INNER JOIN pedidodetalle p1 ON p.idpedido=p1.idpedido".
+    " INNER JOIN producto p2 ON p1.idproducto=p2.idproducto ".
+    " INNER JOIN categoria c ON c.idcategoria=p1.idcategoria".
+    " WHERE p.estado=1  AND p.deleted  IS null   ORDER BY p.mesa;"; 
+    $resultado  = runSQL($sql);
+    echo $resultado; 
+} 
+
+function DeletePedidoMesa($mesa,$idpedido){
+    $sql="";
+    $sql="update mesa set estado=0 where idmesa='$mesa';";
+    runSQLReporte($sql); 
+
+    $sql="";
+    $sql="update pedido set estado=2 where idpedido='$idpedido';";
+    runSQLReporte($sql);
+}
+
 function CargarDataProducto(){ 
     $sql="";
     $sql="select  * FROM producto WHERE deleted is null";
     $resultado  = runSQL($sql);
     echo $resultado;  
 }
+
+function ReporteProductoDetalle($idpedido){ 
+    $sql="";
+    $sql="select p1.idproducto,p2.idcategoria, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad FROM pedido p". 
+    " INNER JOIN pedidodetalle p1 ON p.idpedido=p1.idpedido".
+    " INNER JOIN producto p2 ON p1.idproducto=p2.idproducto ".
+    " INNER JOIN categoria c ON c.idcategoria=p1.idcategoria".
+    " WHERE p.estado=1 AND p.idpedido='$idpedido' AND p.deleted  IS null   ORDER BY p.mesa;"; 
+    $resultado  = runSQL($sql);
+    echo $resultado;  
+}
+
  
-function InsertarProducto($total,$total_pedidos,$fecha){
+function InsertarProducto($total,$total_pedidos,$fecha,$mesa){
     $idcliente=$_SESSION['id_user'];
-    // $fecha=formatFecha($fecha, 'yyyy-mm-dd');
+    $fecha_time=date('Y-m-d H:i:s');
+
+    $sql="";
+    $sql="update mesa set estado=1 where idmesa='$mesa';";
+    runSQLReporte($sql);
 
  	$sql=""; 
 	$sql="insert into pedido
@@ -70,9 +118,11 @@ function InsertarProducto($total,$total_pedidos,$fecha){
 	 ,fecha
 	 ,total
 	 ,total_pedidos ,
-     created_at
+     created_at,
+     estado,
+     mesa
 	)
-	VALUES('$idcliente','$fecha','$total','$total_pedidos','$fecha');";
+	VALUES('$idcliente','$fecha','$total','$total_pedidos','$fecha_time',1,'$mesa');";
 	// insertar producto;
      runSQLReporte($sql);
 
@@ -99,6 +149,20 @@ function InsertarProducto($total,$total_pedidos,$fecha){
         echo ']}';
     }
 }
+
+function EditarProducto($idpedido,$total,$total_pedidos,$fecha,$mesa){
+     $fecha_time=date('Y-m-d H:i:s');
+     $idcliente=$_SESSION['id_user'];
+
+    $sql="";
+    $sql="update pedido set total='$total',total_pedidos='$total_pedidos',updated_at='$fecha_time',id_updated_at='$idcliente' where idpedido='$idpedido';";
+    runSQLReporte($sql);  
+
+    $sql="";
+    $sql="delete from pedidodetalle  where idpedido='$idpedido';";
+    runSQLReporte($sql);  
+}
+
 
 function InsertarProductoDetalle($detalle_total)
 {
@@ -183,91 +247,17 @@ function ReportePedido($fechainicio,$fechafin){
      }
 }
 
-function ReportePedidoID($idpedido,$pdf,$cliente){
-
-  
-
-
-    $sql="";
-    $sql="select pe.name, DATE_FORMAT(p3.fecha, '%d/%m/%Y') as fecha,p3.total_pedidos,p3.total as total_final , c.NAME AS categoria,p1.NAME AS producto,p.cantidad,p.descripcion,p.precioU,p.total FROM pedidodetalle p ".
-    "INNER JOIN categories c ON p.idcategoria=c.ID " .
-    "INNER JOIN products p1  ON p1.ID=p.idproducto ". 
-    "INNER JOIN pedido p3  ON p3.idpedido=p.idpedido ".
-    "INNER JOIN people pe ON p3.idcliente=pe.ID ". 
-    "WHERE p.idpedido='$idpedido'";
+function TicketPdf(){ 
     
+    $pdf=new ReporteDetalle();
+    $data= $pdf->Imprimir($json_data,$cliente,$datapedido);
+    return $data;
      
-    // var_dump($sql);
-    $resultado  = runSQLReporte($sql);
-    $n=0;
-    $datapedido='';
-    if($pdf==true){
-        $json_data=[];
-        if (mysqli_num_rows($resultado)) { 
-            while ($row=mysqli_fetch_array($resultado)) {
-                array_push($json_data,array(
-                    'categoria'=>$row['categoria'],
-                    'producto'=>$row['producto'],
-                    'cantidad'=>$row['cantidad'],
-                    'descripcion'=>$row['descripcion'],
-                    'precioU'=>$row['precioU'],
-                    'total'=>$row['total']));
-
-                    $datapedido=array(
-                        'name'=>$row['name'],
-                        'fecha'=>$row['fecha'],
-                        'total_pedidos'=>$row['total_pedidos'],
-                        'total'=>$row['total_final']);
-            }
-        }
-
-        $pdf=new ReporteDetalle();
-        $data= $pdf->exportarDetalle($json_data,$cliente,$datapedido);
-        return $data;
-    }else{
-        if (mysqli_num_rows($resultado)) {
-            echo '{"data":[';
-            $first = true;
-    
-            while ($row=mysqli_fetch_array($resultado)) {
-                //contador
-                $n++;
-    
-                //$dato2=str_replace("*"," ",$id_claves[2]);
-                $campo1= $n;
-                $campo2=utf8_encode($row['categoria']);
-                $campo3=utf8_encode($row['producto']);
-                $campo4=utf8_encode($row['cantidad']);
-                $campo5=utf8_encode(utf8_decode($row['descripcion']));
-                $campo6=utf8_encode($row['precioU']);
-                $campo7=utf8_encode($row['total']);
-    
-                
-     
-                
-                //formando json
-                if ($first) {
-                    $first = false;
-                } else {
-                    echo ',';
-                }
-                echo json_encode(array(
-                'categoria'=>$campo2,
-                'producto'=>$campo3,
-                'cantidad'=>$campo4,
-                'descripcion'=>$campo5,
-                'precioU'=>$campo6,
-                'total'=>$campo7));
-            }
-            echo ']}';
-        }else {
-            echo '{"data":[]}';
-         } 
-    }
-
-    
-
 }
+
+    
+
+ 
 
 function formatFecha($fecha, $format = 'dd/mm/yyyy') {
     $newFecha = NULL;

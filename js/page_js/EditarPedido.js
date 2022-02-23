@@ -31,6 +31,7 @@ $.ajax({
     success: function (data) {
       var data_ = JSON.parse(data);
       array_productos=data_;
+      ListarPedido();
     },
   });
 
@@ -326,7 +327,7 @@ function cantidadPlatos(row){
    actualizarPedido();
 }
 
-function RegistrarPedido(){
+function EditarPedido(){
  
   $('#Guardar_tabla').prop('disabled', true).html('<span>Cargando...</span></div>');
 
@@ -341,34 +342,37 @@ function RegistrarPedido(){
   } 
   var total_=$('#subtotal').text();
   var mesas= $('#idmesas').val();
+  var idpedido= $('#idpedido').val();
+
   total_pedidos_count=$("#tbDetalleProducto tbody tr").length;
      $.ajax({
         url: "./controller/pedidoController.php",
         type: "POST",
         datatype: "json",
         data: { 
-          function: "InsertarProducto",
+          function: "EditarProducto",
+           idpedido:idpedido,
            total:total_,
            total_pedidos:total_pedidos_count,
            fechapedido:fecha,
            mesa:mesas
           },
         success: function (data) {
-          var data_ = JSON.parse(data); 
+          
           var prod_detall=[];
+
           $.each($('#tbDetalleProducto tbody > tr'), function () { 
             var tr=$(this); 
             $.each($(tr), function (j,x) {
-              debugger;
               var cantidadtd=$(x).children()[3];
               var cantidadval=($(cantidadtd).children()).val();
 
               var totaltd=$(x).children()[5];
               totaltd=totaltd.innerText;
 
-
+              
               var detalle={
-                idpedidodetalle:data_.data[0].idpedido,
+                idpedidodetalle:idpedido,
                 categoria: x.dataset.idcategoria,
                 producto: x.dataset.idproducto ,
                 cantidad:cantidadval,
@@ -386,7 +390,7 @@ function RegistrarPedido(){
               type: "POST",
               datatype: "json",
               data: { 
-                function: "InsertarProductoDetalle",
+                function: "EditarProductoDetalle",
                 detalle_total:prod_detall
                 },
               success: function (data) {  
@@ -437,6 +441,57 @@ function actualizarPedido(){
     $('#subtotal').text(total);
 
 });
+}
+
+function ListarPedido(){
+  $('#tbDetalleProducto tbody').empty();  
+
+  var idpedido= $('#idpedido').val();
+  table_status=true;
+    $.ajax({
+    url: "./controller/pedidoController.php",
+    type: "POST",
+    datatype: "json",
+    data: { 
+      function: "ReporteProductoDetalle",
+      idpedido:idpedido, 
+      },
+    success: function (data) {  
+      var result = JSON.parse(data); 
+      var i=0;
+       var strHTML=''
+      if (result.length <= 0) {
+        strHTML += '<tr><td colspan="100" class="text-left" style="padding-left: 15%">No hay información para mostrar</td></tr>';
+
+      } else {
+
+        $.each(result, function () { 
+                  correlativo++
+ debugger;
+          strHTML += 
+          "<tr data-correlativo='"+correlativo+"' data-cantidad='1' data-idproducto='"+this.idproducto+"' data-idcategoria='"+this.idcategoria+"'"+
+          "data-precio='"+this.precioU+"' data-subtotal='"+this.total+"'>"+
+
+          '<td class="text-center" >'+correlativo+'</td>' +  
+          '<td class="text-center" >' + (this.categoria == null ? "" : this.categoria) + '</td>' + 
+            '<td class="text-center" >' + (this.nombre == null ? "" : this.nombre) + '</td>' +
+            '<td style="text-align: center;" width="5%"><input type="number" value="'+this.cantidad+'" style="text-align: center;height: 28px;" class="form form-control" value="1" onclick="cantidadPlatos(this)"/></td>' + 
+            '<td class="text-center" >' + (this.precioU == null ? "" : this.precioU) + '</td>' +
+            '<td class="text-center" >' + (this.total == null ? "" : this.total) + '</td>' +  
+            "<td>" +'<span class="fa fa-trash" aria-hidden="true" style="cursor:pointer;font-size:19px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' +"</td>" +
+            '</tr>';
+
+        });
+
+      }
+      $('#tbDetalleProducto tbody').append(strHTML);
+      actualizarPedido();
+
+     },
+    },
+    JSON
+  ); 
+
 }
 
 

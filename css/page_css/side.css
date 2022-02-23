@@ -170,3 +170,23 @@ a.article:hover {
         display: none;
     }
 }
+
+@media (max-width: 768px) {
+    #menu_inicio {
+        display: none;
+    }
+
+    /* #sidebar.active {
+        margin-left: 0;
+    }
+    #sidebarCollapse span {
+        display: none;
+    } */
+}
+ 
+
+  @media (max-width: 991px) {
+    #menu_inicio {
+        display: none;
+    }
+}

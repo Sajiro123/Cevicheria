@@ -77,21 +77,25 @@
                     <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fas fa-align-justify"></i>
                     </button>
+                    <div id="menu_inicio" style="margin-left: 10%;margin-top: -8px;font-size: 21px;">
+                        <ul class="navbar-nav ml-auto"> 
+                                <li class="nav-item active" style="margin-left: 14%;border-style: groove;">
+                                            <a class="nav-link" href="index.php">Mesas</a>
+                                        </li>
+                                <li class="nav-item" style="margin-left: 14%;border-style: groove;">
+                                    <a class="nav-link" href="#">Page</a>
+                                </li>
+                                <li class="nav-item" style="margin-left: 14%;border-style: groove;">
+                                    <a class="nav-link" href="#">Page</a>
+                                </li>  
+                                <li class="nav-item" style="margin-left: 14%;border-style: groove;">
+                                    <a class="nav-link" href="#">Page</a>
+                                </li>                              
+                        </ul>
+                    </div>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Page</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Page</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Page</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Page</a>
-                            </li>
+                        <ul class="nav navbar-nav ml-auto"> 
                             <li>
                                 <a  href="logout.php" onclick="CerrarSesion()" >
                                     <i class="fa fa-sign-out"></i> Cerrar sesión
@@ -126,9 +130,9 @@
                               case 'NuevoPedido':  
                                   include('subdominio\nuevoPedido.php');
                                       break; 
-                                          
-
-                                    
+                              case 'EditarPedido':  
+                                  include('views\editarPedido.php');
+                                      break;   
                            }
 
                      ?>    
@@ -137,7 +141,7 @@
 
 <?php if ($_SESSION['idperfil']== 2) { ?> <!--MOZO -->
         <script>
-            $('#sidebar-container').remove();
+                $('#sidebar').toggleClass('active');
         </script>
         <?php 
             }  

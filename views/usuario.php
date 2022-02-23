@@ -87,7 +87,7 @@
 
                 Swal.fire({
                 text: "Estas seguro que deseas elimnar el registro ?",
-                icon: 'warning',
+                icon: 'error',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
