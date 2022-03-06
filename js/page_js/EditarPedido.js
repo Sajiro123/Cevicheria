@@ -249,8 +249,12 @@ function agregarProducto(row) {
       "<td>" +correlativo +"</td>" +
       "<td>" + categoria_object.nombre + "</td>" +
       "<td>" + data.nombre +"</td>" +
-      '<td style="text-align: center;" width="5%"><input type="number" style="text-align: center;height: 28px;" class="form form-control" value="1" onclick="cantidadPlatos(this)"/></td>' +
-      '<td style="text-align: center">S/'+data.preciounitario +"</td>" +
+      '<td style="text-align: center;" width="5%">'+
+      '<div class="number-input">'+
+      "<button  onclick='sumarinput(this)'><i class='fa fa-plus'></i></button>"+
+      '<input  min="0" name="quantity"  type="number" value="1" style="text-align: center;height: 28px;" class="quantity"  />'+ 
+      "<button  onclick='restarinput(this)'.stepUp()\"><i class='fa fa-minus'></i></button>"+
+      '  </div>'+      '<td style="text-align: center">S/'+data.preciounitario +"</td>" +
       '<td style="text-align: center">' +total_multiplicado +"</td>" +      
       "<td>" +'<span class="fa fa-trash" aria-hidden="true" style="cursor:pointer;font-size:19px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' +"</td>" +
       "</tr>"
@@ -298,33 +302,14 @@ function confirmarAnulacionPedido(row) {
 }
 
 function cantidadPlatos(row){
-  var idproducto=$($(row).parent().parent()).attr('data-idproducto'); 
-  var preciounitario=$($(row).parent().parent()).attr('data-precio'); 
-  var correlativo=$($(row).parent().parent()).attr('data-correlativo'); 
-
+  debugger;
+  var idproducto=$($($(row).parent().parent().parent('tr'))[0]).attr('data-idproducto'); 
+  var preciounitario=$($($(row).parent().parent().parent('tr'))[0]).attr('data-precio'); 
+  var correlativo=$($($(row).parent().parent().parent('tr'))[0]).attr('data-correlativo');  
   
-  var cantidad=parseInt(row.value);
-  var total_multiplicado=0;
-  var status=true;
-
-  $.each($('#tbDetalleProducto tbody > tr'), function () { 
-    if(status){
-      if($(this).attr('data-idproducto') == idproducto  &&  $(this).attr('data-correlativo') == correlativo   ){
-        total_multiplicado=preciounitario*cantidad;
-  
-        $.each($(this).children(), function (j,x) { 
-          if(j==5){//total                
-             this.innerText=parseFloat(total_multiplicado); 
-             status=false;
-          }
-        }); 
-  
-      }
-    }
-       
-});
-   
-   actualizarPedido();
+  var cantidad=parseInt(row.value); 
+  actualizarCantidad(idproducto,correlativo,preciounitario,cantidad);   
+  actualizarPedido();
 }
 
 function EditarPedido(){
@@ -364,15 +349,16 @@ function EditarPedido(){
           $.each($('#tbDetalleProducto tbody > tr'), function () { 
             var tr=$(this); 
             $.each($(tr), function (j,x) {
+              debugger;
               var cantidadtd=$(x).children()[3];
-              var cantidadval=($(cantidadtd).children()).val();
+              var cantidadval=($(cantidadtd).children().children('input')).val();
 
               var totaltd=$(x).children()[5];
               totaltd=totaltd.innerText;
 
               
               var detalle={
-                idpedidodetalle:idpedido,
+                idpedido:idpedido,
                 categoria: x.dataset.idcategoria,
                 producto: x.dataset.idproducto ,
                 cantidad:cantidadval,
@@ -429,7 +415,8 @@ function actualizarPedido(){
     var cantidad_td=0;
     $.each($(td).children(), function (j,x) {
       if(j==3){//cantidad
-        cantidad_td = $(this).children();      
+        debugger;
+        cantidad_td = $(this).children().children('input');      
         cantidad_td = parseInt($(cantidad_td).val());
        }
 
@@ -467,7 +454,6 @@ function ListarPedido(){
 
         $.each(result, function () { 
                   correlativo++
- debugger;
           strHTML += 
           "<tr data-correlativo='"+correlativo+"' data-cantidad='1' data-idproducto='"+this.idproducto+"' data-idcategoria='"+this.idcategoria+"'"+
           "data-precio='"+this.precioU+"' data-subtotal='"+this.total+"'>"+
@@ -475,7 +461,13 @@ function ListarPedido(){
           '<td class="text-center" >'+correlativo+'</td>' +  
           '<td class="text-center" >' + (this.categoria == null ? "" : this.categoria) + '</td>' + 
             '<td class="text-center" >' + (this.nombre == null ? "" : this.nombre) + '</td>' +
-            '<td style="text-align: center;" width="5%"><input type="number" value="'+this.cantidad+'" style="text-align: center;height: 28px;" class="form form-control" value="1" onclick="cantidadPlatos(this)"/></td>' + 
+            '<td style="text-align: center;" width="5%">'+
+            '<div class="number-input">'+
+            "<button  onclick='sumarinput(this)'><i class='fa fa-plus'></i></button>"+
+            '<input  min="0" name="quantity"  type="number" value="'+this.cantidad+'" style="text-align: center;height: 28px;" class="quantity"  />'+ 
+            "<button  onclick='restarinput(this)'.stepUp()\"><i class='fa fa-minus'></i></button>"+
+            '  </div>'+
+            '  </td>' +  
             '<td class="text-center" >' + (this.precioU == null ? "" : this.precioU) + '</td>' +
             '<td class="text-center" >' + (this.total == null ? "" : this.total) + '</td>' +  
             "<td>" +'<span class="fa fa-trash" aria-hidden="true" style="cursor:pointer;font-size:19px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' +"</td>" +
@@ -494,6 +486,37 @@ function ListarPedido(){
 
 }
 
+function sumarinput(row){
+   var status=parseInt($(row).parent().children('input')[0].value) + 1;
+  $(row).parent().children('input')[0].value=status;
+  cantidadPlatos($(row).parent().children('input')[0]);
+}
+function restarinput(row){
+  var status=parseInt($(row).parent().children('input')[0].value) - 1;
+  $(row).parent().children('input')[0].value=status;
+  cantidadPlatos($(row).parent().children('input')[0]);
+
+}
+
+function actualizarCantidad(idproducto,correlativo,preciounitario,cantidad){
+  var status=true;
+  var total_multiplicado=0;
+  $.each($('#tbDetalleProducto tbody > tr'), function () { 
+    if(status){
+      if($(this).attr('data-idproducto') == idproducto  &&  $(this).attr('data-correlativo') == correlativo   ){
+        total_multiplicado=preciounitario*cantidad;
+
+        $.each($(this).children(), function (j,x) { 
+          if(j==5){//total                
+            this.innerText=parseFloat(total_multiplicado); 
+            status=false;
+          }
+        }); 
+
+      }
+    }
+    });
+}
 
 function checkTime(i) {
   if (i < 10) {

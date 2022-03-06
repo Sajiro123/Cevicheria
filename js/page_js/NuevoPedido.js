@@ -29,6 +29,7 @@ $.ajax({
     datatype: "json",
     data: { function: "CargarDataProducto"},
     success: function (data) {
+      debugger;
       var data_ = JSON.parse(data);
       array_productos=data_;
     },
@@ -37,6 +38,7 @@ $.ajax({
 
 
 function CargarDataCategoria() {
+  debugger
   $('#idregresar').css('display', 'none')
   STATUS_PEDIDO=0;
   if(Array_categoria.length >0){
@@ -46,7 +48,7 @@ function CargarDataCategoria() {
     $.each(Array_categoria, function () {
         $('#idimagenes').prepend(            
           '<div class="col-md-4 col-xl-2 col-sm-2 col-lg-2 ">'+
-          '<img src="'+array_img+this.url_imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick="CargarDataProducto('+this.idcategoria+')" >'+
+          '<img src="'+array_img+this.url_imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="CargarDataProducto('+this.idcategoria+')" >'+
           '<h5 class="text-center">'+this.nombre+'</h5>'+
           '</div">'  
           ); 
@@ -73,7 +75,7 @@ function CargarDataCategoria() {
             $.each(data_, function () {
                 $('#idimagenes').prepend(            
                   '<div class="col-md-4 col-xl-2 col-sm-2 col-lg-2 ">'+
-                  '<img src="'+array_img+this.url_imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick="CargarDataProducto('+this.idcategoria+')" >'+
+                  '<img src="'+array_img+this.url_imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="CargarDataProducto('+this.idcategoria+')" >'+
                   '<h5 class="text-center">'+this.nombre+'</h5>'+
                   '</div">'  
                   ); 
@@ -83,7 +85,8 @@ function CargarDataCategoria() {
         },
       },
       JSON
-    );
+    ).done(function() {
+       $("#overlay").fadeOut(); }); 
   }
   
 }
@@ -111,6 +114,7 @@ function RegresarProducto(){
     });
     if(each_imagenes.length >0){
       $('#idimagenes').empty();
+      each_imagenes = _.orderBy(each_imagenes, ['nombre'], ['desc']); 
     }
 
     $(each_imagenes).each(function() {    
@@ -119,14 +123,14 @@ function RegresarProducto(){
         $('#idimagenes').prepend(            
           '<div class="col-md-4 col-xl-2 col-sm-2 col-lg-2 ">'+
           '<span style="display: none">'+data+'</span>'+
-          '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick="agregarProducto($(this))" >'+
+          '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="agregarProducto($(this))" >'+
           '<h5 class="text-center">'+this.nombre+'</h5>'+
           '</div">'  
           ); 
       }else{
         $('#idimagenes').prepend(            
           '<div class="col-md-4 col-xl-2 col-sm-2 col-lg-2 ">'+
-          '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick="CargarDataProducto('+this.idcategoria+','+this.codigo+','+this.idarbol+')" >'+
+          '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick=\"CargarDataProducto('+this.idcategoria+',\''+this.codigo+'\','+this.idarbol+')\"  >'+
           '<h5 class="text-center">'+this.nombre+'</h5>'+
           '</div">'  
           ); 
@@ -148,7 +152,7 @@ function RegresarProducto(){
     $('#idimagenes').prepend(            
       '<div class="col-md-4 col-xl-2 col-sm-2 col-lg-2 ">'+
       '<span style="display: none">'+data+'</span>'+
-      '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick="agregarProducto($(this))" >'+
+      '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="agregarProducto($(this))" >'+
       '<h5 class="text-center">'+this.nombre+'</h5>'+
       '</div">'  
       ); 
@@ -160,6 +164,7 @@ function RegresarProducto(){
 }
 
 function CargarDataProducto(idcategoria,codigo=0,idarbol=0) { 
+  debugger;
   STATUS_PEDIDO++;
 
   if(STATUS_PEDIDO==1){
@@ -176,6 +181,9 @@ function CargarDataProducto(idcategoria,codigo=0,idarbol=0) {
         if(each_imagenes.length >0){
           $('#idimagenes').empty();
           $('#idregresar').css('display', 'block')
+
+          each_imagenes = _.orderBy(each_imagenes, ['nombre'], ['desc']);
+
         }
 
         $(each_imagenes).each(function() {    
@@ -184,14 +192,14 @@ function CargarDataProducto(idcategoria,codigo=0,idarbol=0) {
             $('#idimagenes').prepend(            
               '<div class="col-md-4 col-xl-2 col-sm-2 col-lg-2 ">'+
               '<span style="display: none">'+data+'</span>'+
-              '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick="agregarProducto($(this))" >'+
+              '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="agregarProducto($(this))" >'+
               '<h5 class="text-center">'+this.nombre+'</h5>'+
               '</div">'  
               ); 
           }else{
             $('#idimagenes').prepend(            
               '<div class="col-md-4 col-xl-2 col-sm-2 col-lg-2 ">'+
-              '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick="CargarDataProducto('+this.idcategoria+','+this.codigo+','+this.idarbol+')" >'+
+              '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick=\"CargarDataProducto('+this.idcategoria+',\''+this.codigo+'\','+this.idarbol+')\" >'+
               '<h5 class="text-center">'+this.nombre+'</h5>'+
               '</div">'  
               ); 
@@ -213,7 +221,7 @@ function CargarDataProducto(idcategoria,codigo=0,idarbol=0) {
         $('#idimagenes').prepend(            
           '<div class="col-md-4 col-xl-2 col-sm-2 col-lg-2 ">'+
           '<span style="display: none">'+data+'</span>'+
-          '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick="agregarProducto($(this))" >'+
+          '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="agregarProducto($(this))" >'+
           '<h5 class="text-center">'+this.nombre+'</h5>'+
           '</div">'  
           ); 
@@ -248,8 +256,12 @@ function agregarProducto(row) {
       "<td>" +correlativo +"</td>" +
       "<td>" + categoria_object.nombre + "</td>" +
       "<td>" + data.nombre +"</td>" +
-      '<td style="text-align: center;" width="5%"><input type="number" style="text-align: center;height: 28px;" class="form form-control" value="1" onclick="cantidadPlatos(this)"/></td>' +
-      '<td style="text-align: center">S/'+data.preciounitario +"</td>" +
+      '<td style="text-align: center;" width="5%">'+
+      '<div class="number-input">'+
+      "<button  onclick='sumarinput(this)'><i class='fa fa-plus'></i></button>"+
+      '<input  min="0" name="quantity"  type="number" value="1" style="text-align: center;height: 28px;" class="quantity"  />'+ 
+      "<button  onclick='restarinput(this)'.stepUp()\"><i class='fa fa-minus'></i></button>"+
+      '  </div>'+      '<td style="text-align: center">S/'+data.preciounitario +"</td>" +
       '<td style="text-align: center">' +total_multiplicado +"</td>" +      
       "<td>" +'<span class="fa fa-trash" aria-hidden="true" style="cursor:pointer;font-size:19px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' +"</td>" +
       "</tr>"
@@ -297,10 +309,11 @@ function confirmarAnulacionPedido(row) {
 }
 
 function cantidadPlatos(row){
-  var idproducto=$($(row).parent().parent()).attr('data-idproducto'); 
-  var preciounitario=$($(row).parent().parent()).attr('data-precio'); 
-  var correlativo=$($(row).parent().parent()).attr('data-correlativo'); 
-
+  var idproducto=$($($(row).parent().parent().parent('tr'))[0]).attr('data-idproducto'); 
+  var preciounitario=$($($(row).parent().parent().parent('tr'))[0]).attr('data-precio'); 
+  var correlativo=$($($(row).parent().parent().parent('tr'))[0]).attr('data-correlativo');  
+  
+ 
   
   var cantidad=parseInt(row.value);
   var total_multiplicado=0;
@@ -361,14 +374,14 @@ function RegistrarPedido(){
             $.each($(tr), function (j,x) {
               debugger;
               var cantidadtd=$(x).children()[3];
-              var cantidadval=($(cantidadtd).children()).val();
+              var cantidadval=($(cantidadtd).children().children('input')).val();
 
               var totaltd=$(x).children()[5];
               totaltd=totaltd.innerText;
 
 
               var detalle={
-                idpedidodetalle:data_.data[0].idpedido,
+                idpedido:data_.data[0].idpedido,
                 categoria: x.dataset.idcategoria,
                 producto: x.dataset.idproducto ,
                 cantidad:cantidadval,
@@ -407,12 +420,13 @@ function RegistrarPedido(){
                   $('#descripcion').val('');
                   $('#cantidad').val(''); 
                   CargarDataCategoria();
-              },},JSON);  
+              },},JSON).done(function() {
+                 $("#overlay").fadeOut(); }); 
            
          },
       },
-      JSON
-    ); 
+      JSON).done(function() {
+         $("#overlay").fadeOut(); }); 
 }
 
 function actualizarPedido(){
@@ -425,7 +439,7 @@ function actualizarPedido(){
     var cantidad_td=0;
     $.each($(td).children(), function (j,x) {
       if(j==3){//cantidad
-        cantidad_td = $(this).children();      
+        cantidad_td = $(this).children().children('input');      
         cantidad_td = parseInt($(cantidad_td).val());
        }
 
@@ -440,9 +454,25 @@ function actualizarPedido(){
 }
 
 
+function sumarinput(row){
+  var status=parseInt($(row).parent().children('input')[0].value) + 1;
+ $(row).parent().children('input')[0].value=status;
+ cantidadPlatos($(row).parent().children('input')[0]);
+}
+function restarinput(row){
+ var status=parseInt($(row).parent().children('input')[0].value) - 1;
+ $(row).parent().children('input')[0].value=status;
+ cantidadPlatos($(row).parent().children('input')[0]);
+
+}
+
+
 function checkTime(i) {
   if (i < 10) {
       i = "0" + i;
   }
   return i;
 }
+$(document).ajaxSend(function() {
+  $("#overlay").fadeIn(100);　
+ }); 

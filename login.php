@@ -25,7 +25,7 @@
       <div class="container" id="login-block">
          <div class="row">
             <div class="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4"></div>
-            <div class="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4">
+            <div class="col-sm-6 col-md-6 col-sm-offset-3 col-md-offset-4">
                <div class="login-box clearfix animated flipInY">
                   <br/>
                   <h4 class="text-center mb-20 ng-scope">BIENVENIDO</h4>

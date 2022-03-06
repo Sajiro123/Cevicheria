@@ -1,22 +1,13 @@
 <script type="text/javascript" src="./js/page_js/NuevoPedido.js"></script>
-<style>
-   body{
-   font-family: 'Open Sans', sans-serif;
-   }
-   hr{
-   border-bottom: 1px solid #ccc; 
-   }
-   table thead{
-   text-align: center;
-   background: #000000;
-   color:white;
-   font-size:16px
-   }
-   table tbody tr td{
-   text-align: center;  
-   background: #fff;
-   }
-</style>
+<link href="css/page_css/editarPedido.css" rel="stylesheet">
+<link href="css/page_css/loading.css" rel="stylesheet">
+
+<div id="overlay">
+        <div class="cv-spinner">
+            <span class="spinner"></span>
+        </div>
+</div>
+
 <?php 
 if(isset($_GET['mesa'])){
    $mesaid = $_GET['mesa'];  
@@ -32,7 +23,7 @@ if(isset($_GET['mesa'])){
             <h5 >NUEVO PEDIDO</h5> 
             </div>
          <div class="card-body">
-                           <i class="fas fa-arrow-alt-circle-left" onclick="RegresarProducto()" style="font-size: 47px;cursor: pointer;margin-top: -15px;display:none" id="idregresar"></i>
+                           <i class="fas fa-arrow-alt-circle-left" onclick="RegresarProducto()" style="font-size: 77px;cursor: pointer;margin-top: -15px;display:none" id="idregresar"></i>
              <div class="row">
                <div class="modal-body"> 
           
@@ -115,6 +106,8 @@ if(isset($_GET['mesa'])){
 <link href="./library/plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
 <script src='./library/plugins/datepicker/bootstrap-datepicker.js' type='text/javascript'  ></script>
 <script>
+   
+
    $(document).ready(function(){
    $('#fechapedido').datepicker({
    		format: "dd/mm/yyyy",

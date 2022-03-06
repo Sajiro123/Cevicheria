@@ -1,3 +1,4 @@
+<script type="text/javascript" src="./js/page_js/nuevousuario.js"></script> 
  
 
 <style>
@@ -30,6 +31,7 @@
                         <th>Apellido Paterno</th>
                         <th>Apellido Materno</th>
                         <th>Nombres</th>
+                        <th>Perfil</th> 
                         <th>Tipo Documento</th>
                         <th>N° Documento</th>
                         <th>Email</th>

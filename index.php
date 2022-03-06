@@ -23,21 +23,22 @@
       <link href="css\sweetalert2.css" rel="stylesheet" type="text/css" />      
       <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
       <link href="css\page_css\side.css" rel="stylesheet" type="text/css" />       
+      <link href="css/page_css/loading.css" rel="stylesheet">
+
       <script type="text/javascript" src="js\jquery-3.1.1.js"></script>
       <script src="css\bootstrap\js\bootstrap.bundle.min.js" ></script>
-      <script src="css\bootstrap\js\fontawesome.js" ></script>
-      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script> 
+     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script> 
       <script src="js\page_js\index.js"></script> 
       <script type="text/javascript" src="js\sweetalert2.js"></script>
-
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
       <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
-
-      <script type="text/javascript" src="./js/page_js/nuevousuario.js"></script> 
+      <script src="https://kit.fontawesome.com/06efcdf77e.js" crossorigin="anonymous"></script>
    </head>
  
    <body class="skin-blue">
 
+   
 
 <div class="wrapper">
         <!-- Sidebar  -->
@@ -67,7 +68,7 @@
         <!-- Page Content  -->
         <div id="content">
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" id="menu_arriba">
                 <div class="container-fluid">
 
                     <button type="button" id="sidebarCollapse" class="btn btn-info">
@@ -139,9 +140,28 @@
         </div>
     </div>
 
-<?php if ($_SESSION['idperfil']== 2) { ?> <!--MOZO -->
+<?php if ($_SESSION['idperfil']== 2) { ?> <!--MOZO || COCINA-->
+    <div id="overlay">
+        <div class="cv-spinner">
+            <span class="spinner"></span>
+        </div>
+    </div>
         <script>
                 $('#sidebar').toggleClass('active');
+         </script>
+        <?php 
+            }  
+            ?>  
+
+<?php if ($_SESSION['idperfil']== 1) { ?> <!-- COCINA-->
+    <div id="overlay">
+        <div class="cv-spinner">
+            <span class="spinner"></span>
+        </div>
+    </div>
+        <script>
+                $('#sidebar').toggleClass('active');
+                // $('#menu_arriba').css('display','none');
         </script>
         <?php 
             }  
@@ -155,7 +175,9 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-        
+    $(document).ajaxSend(function() {
+        $("#overlay").fadeIn(10);　
+    });   
 
         function CerrarSesion(){ 
           location.reload();
