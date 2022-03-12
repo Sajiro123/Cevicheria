@@ -60,7 +60,9 @@
     padding-left: 15px;
 }
 </style>
+
 <div >
+    
     <?php if ($_SESSION['idperfil']== 2) { ?> <!--MOZO --> 
         <div class="modal-body" id="idmesas">
             <div class="row" id="mesascantidad"> 

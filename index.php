@@ -24,6 +24,7 @@
       <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
       <link href="css\page_css\side.css" rel="stylesheet" type="text/css" />       
       <link href="css/page_css/loading.css" rel="stylesheet">
+      <link href="css\inputs\chekbox.css" rel="stylesheet">
 
       <script type="text/javascript" src="js\jquery-3.1.1.js"></script>
       <script src="css\bootstrap\js\bootstrap.bundle.min.js" ></script>
@@ -38,7 +39,11 @@
  
    <body class="skin-blue">
 
-   
+   <div id="overlay">
+        <div class="cv-spinner">
+            <span class="spinner"></span>
+        </div>
+    </div>
 
 <div class="wrapper">
         <!-- Sidebar  -->
@@ -141,11 +146,7 @@
     </div>
 
 <?php if ($_SESSION['idperfil']== 2) { ?> <!--MOZO || COCINA-->
-    <div id="overlay">
-        <div class="cv-spinner">
-            <span class="spinner"></span>
-        </div>
-    </div>
+    
         <script>
                 $('#sidebar').toggleClass('active');
          </script>
@@ -154,11 +155,7 @@
             ?>  
 
 <?php if ($_SESSION['idperfil']== 1) { ?> <!-- COCINA-->
-    <div id="overlay">
-        <div class="cv-spinner">
-            <span class="spinner"></span>
-        </div>
-    </div>
+   
         <script>
                 $('#sidebar').toggleClass('active');
                 // $('#menu_arriba').css('display','none');
@@ -175,9 +172,7 @@
                 $('#sidebar').toggleClass('active');
             });
         });
-    $(document).ajaxSend(function() {
-        $("#overlay").fadeIn(10);　
-    });   
+ 
 
         function CerrarSesion(){ 
           location.reload();

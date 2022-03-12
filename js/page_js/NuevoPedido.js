@@ -21,24 +21,21 @@ var IDARBOL_GLOBAL;
 var STATUS_PEDIDO=0;
 
 fecha = `${year}-${checkTime(month)}-${checkTime(day)}`
- 
 
+function CargarProductos(){
 $.ajax({
     url: "./controller/pedidoController.php",
     type: "POST",
     datatype: "json",
     data: { function: "CargarDataProducto"},
     success: function (data) {
-      debugger;
       var data_ = JSON.parse(data);
       array_productos=data_;
     },
   });
 
-
-
+}
 function CargarDataCategoria() {
-  debugger
   $('#idregresar').css('display', 'none')
   STATUS_PEDIDO=0;
   if(Array_categoria.length >0){
@@ -164,7 +161,6 @@ function RegresarProducto(){
 }
 
 function CargarDataProducto(idcategoria,codigo=0,idarbol=0) { 
-  debugger;
   STATUS_PEDIDO++;
 
   if(STATUS_PEDIDO==1){
@@ -247,7 +243,9 @@ function agregarProducto(row) {
   if ($("#tbDetalleProducto tbody tr").length == 0) 
       i = 0;
 
-   
+      debugger;
+  var aleatorio = Math.round(Math.random() * (1 - 100) + 100);
+
   correlativo++;
   total_multiplicado=data.preciounitario*1;
   $("#tbDetalleProducto tbody").append(
@@ -256,6 +254,13 @@ function agregarProducto(row) {
       "<td>" +correlativo +"</td>" +
       "<td>" + categoria_object.nombre + "</td>" +
       "<td>" + data.nombre +"</td>" +
+      "<td>"+
+      '  <div class="switch-label">'+            
+      '  <div class="switch-toggle">'+
+      '      <input type="checkbox" id="'+data.nombre+aleatorio+'">'+
+      '      <label for="'+data.nombre+aleatorio+'"></label>'+
+      '  </div>'+
+      "</td>" +
       '<td style="text-align: center;" width="5%">'+
       '<div class="number-input">'+
       "<button  onclick='sumarinput(this)'><i class='fa fa-plus'></i></button>"+
@@ -325,7 +330,7 @@ function cantidadPlatos(row){
         total_multiplicado=preciounitario*cantidad;
   
         $.each($(this).children(), function (j,x) { 
-          if(j==5){//total                
+          if(j==6){//cambiar                
              this.innerText=parseFloat(total_multiplicado); 
              status=false;
           }
@@ -372,11 +377,17 @@ function RegistrarPedido(){
           $.each($('#tbDetalleProducto tbody > tr'), function () { 
             var tr=$(this); 
             $.each($(tr), function (j,x) {
-              debugger;
-              var cantidadtd=$(x).children()[3];
+               var parallevar=$($(x).children()[3]).children().children().children('input')[0];//cambiar
+              if ($(parallevar).prop("checked" ) ) {
+                parallevar=1;
+              }else{
+                parallevar=2;
+              }
+
+              var cantidadtd=$(x).children()[4];//cambiar
               var cantidadval=($(cantidadtd).children().children('input')).val();
 
-              var totaltd=$(x).children()[5];
+              var totaltd=$(x).children()[6];//cambiar
               totaltd=totaltd.innerText;
 
 
@@ -387,7 +398,7 @@ function RegistrarPedido(){
                 cantidad:cantidadval,
                 precioU: x.dataset.precio,
                 total: totaltd,
-                descripcion:x.dataset.descripcion
+                estadopedido:parallevar
               };
 
               prod_detall.push(detalle);
@@ -421,12 +432,11 @@ function RegistrarPedido(){
                   $('#cantidad').val(''); 
                   CargarDataCategoria();
               },},JSON).done(function() {
-                 $("#overlay").fadeOut(); }); 
+                $("#overlay").fadeOut(); }); 
            
          },
       },
-      JSON).done(function() {
-         $("#overlay").fadeOut(); }); 
+      JSON)
 }
 
 function actualizarPedido(){
@@ -438,12 +448,12 @@ function actualizarPedido(){
     var total_td=0;
     var cantidad_td=0;
     $.each($(td).children(), function (j,x) {
-      if(j==3){//cantidad
+      if(j==4){//cantidad //cambiar
         cantidad_td = $(this).children().children('input');      
         cantidad_td = parseInt($(cantidad_td).val());
        }
 
-      if(j==4){//precio    
+      if(j==5){//precio    //cambiar
          total_td=parseFloat((x.innerText).replace('S/','')); 
       }
     }); 
@@ -476,3 +486,7 @@ function checkTime(i) {
 $(document).ajaxSend(function() {
   $("#overlay").fadeIn(100);　
  }); 
+ $(document).ready(function () {
+  CargarProductos(); 
+}); 
+

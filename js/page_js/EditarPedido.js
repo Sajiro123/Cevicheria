@@ -22,7 +22,7 @@ var STATUS_PEDIDO=0;
 
 fecha = `${year}-${checkTime(month)}-${checkTime(day)}`
  
-
+function CargarCategoria() {
 $.ajax({
     url: "./controller/pedidoController.php",
     type: "POST",
@@ -36,7 +36,7 @@ $.ajax({
   });
 
 
-
+}
 function CargarDataCategoria() {
   $('#idregresar').css('display', 'none')
   STATUS_PEDIDO=0;
@@ -127,7 +127,7 @@ function RegresarProducto(){
       }else{
         $('#idimagenes').prepend(            
           '<div class="col-md-4 col-xl-2 col-sm-2 col-lg-2 ">'+
-          '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick="CargarDataProducto('+this.idcategoria+','+this.codigo+','+this.idarbol+')" >'+
+          '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick=\"CargarDataProducto('+this.idcategoria+',\''+this.codigo+'\','+this.idarbol+')\"  >'+
           '<h5 class="text-center">'+this.nombre+'</h5>'+
           '</div">'  
           ); 
@@ -192,7 +192,7 @@ function CargarDataProducto(idcategoria,codigo=0,idarbol=0) {
           }else{
             $('#idimagenes').prepend(            
               '<div class="col-md-4 col-xl-2 col-sm-2 col-lg-2 ">'+
-              '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick="CargarDataProducto('+this.idcategoria+','+this.codigo+','+this.idarbol+')" >'+
+              '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick=\"CargarDataProducto('+this.idcategoria+',\''+this.codigo+'\','+this.idarbol+')\"  >'+
               '<h5 class="text-center">'+this.nombre+'</h5>'+
               '</div">'  
               ); 
@@ -243,12 +243,21 @@ function agregarProducto(row) {
    
   correlativo++;
   total_multiplicado=data.preciounitario*1;
+  var aleatorio = Math.round(Math.random() * (1 - 100) + 100);
+
   $("#tbDetalleProducto tbody").append(
     "<tr data-correlativo='"+correlativo+"' data-cantidad='1' data-idproducto='"+data.idproducto+"' data-idcategoria='"+categoria_object.idcategoria+"'"+
      "data-precio='"+data.preciounitario+"' data-subtotal='"+total_multiplicado+"'>"+
       "<td>" +correlativo +"</td>" +
       "<td>" + categoria_object.nombre + "</td>" +
       "<td>" + data.nombre +"</td>" +
+      "<td>"+
+      '  <div class="switch-label">'+            
+      '  <div class="switch-toggle">'+
+      '      <input type="checkbox" id="'+data.nombre+aleatorio+'">'+
+      '      <label for="'+data.nombre+aleatorio+'"></label>'+
+      '  </div>'+
+      "</td>" +
       '<td style="text-align: center;" width="5%">'+
       '<div class="number-input">'+
       "<button  onclick='sumarinput(this)'><i class='fa fa-plus'></i></button>"+
@@ -350,10 +359,17 @@ function EditarPedido(){
             var tr=$(this); 
             $.each($(tr), function (j,x) {
               debugger;
-              var cantidadtd=$(x).children()[3];
+              var parallevar=$($(x).children()[3]).children().children().children('input')[0];//cambiar
+              if ($(parallevar).prop("checked" ) ) {
+                parallevar=1;
+              }else{
+                parallevar=2;
+              }
+
+              var cantidadtd=$(x).children()[4]; //cambiar
               var cantidadval=($(cantidadtd).children().children('input')).val();
 
-              var totaltd=$(x).children()[5];
+              var totaltd=$(x).children()[6]; //cambiar
               totaltd=totaltd.innerText;
 
               
@@ -364,7 +380,7 @@ function EditarPedido(){
                 cantidad:cantidadval,
                 precioU: x.dataset.precio,
                 total: totaltd,
-                descripcion:x.dataset.descripcion
+                estadopedido:parallevar 
               };
 
               prod_detall.push(detalle);
@@ -397,12 +413,14 @@ function EditarPedido(){
                   $('#descripcion').val('');
                   $('#cantidad').val(''); 
                   CargarDataCategoria();
-              },},JSON);  
+              },},JSON).done(function() {
+                $("#overlay").fadeOut(); }); 
+             
            
          },
       },
       JSON
-    ); 
+    )  
 }
 
 function actualizarPedido(){
@@ -414,13 +432,13 @@ function actualizarPedido(){
     var total_td=0;
     var cantidad_td=0;
     $.each($(td).children(), function (j,x) {
-      if(j==3){//cantidad
+      if(j==4){//cantidad //cambiar
         debugger;
         cantidad_td = $(this).children().children('input');      
         cantidad_td = parseInt($(cantidad_td).val());
        }
 
-      if(j==4){//precio    
+      if(j==5){//precio     //cambiar
          total_td=parseFloat((x.innerText).replace('S/','')); 
       }
     }); 
@@ -453,6 +471,11 @@ function ListarPedido(){
       } else {
 
         $.each(result, function () { 
+          var estado_parallevar='';
+          var aleatorio = Math.round(Math.random() * (1 - 100) + 100);
+          if(this.estadopedido == 2){
+            estado_parallevar='checked="checked"'
+          }
                   correlativo++
           strHTML += 
           "<tr data-correlativo='"+correlativo+"' data-cantidad='1' data-idproducto='"+this.idproducto+"' data-idcategoria='"+this.idcategoria+"'"+
@@ -461,6 +484,13 @@ function ListarPedido(){
           '<td class="text-center" >'+correlativo+'</td>' +  
           '<td class="text-center" >' + (this.categoria == null ? "" : this.categoria) + '</td>' + 
             '<td class="text-center" >' + (this.nombre == null ? "" : this.nombre) + '</td>' +
+            "<td>"+
+          '  <div class="switch-label">'+            
+          '  <div class="switch-toggle">'+
+          '      <input type="checkbox" id="'+this.nombre+aleatorio+'"'+estado_parallevar+'>'+
+          '      <label for="'+this.nombre+aleatorio+'"></label>'+
+          '  </div>'+
+          "</td>" +
             '<td style="text-align: center;" width="5%">'+
             '<div class="number-input">'+
             "<button  onclick='sumarinput(this)'><i class='fa fa-plus'></i></button>"+
@@ -482,8 +512,9 @@ function ListarPedido(){
      },
     },
     JSON
-  ); 
-
+  ).done(function() {
+    $("#overlay").fadeOut(); }); 
+ 
 }
 
 function sumarinput(row){
@@ -507,7 +538,7 @@ function actualizarCantidad(idproducto,correlativo,preciounitario,cantidad){
         total_multiplicado=preciounitario*cantidad;
 
         $.each($(this).children(), function (j,x) { 
-          if(j==5){//total                
+          if(j==6){//total                
             this.innerText=parseFloat(total_multiplicado); 
             status=false;
           }
@@ -524,3 +555,12 @@ function checkTime(i) {
   }
   return i;
 }
+
+$(document).ajaxSend(function() {
+  $("#overlay").fadeIn(100);　
+ }); 
+ $(document).ready(function () {
+  CargarCategoria(); 
+}); 
+
+ 

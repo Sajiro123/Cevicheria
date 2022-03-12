@@ -47,7 +47,13 @@ function ListarMesasPedidos() {
 
             }); 
         }
-    }, JSON);
+    }, JSON).done(function() {
+        $("#overlay").fadeOut(); 
+    });
 
 
 }
+
+$(document).ajaxSend(function() {
+    $("#overlay").fadeIn(100);　
+   }); 

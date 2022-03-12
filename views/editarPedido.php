@@ -54,6 +54,7 @@ if(isset($_GET['idpedido'])){
                                        <th width="5%">Fila</th>
                                        <th>Categoria</th>
                                        <th>Producto</th>
+                                       <th>Para Llevar</th>  
                                        <th style="text-align: center">Cantidad</th>
                                        <th style="text-align: center">Precio U.</th>
                                        <th style="text-align: center">Total</th>

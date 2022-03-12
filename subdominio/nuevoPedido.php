@@ -1,13 +1,10 @@
 <script type="text/javascript" src="./js/page_js/NuevoPedido.js"></script>
-<link href="css/page_css/editarPedido.css" rel="stylesheet">
-<link href="css/page_css/loading.css" rel="stylesheet">
+<link href="css/page_css/editarPedido.css" rel="stylesheet"> 
+<style type="text/css">
+   
 
-<div id="overlay">
-        <div class="cv-spinner">
-            <span class="spinner"></span>
-        </div>
-</div>
 
+</style>
 <?php 
 if(isset($_GET['mesa'])){
    $mesaid = $_GET['mesa'];  
@@ -42,15 +39,14 @@ if(isset($_GET['mesa'])){
                      </div>
                      <hr/>
                      <h4>Detalle Productos:</h4>
-                     <div class="modal-body">
-                        <div class="col-md-12">
-                           <div class="table-responsive">
+                            <div class="table-responsive" style="WIDTH: 106%;MARGIN-LEFT: -3%;">
                               <table id="tbDetalleProducto" class="table table-striped table-bordered">
                                  <thead>
                                     <tr>
                                        <th width="5%">Fila</th>
                                        <th>Categoria</th>
                                        <th>Producto</th>
+                                       <th>Para Llevar</th> 
                                        <th style="text-align: center">Cantidad</th>
                                        <th style="text-align: center">Precio U.</th>
                                        <th style="text-align: center">Total</th>
@@ -64,9 +60,7 @@ if(isset($_GET['mesa'])){
                                  </tbody>
                               </table>
                            </div>
-                        </div>
-                     </div>
-               </div>
+                 </div>
                <!-- /.col -->
             </div>
          </div>
