@@ -359,6 +359,7 @@ function RegistrarPedido(){
   } 
   var total_=$('#subtotal').text();
   var mesas= $('#idmesas').val();
+  debugger;
   total_pedidos_count=$("#tbDetalleProducto tbody tr").length;
      $.ajax({
         url: "./controller/pedidoController.php",
@@ -398,7 +399,7 @@ function RegistrarPedido(){
                 cantidad:cantidadval,
                 precioU: x.dataset.precio,
                 total: totaltd,
-                estadopedido:parallevar
+                lugarpedido:parallevar
               };
 
               prod_detall.push(detalle);

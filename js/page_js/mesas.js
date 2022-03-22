@@ -1,4 +1,25 @@
 var ARRAY_PEDIDO=[];
+var MESAS=[];
+
+function mesapiso(valorpiso){ 
+      $('#mesascantidad').empty();
+    $(MESAS).each(function() {
+         if(this.piso ==valorpiso ){   
+             var clase= (this.estado ==  0 ?"circuloverde" :"circulorojo" );
+             
+             $('#mesascantidad').append('<div class="col-sm-3 col-xs-3 col-md-3">'+
+             '<div class="card" style="text-align:center;cursor:pointer;" onclick="Opciones_Mesa('+this.numero+','+this.estado+')">'+ 
+             '       <div class="'+clase+'" style="margin-left: 5px;"></div>'+
+             '         <div class="card-body">'+
+             '              <i class="fas fa-utensils" style="font-size: 60px;"></i>'+
+             '           <h2>Mesa '+this.numero+'</h2>'+
+             '        </div>'+
+             '     </div>'+
+             '     <br/>'+
+             '</div>');
+        }
+    }); 
+}
 
 function Opciones_Mesa(id,estado){   
    
@@ -30,7 +51,7 @@ function Opciones_Mesa(id,estado){
        "<td class='text-center' style='font-size: 20px;'>"+this.categoria+"</td>"+
        "<td class='text-center' style='font-size: 20px;' >"+this.cantidad+"</td>"+
        "<td class='text-center' style='font-size: 20px;'>"+this.nombre+"</td>"+
-       "<td class='text-center' style='font-size: 20px;'>"+(this.estadopedido == 1 ? "Mesa":"Para Llevar")+"</td>"+
+       "<td class='text-center' style='font-size: 20px;'>"+(this.lugarpedido == 1 ? "Mesa":"Para Llevar")+"</td>"+
        "<td class='text-center' style='font-size: 20px;'>"+this.precioU+"</td>"+
        "<td class='text-center' style='font-size: 20px;'>"+this.total+"</td>"+
        "</tr>"; 
@@ -68,7 +89,8 @@ function Opciones_Mesa(id,estado){
     '           <th scope="col" class="text-center">Categoria</th>'+
     '           <th scope="col" class="text-center" width="3%">Cantidad</th>'+
     '           <th scope="col" class="text-center">Pedido</th>'+
-    '           <th scope="col" class="text-center" width="3%">Estado</th>'+ 
+    '           <th scope="col" class="text-center">Estado</th>'+ 
+    '           <th scope="col" class="text-center" width="3%">Lugar</th>'+ 
     '           <th scope="col" class="text-center" width="3%">Precio U.</th>'+
     '           <th scope="col" class="text-center" width="3%">Total</th>'+
     '           </tr>'+
@@ -144,27 +166,33 @@ function ListarMesas(id){
                    },                        
                    success: function (data) {  
                        var result = JSON.parse(data);
+                       MESAS=result;
                        var i = 0;
                        var strHTML = ''
                        if (result.length <= 0) {
                            alert('falta configuracion de mesas')
                        } else {
-                           $(id).empty();
-
+                           $(id).empty(); 
+                           debugger;
+                             var valorpiso = $('input[name="piso"]:checked').val();
                            $(result).each(function() {
-                           var clase= (this.estado ==  0 ?"circuloverde" :"circulorojo" );
-                           
-                           $(id).append('<div class="col-sm-3 col-xs-3 col-md-3">'+
-                           '<div class="card" style="text-align:center;cursor:pointer;" onclick="Opciones_Mesa('+this.numero+','+this.estado+')">'+ 
-                           '       <div class="'+clase+'" style="margin-left: 5px;"></div>'+
-                           '         <div class="card-body">'+
-                           '              <i class="fas fa-utensils" style="font-size: 60px;"></i>'+
-                           '           <h2>Mesa '+this.numero+'</h2>'+
-                           '        </div>'+
-                           '     </div>'+
-                           '     <br/>'+
-                           '</div>');
+                            
+                                if(this.piso == valorpiso){   
+                                    var clase= (this.estado ==  0 ?"circuloverde" :"circulorojo" );
+                                    
+                                    $(id).append('<div class="col-sm-3 col-xs-3 col-md-3">'+
+                                    '<div class="card" style="text-align:center;cursor:pointer;" onclick="Opciones_Mesa('+this.numero+','+this.estado+')">'+ 
+                                    '       <div class="'+clase+'" style="margin-left: 5px;"></div>'+
+                                    '         <div class="card-body">'+
+                                    '              <i class="fas fa-utensils" style="font-size: 60px;"></i>'+
+                                    '           <h2>Mesa '+this.numero+'</h2>'+
+                                    '        </div>'+
+                                    '     </div>'+
+                                    '     <br/>'+
+                                    '</div>');
+                                 }
                            }); 
+
 
 
                            $.ajax({
@@ -237,7 +265,7 @@ function CancelarPedido($mesa,$idpedido){
 function ImprimirBoton($mesa,$idpedido){
 
    $('#pdf_div').empty();
-               $('#pdf_div').append('<iframe  width="470px" height="640px" src="http://192.168.0.107:8079/cevicheria/controller/pedidoController.php?function=TicketPdf&idpedido='+$idpedido+'"></iframe>')
+               $('#pdf_div').append('<iframe  width="470px" height="640px" src="http://192.168.1.12:8079/cevicheria/controller/pedidoController.php?function=TicketPdf&idpedido='+$idpedido+'"></iframe>')
                $('#exampleModalLong').modal('show');
 
 //    $.ajax({

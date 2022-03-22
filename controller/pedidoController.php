@@ -26,10 +26,12 @@ class pedidoController extends cnSql
     } 
 
     function ListarPedidosMesa(){
-         $sql="select p1.estadopedido,p2.acronimo, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad FROM pedido p". 
+         $sql="select p2.idproducto,p1.lugarpedido,p2.acronimo, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad ,u.nombre usuario FROM pedido p". 
         " INNER JOIN pedidodetalle p1 ON p.idpedido=p1.idpedido".
         " INNER JOIN producto p2 ON p1.idproducto=p2.idproducto ".
         " INNER JOIN categoria c ON c.idcategoria=p1.idcategoria".
+        " INNER JOIN usuario u ON p.id_created_at=u.idusuario".
+
         " WHERE p.estado=1  AND p.deleted  IS null   ORDER BY p1.idpedido;"; 
         $row_registro=$this->SelectSql($sql); 
         echo json_encode($row_registro); 
@@ -52,7 +54,7 @@ class pedidoController extends cnSql
     }
  
     function ReporteProductoDetalle($idpedido){ 
-        $sql="select p1.estadopedido, p1.idproducto,p2.idcategoria, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad FROM pedido p". 
+        $sql="select p1.lugarpedido, p1.idproducto,p2.idcategoria, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad FROM pedido p". 
         " INNER JOIN pedidodetalle p1 ON p.idpedido=p1.idpedido".
         " INNER JOIN producto p2 ON p1.idproducto=p2.idproducto ".
         " INNER JOIN categoria c ON c.idcategoria=p1.idcategoria".
@@ -133,7 +135,7 @@ class pedidoController extends cnSql
         ,cantidad
         ,precioU
         ,total
-        ,estadopedido
+        ,lugarpedido
         ,created_at 
         )
         VALUES
@@ -143,7 +145,7 @@ class pedidoController extends cnSql
         '$row[cantidad]',
         '$row[precioU]',
         '$row[total]',
-        '$row[estadopedido]',         
+        '$row[lugarpedido]',         
         '$fecha');" ;
             // var_dump($sql);
             runSQLReporte($sql);

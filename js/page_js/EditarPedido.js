@@ -380,7 +380,7 @@ function EditarPedido(){
                 cantidad:cantidadval,
                 precioU: x.dataset.precio,
                 total: totaltd,
-                estadopedido:parallevar 
+                lugarpedido:parallevar 
               };
 
               prod_detall.push(detalle);
@@ -473,7 +473,7 @@ function ListarPedido(){
         $.each(result, function () { 
           var estado_parallevar='';
           var aleatorio = Math.round(Math.random() * (1 - 100) + 100);
-          if(this.estadopedido == 2){
+          if(this.lugarpedido == 2){
             estado_parallevar='checked="checked"'
           }
                   correlativo++

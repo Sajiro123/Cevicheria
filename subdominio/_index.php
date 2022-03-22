@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 
 <script src="js\page_js\mesas.js"></script> 
-<script src="js\page_js\cocinapedidos.js"></script> 
+<!-- <script src="js\page_js\cocinapedidos.js"></script>  -->
 
 
 <?php
@@ -39,7 +39,7 @@
         background: red;
     }
     span.grey {
-        background: #0c4cff;
+        background: black;
         border-radius: 0.8em;
         -moz-border-radius: 0.8em;
         -webkit-border-radius: 0.8em;
@@ -59,12 +59,22 @@
     padding-right: 15px;
     padding-left: 15px;
 }
+input[type="radio"]{
+    margin: .4rem;
+
+}
 </style>
 
 <div >
     
     <?php if ($_SESSION['idperfil']== 2) { ?> <!--MOZO --> 
         <div class="modal-body" id="idmesas">
+            <div>
+                <input type="radio" id="pisouno"  name="piso" value="1"  style="width: 4%;height: 2em;" onchange="mesapiso($('#pisouno').val())" checked>
+                <label for="uno" style="font-size: 22px">Primer Piso</label>
+                <input type="radio" id="pisodos" name="piso" value="2" style="width: 4%;height: 2em;" onchange="mesapiso($('#pisodos').val())">
+                <label for="dos" style="font-size: 22px">Segundo Piso</label>
+            </div>
             <div class="row" id="mesascantidad"> 
             </div>
         </div>  
@@ -94,8 +104,7 @@
 
     <?php if ($_SESSION['idperfil']== 1) { ?> <!--COCINA --> 
             <div class="modal-body" >
-                <div class="row" id="idpedidos_cocina">
-                 
+                <div class="row" id="idpedidos_cocina"> 
                </div>
             </div>
             <script>
@@ -112,25 +121,5 @@
 
 
 
-
-<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Pedido</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <div id="pdf_div">
-
-          </div>
-       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-       </div>
-    </div>
-  </div>
-</div>
+ 
   
