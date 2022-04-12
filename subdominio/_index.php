@@ -67,7 +67,7 @@ input[type="radio"]{
 
 <div >
     
-    <?php if ($_SESSION['idperfil']== 2) { ?> <!--MOZO --> 
+    <?php if ( isset($_SESSION['idperfil']) &&$_SESSION['idperfil']== 2) { ?> <!--MOZO --> 
         <div class="modal-body" id="idmesas">
             <div>
                 <input type="radio" id="pisouno"  name="piso" value="1"  style="width: 4%;height: 2em;" onchange="mesapiso($('#pisouno').val())" checked>

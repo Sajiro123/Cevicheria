@@ -26,7 +26,7 @@ class pedidoController extends cnSql
     } 
 
     function ListarPedidosMesa(){
-         $sql="select p2.idproducto,p1.lugarpedido,p2.acronimo, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad ,u.nombre usuario FROM pedido p". 
+         $sql="select p2.idproducto,p1.lugarpedido,p2.acronimo, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad ,u.nombre usuario,p1.pedido_estado,p1.idpedidodetalle FROM pedido p". 
         " INNER JOIN pedidodetalle p1 ON p.idpedido=p1.idpedido".
         " INNER JOIN producto p2 ON p1.idproducto=p2.idproducto ".
         " INNER JOIN categoria c ON c.idcategoria=p1.idcategoria".
@@ -108,7 +108,13 @@ class pedidoController extends cnSql
             echo ']}';
         }
     }
-    
+     
+    function ActualizarEstado($value,$idpedidodetalle){
+        $sql="";
+        $sql="update pedidodetalle set pedido_estado='$value'  where idpedidodetalle='$idpedidodetalle';";
+        runSQLReporte($sql);  
+    } 
+
     function EditarProducto($idpedido,$total,$total_pedidos,$fecha,$mesa){
         $fecha_time=date('Y-m-d H:i:s');
         $idcliente=$_SESSION['id_user'];
@@ -237,6 +243,9 @@ class pedidoController extends cnSql
         case "TicketPdf": 
             $pedidoclass->TicketPdf($_REQUEST['idpedido']);
                     break;  
+        case "ActualizarEstado": 
+            $pedidoclass->ActualizarEstado($_REQUEST['value'],$_REQUEST['idpedidodetalle']);
+                    break;   
         default:
             # code...
             break;

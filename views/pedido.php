@@ -11,7 +11,7 @@
         font-family: 'Open Sans', sans-serif;
     }
     .pedido_cocina{
-        font-size: 17px;
+        font-size: 19px;
     }
     .circuloverde {
         width: 27px;
@@ -42,6 +42,12 @@
         text-align: center;
         width: 1.4em; 
     }
+    html{
+    zoom: 68%;
+    }
+    .modal-backdrop.show {
+    opacity: .0 !important;
+}
     /* @media (max-width: 1199.98px) {
 
         .col-sm-2 {

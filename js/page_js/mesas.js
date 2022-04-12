@@ -47,17 +47,23 @@ function Opciones_Mesa(id,estado){
    var int_responsive="";
 
    $(pedido_mesa).each(function() {
+       var checked='';
+       if(this.pedido_estado == 1){
+          checked='checked';
+       }
+    
        html_pedido+="<tr>"+
        "<td class='text-center' style='font-size: 20px;'>"+this.categoria+"</td>"+
        "<td class='text-center' style='font-size: 20px;' >"+this.cantidad+"</td>"+
        "<td class='text-center' style='font-size: 20px;'>"+this.nombre+"</td>"+
+       "<td class='text-center' style='font-size: 20px;'>"+'<input onchange="estadoPedido(this)" style="width: 4%;height: 1.9em;margin-left: -2%;margin-top: -4px;"'+checked+' class="form-check-input" type="checkbox" id="'+this.idpedidodetalle+'" >'+"</td>"+
        "<td class='text-center' style='font-size: 20px;'>"+(this.lugarpedido == 1 ? "Mesa":"Para Llevar")+"</td>"+
        "<td class='text-center' style='font-size: 20px;'>"+this.precioU+"</td>"+
        "<td class='text-center' style='font-size: 20px;'>"+this.total+"</td>"+
        "</tr>"; 
 
        html_footer="<tr>"+
-       "<td colspan='5' class='text-center' style='font-weight:bold;font-size: 26px;' >Total</td>"+          
+       "<td colspan='6' class='text-center' style='font-weight:bold;font-size: 26px;' >Total</td>"+          
        "<td class='text-center' style='font-weight:bold;font-size: 26px;'>"+this.totalidad+"</td>"+
        "</tr>"; 
        id_pedido=this.idpedido
@@ -89,7 +95,7 @@ function Opciones_Mesa(id,estado){
     '           <th scope="col" class="text-center">Categoria</th>'+
     '           <th scope="col" class="text-center" width="3%">Cantidad</th>'+
     '           <th scope="col" class="text-center">Pedido</th>'+
-    '           <th scope="col" class="text-center">Estado</th>'+ 
+    '           <th scope="col" class="text-center"width="3%">Estado</th>'+ 
     '           <th scope="col" class="text-center" width="3%">Lugar</th>'+ 
     '           <th scope="col" class="text-center" width="3%">Precio U.</th>'+
     '           <th scope="col" class="text-center" width="3%">Total</th>'+
@@ -173,7 +179,6 @@ function ListarMesas(id){
                            alert('falta configuracion de mesas')
                        } else {
                            $(id).empty(); 
-                           debugger;
                              var valorpiso = $('input[name="piso"]:checked').val();
                            $(result).each(function() {
                             
@@ -266,26 +271,40 @@ function ImprimirBoton($mesa,$idpedido){
 
    $('#pdf_div').empty();
                $('#pdf_div').append('<iframe  width="470px" height="640px" src="http://192.168.1.12:8079/cevicheria/controller/pedidoController.php?function=TicketPdf&idpedido='+$idpedido+'"></iframe>')
-               $('#exampleModalLong').modal('show');
-
-//    $.ajax({
-//            url: "./controller/pedidoController.php",
-//            type: "POST",
-//            datatype: "json",
-//            data: { 
-//                mesa: $mesa,
-//                idpedido:$idpedido,
-//                function: "CobrarPedido"
-//            },
-//            success: function (data) { 
-                 
-//            }
-//        });
-
-
+               $('#exampleModalLong').modal('show'); 
 }
 
+function estadoPedido(row){
+    if(row.checked){
+        $.ajax({
+           url: "./controller/pedidoController.php",
+           type: "POST",
+           datatype: "json",
+           data: { 
+               value: 1,
+               idpedidodetalle:row.id,
+               function: "ActualizarEstado"
+         } 
+        }).done(function() {
+            $("#overlay").fadeOut(); 
+        });
+    }else{
+        $.ajax({
+            url: "./controller/pedidoController.php",
+            type: "POST",
+            datatype: "json",
+            data: { 
+                value: null,
+                idpedidodetalle:row.id,
+                function: "ActualizarEstado"
+          } 
+         }).done(function() {
+            $("#overlay").fadeOut(); 
+        });
 
+    }
+
+}
 
 $(document).ajaxSend(function() {
     $("#overlay").fadeIn(10);　

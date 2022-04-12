@@ -85,11 +85,15 @@
                                      <a class="" href="index.php" style="color: #280909;">       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              Mesas</a>
                                      <a class="" href="?page=Pedidos" style="color: #280909;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pedidos Cocina</a>
                                      <a class="" href="?page=NuevoPedido" style="color: #280909;">         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        Nuevo Pedido</a>
+
                      </div>
+                     
                      <div id="menu_inicio" style="margin-left: 37%;margin-top: -8px;font-size: 21px;">
                                      <a class="" href="index.php" style="color: #280909;">      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;           Mesas</a>
                                      <a class="" href="?page=Pedidos" style="color: #280909;">   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                Pedidos Cocina</a>
                                      <a class="" href="?page=NuevoPedido" style="color: #280909;">    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             Nuevo Pedido</a>
+                                     <a class="" href="?page=Caja" style="color: #280909;">         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        Caja</a>
+
                      </div>
                     <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fas fa-align-justify"></i>
@@ -138,6 +142,10 @@
                               case 'Pedidos':  
                                   include('views\pedido.php');
                                       break;
+                             case 'Caja':  
+                                  include('views\Caja.php');
+                                      break;     
+                                      
                            }
 
                      ?>    

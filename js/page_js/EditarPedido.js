@@ -361,9 +361,9 @@ function EditarPedido(){
               debugger;
               var parallevar=$($(x).children()[3]).children().children().children('input')[0];//cambiar
               if ($(parallevar).prop("checked" ) ) {
-                parallevar=1;
-              }else{
                 parallevar=2;
+              }else{
+                parallevar=1;
               }
 
               var cantidadtd=$(x).children()[4]; //cambiar
