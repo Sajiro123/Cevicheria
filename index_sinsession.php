@@ -1,12 +1,7 @@
-<?php session_start();
-   if( !isset($_SESSION['id_user']))
-   header('Location: ./login.php'); 
+<?php   
      require "cnSql.php";
      $total=0;
-     date_default_timezone_set("America/Lima");
-     $fechadia=date('Y-m-d');
-     $manana = date('Y-m-d',strtotime ( '+1 day' , strtotime ( $fechadia ))); 
-
+     date_default_timezone_set("America/Lima"); 
      function CerrarSesionPhp(){
       session_destroy();
      }
@@ -80,25 +75,25 @@
                         <i class="fas fa-align-left"></i>
                         <!-- <span>Toggle Sidebar</span> -->
                     </button>
-
-                    <div id="menu_inicio" style="margin-left: 10%;margin-top: -8px;font-size: 21px;" class="d-inline-block d-lg-none ml-auto">
-                                     <a class="" href="index.php" style="color: #280909;">       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              Mesas</a>
-                                     <a class="" href="?page=Pedidos" style="color: #280909;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pedidos Cocina</a>
-                                     <a class="" href="?page=NuevoPedido" style="color: #280909;">         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        Nuevo Pedido</a>
-
-                     </div>
-                     
-                     <div id="menu_inicio" style="margin-left: 37%;margin-top: -8px;font-size: 21px;">
-                                     <a class="" href="index.php" style="color: #280909;">      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;           Mesas</a>
-                                     <a class="" href="?page=Pedidos" style="color: #280909;">   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                Pedidos Cocina</a>
-                                     <a class="" href="?page=NuevoPedido" style="color: #280909;">    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             Nuevo Pedido</a>
-                                     <a class="" href="?page=Caja" style="color: #280909;">         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        Caja</a>
-
-                     </div>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="btn btn-dark " type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fas fa-align-justify"></i>
                     </button>
-                    
+                    <div id="menu_inicio" style="margin-left: 10%;margin-top: -8px;font-size: 21px;">
+                        <ul class="navbar-nav ml-auto"> 
+                                <li class="nav-item active" style="margin-left: 14%;font-size: 26px;">
+                                            <a class="nav-link" href="index.php" style="color: #280909;"></a>
+                                        </li>
+                                <li class="nav-item" style="margin-left: 14%;font-size: 26px;">
+                                    <a class="nav-link" href="index.php" style="color: #280909;">Mesas</a>
+                                </li>
+                                <li class="nav-item" style="margin-left: 14%;font-size: 26px;">
+                                    <a class="nav-link" href="?page=Pedidos" style="color: #280909;">Pedidos</a>
+                                </li>  
+                                <li class="nav-item" style="margin-left: 14%;font-size: 26px;">
+                                    <a class="nav-link" href="#" style="color: #280909;">Page</a>
+                                </li>                              
+                        </ul>
+                    </div>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="nav navbar-nav ml-auto"> 
@@ -142,35 +137,16 @@
                               case 'Pedidos':  
                                   include('views\pedido.php');
                                       break;
-                             case 'Caja':  
-                                  include('views\Caja.php');
-                                      break;     
-                                      
                            }
 
                      ?>    
         </div>
     </div>
-
-<?php if ($_SESSION['idperfil']== 2) { ?> <!--MOZO || COCINA-->
-    
-        <script>
-                $('#sidebar').toggleClass('active');
-         </script>
-        <?php 
-            }  
-            ?>  
-
-<?php if ($_SESSION['idperfil']== 1) { ?> <!-- COCINA-->
-   
+ 
         <script>
                 $('#sidebar').toggleClass('active');
                 // $('#menu_arriba').css('display','none');
-        </script>
-        <?php 
-            }  
-            ?>  
-            
+        </script>  
    </body>
    <script> 
      

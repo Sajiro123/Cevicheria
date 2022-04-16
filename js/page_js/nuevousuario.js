@@ -36,6 +36,19 @@ function CargarPersona() {
                                 this.idtipodoc = "CARNET EXTRA."
                                 break;
                         }
+                        debugger;
+                        switch (this.idperfil) {
+                            case "1":
+                                this.idperfil = "Cocinero"
+                                break;
+                            case "2":
+                                this.idperfil = "Mozo"
+                                break;
+                            case "3":
+                                this.idperfil = "caja"
+                                break;
+                        }
+ 
 
                         i++;
                         strHTML += '<tr onclick="seleccionaFila($(this))" data-idpersona="'+this.idpersona+'">' +
@@ -43,6 +56,7 @@ function CargarPersona() {
                             '<td class="text-center" >' + (this.apellidomat == null ? "" : this.apellidomat) + '</td>' +
                             '<td class="text-center" >' + (this.apellidopat == null ? "" : this.apellidopat) + '</td>' +
                             '<td class="text-center" >' + (this.nombres == null ? "" : this.nombres) + '</td>' +
+                            '<td class="text-center" >' + (this.idperfil == null ? "" : this.idperfil) + '</td>' + 
                             '<td class="text-center" >' + (this.idtipodoc == null ? "" : this.idtipodoc) + '</td>' +
                             '<td class="text-center" >' + (this.numerodoc == null ? "" : this.numerodoc) + '</td>' +
                             '<td class="text-center" >' + (this.email == null ? "" : this.email) + '</td>' +

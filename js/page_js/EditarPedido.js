@@ -21,8 +21,8 @@ var IDARBOL_GLOBAL;
 var STATUS_PEDIDO=0;
 
 fecha = `${year}-${checkTime(month)}-${checkTime(day)}`
-
-function CargarProductos(){
+ 
+function CargarCategoria() {
 $.ajax({
     url: "./controller/pedidoController.php",
     type: "POST",
@@ -31,8 +31,10 @@ $.ajax({
     success: function (data) {
       var data_ = JSON.parse(data);
       array_productos=data_;
+      ListarPedido();
     },
   });
+
 
 }
 function CargarDataCategoria() {
@@ -45,7 +47,7 @@ function CargarDataCategoria() {
     $.each(Array_categoria, function () {
         $('#idimagenes').prepend(            
           '<div class="col-md-4 col-xl-2 col-sm-2 col-lg-2 ">'+
-          '<img src="'+array_img+this.url_imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="CargarDataProducto('+this.idcategoria+')" >'+
+          '<img src="'+array_img+this.url_imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick="CargarDataProducto('+this.idcategoria+')" >'+
           '<h5 class="text-center">'+this.nombre+'</h5>'+
           '</div">'  
           ); 
@@ -72,7 +74,7 @@ function CargarDataCategoria() {
             $.each(data_, function () {
                 $('#idimagenes').prepend(            
                   '<div class="col-md-4 col-xl-2 col-sm-2 col-lg-2 ">'+
-                  '<img src="'+array_img+this.url_imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="CargarDataProducto('+this.idcategoria+')" >'+
+                  '<img src="'+array_img+this.url_imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick="CargarDataProducto('+this.idcategoria+')" >'+
                   '<h5 class="text-center">'+this.nombre+'</h5>'+
                   '</div">'  
                   ); 
@@ -82,8 +84,7 @@ function CargarDataCategoria() {
         },
       },
       JSON
-    ).done(function() {
-       $("#overlay").fadeOut(); }); 
+    );
   }
   
 }
@@ -111,7 +112,6 @@ function RegresarProducto(){
     });
     if(each_imagenes.length >0){
       $('#idimagenes').empty();
-      each_imagenes = _.orderBy(each_imagenes, ['nombre'], ['desc']); 
     }
 
     $(each_imagenes).each(function() {    
@@ -120,14 +120,14 @@ function RegresarProducto(){
         $('#idimagenes').prepend(            
           '<div class="col-md-4 col-xl-2 col-sm-2 col-lg-2 ">'+
           '<span style="display: none">'+data+'</span>'+
-          '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="agregarProducto($(this))" >'+
+          '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick="agregarProducto($(this))" >'+
           '<h5 class="text-center">'+this.nombre+'</h5>'+
           '</div">'  
           ); 
       }else{
         $('#idimagenes').prepend(            
           '<div class="col-md-4 col-xl-2 col-sm-2 col-lg-2 ">'+
-          '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick=\"CargarDataProducto('+this.idcategoria+',\''+this.codigo+'\','+this.idarbol+')\"  >'+
+          '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick=\"CargarDataProducto('+this.idcategoria+',\''+this.codigo+'\','+this.idarbol+')\"  >'+
           '<h5 class="text-center">'+this.nombre+'</h5>'+
           '</div">'  
           ); 
@@ -149,7 +149,7 @@ function RegresarProducto(){
     $('#idimagenes').prepend(            
       '<div class="col-md-4 col-xl-2 col-sm-2 col-lg-2 ">'+
       '<span style="display: none">'+data+'</span>'+
-      '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="agregarProducto($(this))" >'+
+      '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick="agregarProducto($(this))" >'+
       '<h5 class="text-center">'+this.nombre+'</h5>'+
       '</div">'  
       ); 
@@ -177,9 +177,6 @@ function CargarDataProducto(idcategoria,codigo=0,idarbol=0) {
         if(each_imagenes.length >0){
           $('#idimagenes').empty();
           $('#idregresar').css('display', 'block')
-
-          each_imagenes = _.orderBy(each_imagenes, ['nombre'], ['desc']);
-
         }
 
         $(each_imagenes).each(function() {    
@@ -188,14 +185,14 @@ function CargarDataProducto(idcategoria,codigo=0,idarbol=0) {
             $('#idimagenes').prepend(            
               '<div class="col-md-4 col-xl-2 col-sm-2 col-lg-2 ">'+
               '<span style="display: none">'+data+'</span>'+
-              '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="agregarProducto($(this))" >'+
+              '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick="agregarProducto($(this))" >'+
               '<h5 class="text-center">'+this.nombre+'</h5>'+
               '</div">'  
               ); 
           }else{
             $('#idimagenes').prepend(            
               '<div class="col-md-4 col-xl-2 col-sm-2 col-lg-2 ">'+
-              '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick=\"CargarDataProducto('+this.idcategoria+',\''+this.codigo+'\','+this.idarbol+')\" >'+
+              '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick=\"CargarDataProducto('+this.idcategoria+',\''+this.codigo+'\','+this.idarbol+')\"  >'+
               '<h5 class="text-center">'+this.nombre+'</h5>'+
               '</div">'  
               ); 
@@ -217,7 +214,7 @@ function CargarDataProducto(idcategoria,codigo=0,idarbol=0) {
         $('#idimagenes').prepend(            
           '<div class="col-md-4 col-xl-2 col-sm-2 col-lg-2 ">'+
           '<span style="display: none">'+data+'</span>'+
-          '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="agregarProducto($(this))" >'+
+          '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px" onclick="agregarProducto($(this))" >'+
           '<h5 class="text-center">'+this.nombre+'</h5>'+
           '</div">'  
           ); 
@@ -243,11 +240,11 @@ function agregarProducto(row) {
   if ($("#tbDetalleProducto tbody tr").length == 0) 
       i = 0;
 
-      debugger;
-  var aleatorio = Math.round(Math.random() * (1 - 100) + 100);
-
+   
   correlativo++;
   total_multiplicado=data.preciounitario*1;
+  var aleatorio = Math.round(Math.random() * (1 - 100) + 100);
+
   $("#tbDetalleProducto tbody").append(
     "<tr data-correlativo='"+correlativo+"' data-cantidad='1' data-idproducto='"+data.idproducto+"' data-idcategoria='"+categoria_object.idcategoria+"'"+
      "data-precio='"+data.preciounitario+"' data-subtotal='"+total_multiplicado+"'>"+
@@ -314,37 +311,17 @@ function confirmarAnulacionPedido(row) {
 }
 
 function cantidadPlatos(row){
+  debugger;
   var idproducto=$($($(row).parent().parent().parent('tr'))[0]).attr('data-idproducto'); 
   var preciounitario=$($($(row).parent().parent().parent('tr'))[0]).attr('data-precio'); 
   var correlativo=$($($(row).parent().parent().parent('tr'))[0]).attr('data-correlativo');  
   
- 
-  
-  var cantidad=parseInt(row.value);
-  var total_multiplicado=0;
-  var status=true;
-
-  $.each($('#tbDetalleProducto tbody > tr'), function () { 
-    if(status){
-      if($(this).attr('data-idproducto') == idproducto  &&  $(this).attr('data-correlativo') == correlativo   ){
-        total_multiplicado=preciounitario*cantidad;
-  
-        $.each($(this).children(), function (j,x) { 
-          if(j==6){//cambiar                
-             this.innerText=parseFloat(total_multiplicado); 
-             status=false;
-          }
-        }); 
-  
-      }
-    }
-       
-});
-   
-   actualizarPedido();
+  var cantidad=parseInt(row.value); 
+  actualizarCantidad(idproducto,correlativo,preciounitario,cantidad);   
+  actualizarPedido();
 }
 
-function RegistrarPedido(){
+function EditarPedido(){
  
   $('#Guardar_tabla').prop('disabled', true).html('<span>Cargando...</span></div>');
 
@@ -359,48 +336,51 @@ function RegistrarPedido(){
   } 
   var total_=$('#subtotal').text();
   var mesas= $('#idmesas').val();
-  debugger;
+  var idpedido= $('#idpedido').val();
+
   total_pedidos_count=$("#tbDetalleProducto tbody tr").length;
      $.ajax({
         url: "./controller/pedidoController.php",
         type: "POST",
         datatype: "json",
         data: { 
-          function: "InsertarProducto",
+          function: "EditarProducto",
+           idpedido:idpedido,
            total:total_,
            total_pedidos:total_pedidos_count,
            fechapedido:fecha,
            mesa:mesas
           },
         success: function (data) {
-          var data_ = JSON.parse(data); 
+          
           var prod_detall=[];
+
           $.each($('#tbDetalleProducto tbody > tr'), function () { 
             var tr=$(this); 
             $.each($(tr), function (j,x) {
               debugger;
-               var parallevar=$($(x).children()[3]).children().children().children('input')[0];//cambiar
+              var parallevar=$($(x).children()[3]).children().children().children('input')[0];//cambiar
               if ($(parallevar).prop("checked" ) ) {
                 parallevar=2;
               }else{
                 parallevar=1;
               }
 
-              var cantidadtd=$(x).children()[4];//cambiar
+              var cantidadtd=$(x).children()[4]; //cambiar
               var cantidadval=($(cantidadtd).children().children('input')).val();
 
-              var totaltd=$(x).children()[6];//cambiar
+              var totaltd=$(x).children()[6]; //cambiar
               totaltd=totaltd.innerText;
 
-
+              
               var detalle={
-                idpedido:data_.data[0].idpedido,
+                idpedido:idpedido,
                 categoria: x.dataset.idcategoria,
                 producto: x.dataset.idproducto ,
                 cantidad:cantidadval,
                 precioU: x.dataset.precio,
                 total: totaltd,
-                lugarpedido:parallevar
+                lugarpedido:parallevar 
               };
 
               prod_detall.push(detalle);
@@ -412,7 +392,7 @@ function RegistrarPedido(){
               type: "POST",
               datatype: "json",
               data: { 
-                function: "InsertarProductoDetalle",
+                function: "EditarProductoDetalle",
                 detalle_total:prod_detall
                 },
               success: function (data) {  
@@ -435,10 +415,12 @@ function RegistrarPedido(){
                   CargarDataCategoria();
               },},JSON).done(function() {
                 $("#overlay").fadeOut(); }); 
+             
            
          },
       },
-      JSON)
+      JSON
+    )  
 }
 
 function actualizarPedido(){
@@ -451,11 +433,12 @@ function actualizarPedido(){
     var cantidad_td=0;
     $.each($(td).children(), function (j,x) {
       if(j==4){//cantidad //cambiar
+        debugger;
         cantidad_td = $(this).children().children('input');      
         cantidad_td = parseInt($(cantidad_td).val());
        }
 
-      if(j==5){//precio    //cambiar
+      if(j==5){//precio     //cambiar
          total_td=parseFloat((x.innerText).replace('S/','')); 
       }
     }); 
@@ -465,19 +448,106 @@ function actualizarPedido(){
 });
 }
 
+function ListarPedido(){
+  $('#tbDetalleProducto tbody').empty();  
+
+  var idpedido= $('#idpedido').val();
+  table_status=true;
+    $.ajax({
+    url: "./controller/pedidoController.php",
+    type: "POST",
+    datatype: "json",
+    data: { 
+      function: "ReporteProductoDetalle",
+      idpedido:idpedido, 
+      },
+    success: function (data) {  
+      var result = JSON.parse(data); 
+      var i=0;
+       var strHTML=''
+      if (result.length <= 0) {
+        strHTML += '<tr><td colspan="100" class="text-left" style="padding-left: 15%">No hay información para mostrar</td></tr>';
+
+      } else {
+
+        $.each(result, function () { 
+          var estado_parallevar='';
+          var aleatorio = Math.round(Math.random() * (1 - 100) + 100);
+          if(this.lugarpedido == 2){
+            estado_parallevar='checked="checked"'
+          }
+                  correlativo++
+          strHTML += 
+          "<tr data-correlativo='"+correlativo+"' data-cantidad='1' data-idproducto='"+this.idproducto+"' data-idcategoria='"+this.idcategoria+"'"+
+          "data-precio='"+this.precioU+"' data-subtotal='"+this.total+"'>"+
+
+          '<td class="text-center" >'+correlativo+'</td>' +  
+          '<td class="text-center" >' + (this.categoria == null ? "" : this.categoria) + '</td>' + 
+            '<td class="text-center" >' + (this.nombre == null ? "" : this.nombre) + '</td>' +
+            "<td>"+
+          '  <div class="switch-label">'+            
+          '  <div class="switch-toggle">'+
+          '      <input type="checkbox" id="'+this.nombre+aleatorio+'"'+estado_parallevar+'>'+
+          '      <label for="'+this.nombre+aleatorio+'"></label>'+
+          '  </div>'+
+          "</td>" +
+            '<td style="text-align: center;" width="5%">'+
+            '<div class="number-input">'+
+            "<button  onclick='sumarinput(this)'><i class='fa fa-plus'></i></button>"+
+            '<input  min="0" name="quantity"  type="number" value="'+this.cantidad+'" style="text-align: center;height: 28px;" class="quantity"  />'+ 
+            "<button  onclick='restarinput(this)'.stepUp()\"><i class='fa fa-minus'></i></button>"+
+            '  </div>'+
+            '  </td>' +  
+            '<td class="text-center" >' + (this.precioU == null ? "" : this.precioU) + '</td>' +
+            '<td class="text-center" >' + (this.total == null ? "" : this.total) + '</td>' +  
+            "<td>" +'<span class="fa fa-trash" aria-hidden="true" style="cursor:pointer;font-size:19px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' +"</td>" +
+            '</tr>';
+
+        });
+
+      }
+      $('#tbDetalleProducto tbody').append(strHTML);
+      actualizarPedido();
+
+     },
+    },
+    JSON
+  ).done(function() {
+    $("#overlay").fadeOut(); }); 
+ 
+}
 
 function sumarinput(row){
-  var status=parseInt($(row).parent().children('input')[0].value) + 1;
- $(row).parent().children('input')[0].value=status;
- cantidadPlatos($(row).parent().children('input')[0]);
+   var status=parseInt($(row).parent().children('input')[0].value) + 1;
+  $(row).parent().children('input')[0].value=status;
+  cantidadPlatos($(row).parent().children('input')[0]);
 }
 function restarinput(row){
- var status=parseInt($(row).parent().children('input')[0].value) - 1;
- $(row).parent().children('input')[0].value=status;
- cantidadPlatos($(row).parent().children('input')[0]);
+  var status=parseInt($(row).parent().children('input')[0].value) - 1;
+  $(row).parent().children('input')[0].value=status;
+  cantidadPlatos($(row).parent().children('input')[0]);
 
 }
 
+function actualizarCantidad(idproducto,correlativo,preciounitario,cantidad){
+  var status=true;
+  var total_multiplicado=0;
+  $.each($('#tbDetalleProducto tbody > tr'), function () { 
+    if(status){
+      if($(this).attr('data-idproducto') == idproducto  &&  $(this).attr('data-correlativo') == correlativo   ){
+        total_multiplicado=preciounitario*cantidad;
+
+        $.each($(this).children(), function (j,x) { 
+          if(j==6){//total                
+            this.innerText=parseFloat(total_multiplicado); 
+            status=false;
+          }
+        }); 
+
+      }
+    }
+    });
+}
 
 function checkTime(i) {
   if (i < 10) {
@@ -485,10 +555,12 @@ function checkTime(i) {
   }
   return i;
 }
+
 $(document).ajaxSend(function() {
   $("#overlay").fadeIn(100);　
  }); 
  $(document).ready(function () {
-  CargarProductos(); 
+  CargarCategoria(); 
 }); 
 
+ 
