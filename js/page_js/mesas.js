@@ -7,12 +7,12 @@ function mesapiso(valorpiso){
          if(this.piso ==valorpiso ){   
              var clase= (this.estado ==  0 ?"circuloverde" :"circulorojo" );
              
-             $('#mesascantidad').append('<div class="col-sm-3 col-xs-3 col-md-3">'+
-             '<div class="card" style="text-align:center;cursor:pointer;" onclick="Opciones_Mesa('+this.numero+','+this.estado+')">'+ 
+             $('#mesascantidad').append('<div class="col-sm-2 col-xs-2 col-md-2">'+
+             '<div class="card" style="text-align:center;cursor:pointer;border-color: rgb(255 90 0 / 90%)!important;background-color: rgb(232 227 221)!important;width: 153px;height: 175px;" onclick="Opciones_Mesa('+this.numero+','+this.estado+')">'+ 
              '       <div class="'+clase+'" style="margin-left: 5px;"></div>'+
              '         <div class="card-body">'+
              '              <i class="fas fa-utensils" style="font-size: 60px;"></i>'+
-             '           <h2>Mesa '+this.numero+'</h2>'+
+             '           <h2 style="margin-left: -14px;">Mesa '+this.numero+'</h2>'+
              '        </div>'+
              '     </div>'+
              '     <br/>'+
@@ -185,12 +185,12 @@ function ListarMesas(id){
                                 if(this.piso == valorpiso){   
                                     var clase= (this.estado ==  0 ?"circuloverde" :"circulorojo" );
                                     
-                                    $(id).append('<div class="col-sm-3 col-xs-3 col-md-3">'+
-                                    '<div class="card" style="text-align:center;cursor:pointer;" onclick="Opciones_Mesa('+this.numero+','+this.estado+')">'+ 
+                                    $(id).append('<div class="col-sm-2 col-xs-2 col-md-2">'+
+                                    '<div class="card" style="text-align:center;cursor:pointer;border-color: rgb(255 90 0 / 90%)!important;background-color: rgb(232 227 221)!important;width: 153px;height: 175px;" onclick="Opciones_Mesa('+this.numero+','+this.estado+')">'+ 
                                     '       <div class="'+clase+'" style="margin-left: 5px;"></div>'+
                                     '         <div class="card-body">'+
                                     '              <i class="fas fa-utensils" style="font-size: 60px;"></i>'+
-                                    '           <h2>Mesa '+this.numero+'</h2>'+
+                                    '           <h2 style="margin-left: -14px;">Mesa '+this.numero+'</h2>'+
                                     '        </div>'+
                                     '     </div>'+
                                     '     <br/>'+
