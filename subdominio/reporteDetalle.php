@@ -6,8 +6,8 @@ require('../library/fpdf/fpdf.php');
 
 class PDF extends FPDF
 {
-	//public $pathFirma = 'C:\xampp\htdocs\taller\subdominio\icon.png';
-	public $pathFirma = 'http://dulce.com.pe/taller2/subdominio/icon.png';
+	public $pathFirma = 'C:\xampp\htdocs\cevicheria\images\logo.png';
+	// public $pathFirma = 'http://dulce.com.pe/taller2/subdominio/icon.png';
 	
 // Cargar los datos
  
@@ -22,128 +22,121 @@ function LoadData($file)
 	return $data;
 }
 
-// Tabla coloreada
-function FancyTable($header, $data,&$pdf,$cliente,$data_pedido)
+
+function Footer() 
 {
-	$x = $pdf->getX();
-	$y = $pdf->getY();
-	
-	$pdf->SetFont('Times', 'I', 9);
-	$pdf->Cell(348, 2, utf8_decode($cliente.'  '.$data_pedido['fecha']), 0, 0, 'C');
-	$pdf->setX(49);
 
-	$pdf->Image($pdf->pathFirma, 8, 2, 33, 0, 'PNG');
-	$pdf->setX(49);
-	$pdf->SetFont('Arial', 'B', 15);
-	$pdf->Cell(115, 32, utf8_decode('Detalle Pedido'), 0, 0, 'C');
-	$pdf->Ln();
+	$this->SetY(-17);  
+	$this->SetFont('Helvetica','',9);  
+	$this->Cell(60,0,'Este Dcto no es un comprobante de pago',0,1,'C');
+	$this->SetY(-13);   
+	$this->Cell(60,0,'This document is not a payment slip',0,1,'C');
+
+		$this->SetY(-11);  
+		$this->Cell(60,5,'Gracias por su visita vuelva pronto',0,1,'C');
+
+        // Posición: a 1,5 cm del final
+        $this->SetY(-5); 
+
+        // Arial italic 8
+        $this->SetFont('Arial','I',8);
+        $this->SetTextColor(0, 0, 0);
+
+        // Número de página
+        $this->Cell(70, 5, utf8_decode('Cevicheria Willy Gourmet'), 0, 0, 'L');
+        // $this->Cell(100, 5, utf8_decode('Fecha y hora de generación: ') . date('d/m/Y H:i:s'), 0, 0, 'L');
+        $this->Cell(100, 5, '');
+        $this->Cell(0, 5, utf8_decode('Página ').$this->PageNo(), 0, 0, 'R');
+
+        // Linea
+        $this->SetDrawColor(0,0,0);  
+        $this->SetLineWidth(.5); 
+        $this->Line(2, $this->GetY(), 208, $this->GetY()); 
+} 
+
+// Tabla coloreada
+function GenerarTicket(&$pdf,$data_)
+{
+	$fecha=date('d/m/Y H:i:s');
+	$mesa='';
+	$totalidad='';
+	$idpedido='';
+
+	foreach($data_ as $row){
+		if($row['mesa'] != null){
+			$mesa=$row['mesa'];
+			$totalidad=$row['totalidad'];
+			$idpedido=$row['idpedido'];
+		} 
+	}
+	// CABECERA
+	$pdf->SetFont('Helvetica','',12);
+	$pdf->Cell(60,4,'CEVICHERIA WILLY GOURMET',0,1,'C');
+	$pdf->SetFont('Helvetica','',8);
+	$pdf->Cell(60,4,'Nota de Venta: 000-'.$idpedido,0,1,'C');
+	$pdf->Cell(60,4,'RUC.: 01234567A',0,1,'C'); 
+	$pdf->Image($pdf->pathFirma, 27, 30, 30, 0, 'PNG'); 
+	$pdf->Cell(60,4,'Av.Victor Malazques Mr Lt10 Pachamac-Manchay',0,1,'C');
+	$pdf->SetFont('Helvetica', '', 9); 
+	$pdf->Cell(60,4,'TEL 928 314 085',0,1,'C');
+ 	
+
 
 	
+	// DATOS FACTURA   
+	$pdf->Ln(8);
+	$pdf->Ln(8);
+	$pdf->Ln(5);
+ 	$pdf->Ln(5);
  
-	$pdf->SetFont('Arial', 'B', 8);
-	$pdf->SetTextColor(0, 93, 185);
-	$pdf->setX($x + 6);
-	$pdf->Cell(0.1, 8, utf8_decode(''), 'L,T,R,B', 0, 'L');
-	$pdf->Cell(7, 8, utf8_decode('N°'), 'L,T,R,B', 0, 'C'); 
-	$pdf->Cell(35, 8, utf8_decode('Categoria'), 'L,T,R,B', 0, 'C');
-	$pdf->Cell(40, 8, utf8_decode('Producto'), 'L,T,R,B', 0, 'C');
-	$pdf->Cell(10, 8, utf8_decode('Cant'), 'L,T,R,B', 0, 'C');
-	$pdf->Cell(60, 8, utf8_decode('Descripcion'), 'L,T,R,B', 0, 'C');
-	$pdf->Cell(15, 8, utf8_decode('PrecioU'), 'L,T,R,B', 0, 'C');
-	$pdf->Cell(15.8, 8, utf8_decode('SubTotal'), 'L,T,R,B', 0, 'C');
-	$pdf->Ln();
-	$pdf->SetTextColor(0, 0, 0);
+	$pdf->Ln(5);
+ 	$pdf->Cell(60,4,'Fecha     : '.$fecha,0,1,'');
 
-	$i=0;
-	$array_productos=[];
-	foreach($data as $value){ 
-		if(count($array_productos)==0){
-			$array_pr=array("producto"=>$value['producto'],
-			"categoria"=>$value['categoria'],
-			"cantidad"=>1);
-			array_push($array_productos,$array_pr);
-		}else{ 
-			$exist=array_filter($array_productos, function ($var,$key) use($value,&$array_productos) {
-				if($var['producto'] == $value['producto']){
-					$cantidad=$array_productos[$key]['cantidad'];
-					$cantidad++;
-					$array_productos[$key]['cantidad']=$cantidad; 
-					return $var;
-				}
-			}, ARRAY_FILTER_USE_BOTH); 
+	if($mesa !=''){
+		$pdf->SetFont('Helvetica', '', 11); 
+		$pdf->Cell(60,4,'Mesa   : '.$mesa,0,1,''); 
+		$pdf->Ln(0.5); 
+		$pdf->Cell(0, 3, '- - - - - - - - - - - - - - - - - - - - - - - - -', 0);
+		$pdf->Ln(0.7); 
+		$pdf->Cell(0, 3.5, '- - - - - - - - - - - - - - - - - - - - - - - - -', 0);
+		$pdf->Ln(3.5);
+	} 
+  
+	foreach($data_ as $row){
+		$pdf->SetFont('Arial', 'B', 10);
+		$pdf->MultiCell(30,4,$row['cantidad'],0,'L'); 
+		$pdf->Cell(45, -4, $row['acronimo'],0,0,'R');
+		$pdf->Cell(15, -4,  number_format(round($row['total'],2), 2, ',', '24'),0,0,'R');
+ 		$pdf->Ln(0);
 
-			if(count($exist)==0){
-				$array_pr=array("producto"=>$value['producto'],
-				"categoria"=>$value['categoria'],
-				"cantidad"=>1);
-				array_push($array_productos,$array_pr);
-			} 
-		}
-	
-
-		$i++;
-		$pdf->setX($x + 6.1);
-		$pdf->SetFont('Arial', '', 6.5);
-		$pdf->Cell(7, 8, utf8_decode($i), 'L,T,R,B', 0, 'C');
-		$pdf->Cell(35.0, 8, utf8_decode(mb_strtoupper($value['categoria'])), 'L,T,R,B', 0, 'C');
-		$pdf->Cell(40.0, 8, utf8_decode(mb_strtoupper($value['producto'])), 'L,T,R,B', 0, 'C');
-		$pdf->Cell(10, 8, utf8_decode(mb_strtoupper($value['cantidad'])), 'L,T,R,B', 0, 'C');
-		$pdf->Cell(60, 8, utf8_decode(mb_strtoupper($value['descripcion'])), 'L,T,R,B', 0, 'C');
-		$pdf->Cell(15, 8,'S/'. utf8_decode(mb_strtoupper($value['precioU'])), 'L,T,R,B', 0, 'C');
-		$pdf->Cell(15.8, 8,'S/'. utf8_decode(mb_strtoupper($value['total'])), 'L,T,R,B', 0, 'C'); 
-		$pdf->Ln();
 	}
-	// $pdf->Ln();
+	$pdf->Ln(6);
 
-	$pdf->SetFont('Arial', 'B', 15);
-	$pdf->Cell(200, 60, utf8_decode(' '), 0, 0, 'C');
-	$pdf->Ln();
+ 	$pdf->SetFont('Helvetica','',9); 
+	$pdf->Cell(60,0,'Sirvase pagar esta cantidad',0,1,'C');
+	$pdf->Ln(3);
+	$pdf->SetFont('Arial','B',15);  
+	$pdf->Cell(0, 3.5, '* * * * * * * * * * * * * * * * *', 0);
 
-
-	$pdf->SetFont('Arial', 'B', 15);
-	$pdf->Cell(200, 20, utf8_decode('Resumen Pedido'), 0, 0, 'C');
-	$pdf->Ln();
-	
-	$pdf->SetFont('Arial', 'B', 8);
-	$pdf->SetTextColor(0, 93, 185);
-	$pdf->setX($x + 6);
-	$pdf->Cell(0.1, 8, utf8_decode(''), 'L,T,R,B', 0, 'L');
-	$pdf->Cell(7, 8, utf8_decode('N°'), 'L,T,R,B', 0, 'C'); 
-	$pdf->Cell(50, 8, utf8_decode('Categoria'), 'L,T,R,B', 0, 'C');
-	$pdf->Cell(70, 8, utf8_decode('Producto'), 'L,T,R,B', 0, 'C');
-	$pdf->Cell(25, 8, utf8_decode('Cant'), 'L,T,R,B', 0, 'C');
- 	$pdf->Ln();
-	$pdf->SetTextColor(0, 0, 0);
-
-	$i=0;
-
-	foreach($array_productos as $value){   
-		$i++;
-		$pdf->setX($x + 6.1);
-		$pdf->SetFont('Arial', '', 7);
-		$pdf->Cell(7, 8, utf8_decode($i), 'L,T,R,B', 0, 'C');
-		$pdf->Cell(50, 8, utf8_decode(mb_strtoupper($value['categoria'])), 'L,T,R,B', 0, 'C');
-		$pdf->Cell(70, 8, utf8_decode(mb_strtoupper($value['producto'])), 'L,T,R,B', 0, 'C'); 
-		$pdf->Cell(25, 8,utf8_decode(mb_strtoupper($value['cantidad'])), 'L,T,R,B', 0, 'C'); 
-		$pdf->Ln();
-	}
- 	$pdf->Ln();
+	 
+	// PIE DE PAGINA
+	$pdf->Ln(4);
+	$pdf->Cell(60,0,'TOTAL: S/'.$totalidad,0,1,'C');
+	$pdf->Ln(3); 
+	$pdf->Ln(3); 
+	$pdf->Output('ticket.pdf','i');
 }
+
 }
  
 class reporteDetalle{
 	function __construct()
 	{
 	}
-	function exportarDetalle ($data_,$cliente,$data_pedido){  
-		$pdf = new PDF();
-		// T�tulos de las columnas
-		$header = array('Pa�s', 'Capital', 'Superficie (km2)', 'Pobl. (en miles)');
-		// Carga de datos
-		$data = $pdf->LoadData('paises.txt');
-		$pdf->SetFont('Arial','',14);
+	function imprimir ($data_){  
+		$pdf = new PDF('P','mm',array(80,150));  
 		$pdf->AddPage(); 
-		$pdf->FancyTable($header,$data_,$pdf,$cliente,$data_pedido);
+		$pdf->GenerarTicket($pdf,$data_);
 		$pdf->Output();
 
 		return $pdf;
