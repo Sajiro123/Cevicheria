@@ -62,6 +62,11 @@
                             <span>Usuarios</span>
                             </a> 
                         </li> 
+                        <li>
+                            <a href="?page=productos">
+                            <span>Productos</span>
+                            </a> 
+                        </li>
                     </ul>
                 </li>
                 <li>
@@ -145,6 +150,10 @@
                              case 'Caja':  
                                   include('views\Caja.php');
                                       break;     
+                             case 'productos':  
+                                        include('views\productos.php');
+                                            break;   
+                                      
                                       
                            }
 
