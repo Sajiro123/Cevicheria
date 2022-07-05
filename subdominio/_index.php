@@ -67,9 +67,8 @@ input[type="radio"]{
 
 <div >
     
-    <?php if ( isset($_SESSION['idperfil']) &&$_SESSION['idperfil']== 2) { ?> <!--MOZO --> 
-        <div class="modal-body" id="idmesas">
-            <div>
+         <div   id="idmesas">
+            <div style="height: 69px;margin-top: -18px;">
                 <input type="radio" id="pisouno"  name="piso" value="1"  style="width: 4%;height: 2em;" onchange="mesapiso($('#pisouno').val())" checked>
                 <label for="uno" style="font-size: 22px">Primer Piso</label>
                 <input type="radio" id="pisodos" name="piso" value="2" style="width: 4%;height: 2em;" onchange="mesapiso($('#pisodos').val())">
@@ -98,9 +97,7 @@ input[type="radio"]{
                   ListarMesas('#mesascantidad'); 
                 });
             </script>
-     <?php 
-    }
-     ?>  
+    
 
     <?php if ($_SESSION['idperfil']== 1) { ?> <!--COCINA --> 
             <div class="modal-body" >

@@ -5,7 +5,7 @@ $(document).ready(function() {
 
 
 function Enviar() {
-
+debugger;
     $('#diverror').slideUp("fast");
     $('#divinfo').slideUp("fast");
     $('#divinfo2').slideUp("fast");
