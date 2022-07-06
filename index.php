@@ -12,7 +12,7 @@
      }
    ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 	<!--begin::Head-->
 	<head><base href="">
 		<title>Metronic - the world's #1 selling Bootstrap Admin Theme Ecosystem for HTML, Vue, React, Angular &amp; Laravel by Keenthemes</title>
@@ -4217,7 +4217,7 @@
 						<!--begin::Post-->
 						<div class="post d-flex flex-column-fluid" id="kt_post">
 							<!--begin::Container-->
-                            <div id="kt_content_container" class="">
+                            <div id="kt_content_container" class="container-fluid">
                                 <?php
                                     $page=null;
                                     if(isset($_GET['page'])){
@@ -8581,7 +8581,12 @@
 		<script src="assets/js/custom/utilities/modals/create-app.js"></script>
 		<script src="assets/js/custom/utilities/modals/users-search.js"></script>
 
-
+        <script>
+			   $(document).ready(function(){
+                   $('#kt_aside_toggle').click();
+                });
+			
+		</script>
       <!-- <script src="css\bootstrap\js\bootstrap.bundle.min.js" ></script>
      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script> 
       <script src="js\page_js\index.js"></script> 

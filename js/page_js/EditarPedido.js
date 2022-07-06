@@ -37,6 +37,7 @@ $.ajax({
 
 
 }
+
 function CargarDataCategoria() {
   $('#idregresar').css('display', 'none')
   STATUS_PEDIDO=0;
@@ -88,6 +89,7 @@ function CargarDataCategoria() {
   }
   
 }
+
 function OnchangeProducto() {
    var precio =  $("#producto option:selected").attr('data-precio');
   $("#precio").val(precio);
@@ -101,8 +103,7 @@ function RegresarProducto(){
     STATUS_PEDIDO--;
   }
   
-  debugger; 
- var idcategoria=IDCATEGORIA_GLOBAL
+  var idcategoria=IDCATEGORIA_GLOBAL
  var codigo =CODIGO_GLOBAL
  var idarbol =IDARBOL_GLOBAL;
 
@@ -225,8 +226,12 @@ function CargarDataProducto(idcategoria,codigo=0,idarbol=0) {
 }
 
 CargarDataCategoria();
-function agregarProducto(row) {
-  var data= JSON.parse(($(row).parent().children('span'))[0].innerText);   
+function agregarProducto(row,status = false) {
+  if(!status){
+    var data= JSON.parse(($(row).parent().children('span'))[0].innerText);  
+  }else{
+    var data= JSON.parse($(row).children().children('span')[0].innerText);   
+  }
 
   var categoria_object = Array_categoria.filter(function (row) {
     return row.idcategoria == data.idcategoria;
@@ -260,9 +265,9 @@ function agregarProducto(row) {
       "</td>" +
       '<td style="text-align: center;" width="5%">'+
       '<div class="number-input">'+
-      "<button  onclick='sumarinput(this)'><i class='fa fa-plus'></i></button>"+
+      "<button  onclick='sumarinput(this)'><i class='fa fa-plus' style='color: red;'></i></button>"+
       '<input  min="0" name="quantity"  type="number" value="1" style="text-align: center;height: 28px;" class="quantity"  />'+ 
-      "<button  onclick='restarinput(this)'.stepUp()\"><i class='fa fa-minus'></i></button>"+
+      "<button  onclick='restarinput(this)'.stepUp()\"><i  style='color: red;' class='fa fa-minus'></i></button>"+
       '  </div>'+      '<td style="text-align: center;FONT-SIZE: 17px;">'+data.preciounitario +"</td>" +
       '<td style="text-align: center;FONT-SIZE: 17px;">' +total_multiplicado +"</td>" +      
       "<td>" +'<span class="fa fa-trash" aria-hidden="true" style="cursor:pointer;font-size:19px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' +"</td>" +
@@ -311,7 +316,7 @@ function confirmarAnulacionPedido(row) {
 }
 
 function cantidadPlatos(row){
-  debugger;
+  
   var idproducto=$($($(row).parent().parent().parent('tr'))[0]).attr('data-idproducto'); 
   var preciounitario=$($($(row).parent().parent().parent('tr'))[0]).attr('data-precio'); 
   var correlativo=$($($(row).parent().parent().parent('tr'))[0]).attr('data-correlativo');  
@@ -358,7 +363,7 @@ function EditarPedido(){
           $.each($('#tbDetalleProducto tbody > tr'), function () { 
             var tr=$(this); 
             $.each($(tr), function (j,x) {
-              debugger;
+              
               var parallevar=$($(x).children()[3]).children().children().children('input')[0];//cambiar
               if ($(parallevar).prop("checked" ) ) {
                 parallevar=2;
@@ -433,7 +438,7 @@ function actualizarPedido(){
     var cantidad_td=0;
     $.each($(td).children(), function (j,x) {
       if(j==4){//cantidad //cambiar
-        debugger;
+        
         cantidad_td = $(this).children().children('input');      
         cantidad_td = parseInt($(cantidad_td).val());
        }
@@ -493,9 +498,9 @@ function ListarPedido(){
           "</td>" +
             '<td style="text-align: center;" width="5%">'+
             '<div class="number-input">'+
-            "<button  onclick='sumarinput(this)'><i class='fa fa-plus'></i></button>"+
+            "<button  onclick='sumarinput(this)'><i  style='color: red;' class='fa fa-plus'></i></button>"+
             '<input  min="0" name="quantity"  type="number" value="'+this.cantidad+'" style="text-align: center;height: 28px;" class="quantity"  />'+ 
-            "<button  onclick='restarinput(this)'.stepUp()\"><i class='fa fa-minus'></i></button>"+
+            "<button  onclick='restarinput(this)'.stepUp()\"><i  style='color: red;' class='fa fa-minus'></i></button>"+
             '  </div>'+
             '  </td>' +  
             '<td class="text-center" style="FONT-SIZE: 17px;">' + (this.precioU == null ? "" : this.precioU) + '</td>' +
@@ -522,6 +527,7 @@ function sumarinput(row){
   $(row).parent().children('input')[0].value=status;
   cantidadPlatos($(row).parent().children('input')[0]);
 }
+
 function restarinput(row){
   var status=parseInt($(row).parent().children('input')[0].value) - 1;
   $(row).parent().children('input')[0].value=status;
@@ -559,8 +565,58 @@ function checkTime(i) {
 $(document).ajaxSend(function() {
   $("#overlay").fadeIn(100);　
  }); 
+ 
  $(document).ready(function () {
   CargarCategoria(); 
+  ListarPlatosSearch()
 }); 
+
+
+function AddKeyPress(e) { 
+   e = e || window.event;
+  if (e.keyCode == 13) {
+    ListarPlatosSearch()
+  }
+  return true;
+}
+
+function ListarPlatosSearch(){
+  $('#listarPlatos tbody').empty();
+ var plato_text= $('#idplatotext').val();
+ var strHTML="";
+  $.ajax({
+    url: "./controller/pedidoController.php",
+    type: "POST",
+    datatype: "json",
+    data: { 
+      function: "BuscarPlatoSearch",
+      plato:plato_text
+      },
+    success: function (data) {  
+      var result = JSON.parse(data); 
+
+      $.each(result, function () {
+         var data =JSON.stringify(this);  
+
+        strHTML +=
+        '<tr onclick="agregarProducto($(this),true)">'+ 
+          '<td  style="width: 70px; padding-right: 0px;">'+
+          '<span style="display: none">'+data+'</span>'+
+          '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px"  >'+  
+          '</td>'+
+            '<td  class="align-middle"><span  style="font-size: 20px;font-family: "Poppins";font-weight: 600;>'+this.nombre+'</span>'+
+            '<br > <span  class="text-black-50" style="font-size: 90%;">451223</span>'+
+            '</td>'+ 
+            '<td  class="text-right font-semi-bold align-middle" style="min-width: 125px;">'+
+            this.preciounitario+
+          '</td>'+
+        '</tr>'          });
+        $('#listarPlatos tbody').append(strHTML);
+
+    },},JSON).done(function() {
+      $("#overlay").fadeOut(); }); 
+
+}
+
 
  

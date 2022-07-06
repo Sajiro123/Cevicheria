@@ -1,131 +1,162 @@
 <script type="text/javascript" src="./js/page_js/EditarPedido.js"></script>
- <link href="css/page_css/editarPedido.css" rel="stylesheet">
+<link href="css/page_css/editarPedido.css" rel="stylesheet">
 
 
- 
+
 <style>
-  
+   .btn-outline-success {
+      color: #28a745;
+      border-color: #28a745;
+   }
+
+   input[type=checkbox] {
+      transform: scale(1.5);
+   }
 </style>
-<?php 
-if(isset($_GET['mesa'])){
-   $mesaid = $_GET['mesa'];  
+<?php
+if (isset($_GET['mesa'])) {
+   $mesaid = $_GET['mesa'];
 }
-if(isset($_GET['idpedido'])){
-    $idpedido = $_GET['idpedido'];  
- }
+if (isset($_GET['idpedido'])) {
+   $idpedido = $_GET['idpedido'];
+}
 ?>
-<input type="hidden" id="idmesas" name="" value="<?php echo $mesaid?>">
-<input type="hidden" id="idpedido" name="" value="<?php echo $idpedido?>">
+<input type="hidden" id="idmesas" name="" value="<?php echo $mesaid ?>">
+<input type="hidden" id="idpedido" name="" value="<?php echo $idpedido ?>">
 
 <div class="row">
- 
-      <section class="col-md-12 col-xl-4 col-sm-12 col-lg-4 modal-body">
 
-         <div class="col-md-12">
-            <div class="card"> 
-               <div class="modal-body">
+   <section class="col-md-12 col-xl-4 col-sm-12 col-lg-4 modal-body">
+
+      <div class="col-md-12">
+         <div class="card">
+            <div class="modal-body">
                <div class="table-responsive">
-                                    <table id="tbDetalleProducto" class="">
-                                       <thead>
-                                          <tr>
-                                             <th style="display:none"></th>
-                                             <th style="display:none"></th>
-                                             <th class="text-left" style="width: 1080px;">Producto</th>
-                                             <th >Para Llevar</th>  
-                                             <th style="text-align: center">Cantidad</th>
-                                             <th style="text-align: center">Precio</th>
-                                             <th style="text-align: center">Total</th>
-                                             <th style="text-align: center"  ></th>
-                                          </tr>
-                                       </thead>
-                                       <tbody>
-                                          <tr>
-                                             <td colspan="8" style="text-align: center;"> Presionar el boton Agregar Productos para obtener la informacion.</td>
-                                          </tr>
-                                       </tbody>
-                                    </table>
-                                 </div>
-                     <!-- /.col -->
+                  <table id="tbDetalleProducto" class="">
+                     <thead>
+                        <tr>
+                           <th style="display:none"></th>
+                           <th style="display:none"></th>
+                           <th class="text-left" style="width: 410px;">Producto</th>
+                           <th>Llevar</th>
+                           <th style="text-align: center">Cantidad</th>
+                           <th style="text-align: center">Precio</th>
+                           <th style="text-align: center">Total</th>
+                           <th style="text-align: center"></th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td colspan="8" style="text-align: center;"> Presionar el boton Agregar Productos
+                              para obtener la informacion.</td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <!-- /.col -->
+            </div>
+            <div class="container">
+               <div class="mb-4 total-section ml-4" style="margin-right: 2rem!important;">
+                  <div class="d-flex justify-content-end"><strong>
+                        <span>Descuentos (-) </span> <span style="padding-left: 1em;">
+                           S/</span></strong>
+                     <div class="text-right pl-3" style="width: 7rem;"><input type="number" min="0" step="0.01" placeholder="Desc." onkeypress="return isNumberValue(event, this)" class="form-control form-control-sm text-right discount-input" style="background-position: left calc(0.2em) center;border-color: rgba(0, 0, 0, 0.08);margin-left: 13px;margin-top: -6px;">
+                     </div>
                   </div>
                </div>
-      </section> 
-      <section class="col-md-12 col-xl-3 col-sm-12 col-lg-3 modal-body"> 
-         <div class="col-md-12" style="margin-left: -30px;">
+               <div class="row">
+                  <div class="mb-2 col-md-6">
+                  </div>
 
-               <div class="card"> 
-                  <div class="row">
-                        <div data-v-b991a720="" class="input-group mt-4">
-                              <input data-v-b991a720="" type="text" placeholder="Buscar producto" class="form-control"> 
-                              
-                        </div>
-                     
-                        <div class="col-md-12"> 
-                        
-                           <form  id="myForm" onsubmit="return false">
-                           <br/>
-                           <i class="fas fa-arrow-alt-circle-left" onclick="RegresarProducto()" style="font-size: 38px;cursor: pointer;margin-top: -15px;display:none" id="idregresar"></i>
-                           <br/> 
-                              <div class="row" id="idimagenes"></div>
-                           </form>
-                        </div>
+
+                  <div class="col-md-6 mb-2 ">
+                     <div style="display: flex!important;">
+
+                        <button type="button" class="btn btn-sm btn-success" onclick="EditarPedido()" id="Guardar_tabla" style="width: 100%;">
+                           <div data-v-b991a720="" class="tw-flex"> 
+                           <span style="float: center;font-size: 20px;">Guardar</span> 
+                              <span style="float: right;color:white;font-size: 20px;" id="subtotal">0.00 </span>
+                              <p style="float: right;font-size: 20px;"> S/</p>
+
+                           </div>
+                        </button>
+                     </div>
                   </div>
-                              
-               <div class="card-body">
-               <ul class="summary">
-                     <hr/>
-                     <div class="col-md-6">
-                        <h4>Total Pedido: </h4>
-                        <br/><br/>
-                        <h4 class="float-sm-left" >
-                        S/</p> 
-                        <h4 class="float-sm-right"  style="color:red" id="subtotal">0.00 </h4>
-                     </div>
-                     <div class="col-md-6">
-                     </div>
-                     <br/><br/><br/>
-                     <hr/>
-                     <a type="submit" onclick="EditarPedido()" id="Guardar_tabla" class="btn btn-lg btn-primary summary-btn-process-pay col-md-12">
-                     Actualizar Pedido
-                     </a>
-                     <br/><br/><br/>
-                     <hr/>
-                  </ul>
                </div>
+               <!---->
+               <div class="row mt-4">
+                  <div class="col-12">
+                     <!----> <textarea id="observations" placeholder="Mensaje de impresión en Cocina." rows="2" wrap="soft" class="form-control"></textarea>
+                  </div>
                </div>
-         </div>   
-      </section>
-</div> 
+            </div>
+            <br />
+         </div>
+      </div>
+   </section>
+   <section class="col-md-12 col-xl-3 col-sm-12 col-lg-3 modal-body">
+      <div class="col-md-12" style="margin-left: -30px;">
+
+         <div class="card">
+            <div class="row"> 
+               <div class="col-md-12">
+
+                  <form id="myForm" onsubmit="return false">
+                     <br />
+                     <i class="fas fa-arrow-alt-circle-left" onclick="RegresarProducto()" style="font-size: 38px;cursor: pointer;margin-top: -15px;display:none" id="idregresar"></i>
+                     <br />
+                     <div class="row" id="idimagenes"></div>
+                  </form>
+               </div>
+               <div class="input-group mt-4 modal-body">
+                  <input type="text" id="idplatotext" onkeypress="return AddKeyPress(event);" placeholder="Buscar producto" class="form-control">
+
+               </div>
+               <div class="col-md-12 modal-body">
+                  <div class="table-responsive" style="overflow: scroll;height:260px;">
+                     <table class="table table-hover table-sm" id="listarPlatos"> 
+                        <tbody> 
+                           
+                        </tbody>
+                     </table>
+                  </div>
+               </div> 
+            </div>
+
+
+         </div>
+      </div>
+   </section>
+</div>
 <link href="./library/plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
-<script src='./library/plugins/datepicker/bootstrap-datepicker.js' type='text/javascript'  ></script>
+<script src='./library/plugins/datepicker/bootstrap-datepicker.js' type='text/javascript'></script>
 <script>
-   $(document).ready(function(){
-      debugger
-     $('#kt_content_container').css('margin-top','-42px')
-   // $('#fechapedido').datepicker({
-   // 		format: "dd/mm/yyyy",
-   // 		todayHighlight: true,
-   // 		autoclose: true
-   // 	}); 
-   
+   $(document).ready(function() {
+       $('#kt_content_container').css('margin-top', '-42px')
+      // $('#fechapedido').datepicker({
+      // 		format: "dd/mm/yyyy",
+      // 		todayHighlight: true,
+      // 		autoclose: true
+      // 	}); 
+
    });
-     function cacheInput(e) {
+
+   function cacheInput(e) {
       localStorage.setItem(e.attributes["name"].value, e.value)
    }
-   
-   window.onload = function () {
+
+   window.onload = function() {
       let form = document.getElementById("myForm");
       let inputs = form.children;
       for (let i = 0; i < inputs.length; i++) {
-          let el = inputs[i];
-          if (el.tagName.toLowerCase() != "input" || el.attributes["type"].value != "text") {
-              continue
-          }
-          let cachedVal = localStorage.getItem(el.attributes["name"].value)
-          if (cachedVal != null) {
-              el.value = cachedVal;
-          }
+         let el = inputs[i];
+         if (el.tagName.toLowerCase() != "input" || el.attributes["type"].value != "text") {
+            continue
+         }
+         let cachedVal = localStorage.getItem(el.attributes["name"].value)
+         if (cachedVal != null) {
+            el.value = cachedVal;
+         }
       }
    }
-   
-        
 </script>
