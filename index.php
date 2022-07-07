@@ -37,9 +37,13 @@
 		<!--begin::Global Stylesheets Bundle(used by all pages)-->
 		<link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
 		<link href="assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+		<link href="css\inputs\chekbox.css" rel="stylesheet">
+		<link href="css/page_css/loading.css" rel="stylesheet">
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <script type="text/javascript" src="js\jquery-3.1.1.js"></script>
-
+		<script src="https://kit.fontawesome.com/06efcdf77e.js" crossorigin="anonymous"></script>
 		<!--end::Global Stylesheets Bundle-->
 	</head>
     <style>
@@ -161,7 +165,7 @@
 				<!--begin::Wrapper-->
 				<div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
 					<!--begin::Header-->
-					<div id="kt_header" style="" class="header align-items-stretch">
+					<div id="kt_header" style=p"" class="header align-items-stretch">
 						<!--begin::Container-->
 						<div class="container-fluid d-flex align-items-stretch justify-content-between">
 							<!--begin::Aside mobile toggle-->
@@ -4202,9 +4206,11 @@
 									<span class="h-20px border-1 border-gray-200 border-start ms-3 mx-2 me-1"></span>
 									<!--end::Separator-->
 									<!--begin::Description-->
-									<span class="text-muted fs-7 fw-bold mt-2">#XRS-45670</span>
+									<span class="text-muted fs-7 fw-bold mt-2" id="title_secundary"></span>
 									<!--end::Description--></h1>
 									<!--end::Title-->
+									<div id="idcreate" style="margin-left: 26px;"></div>
+
 								</div>
 								<!--end::Page title-->
 								<!--begin::Actions-->
@@ -8580,7 +8586,6 @@
 		<script src="assets/js/custom/utilities/modals/upgrade-plan.js"></script>
 		<script src="assets/js/custom/utilities/modals/create-app.js"></script>
 		<script src="assets/js/custom/utilities/modals/users-search.js"></script>
-
         <script>
 			   $(document).ready(function(){
                    $('#kt_aside_toggle').click();

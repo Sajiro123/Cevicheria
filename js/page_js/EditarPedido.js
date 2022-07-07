@@ -342,6 +342,8 @@ function EditarPedido(){
   var total_=$('#subtotal').text();
   var mesas= $('#idmesas').val();
   var idpedido= $('#idpedido').val();
+  var iddescuento= $('#iddescuento').val();
+  var idcomentario= $('#idcomentario').val();
 
   total_pedidos_count=$("#tbDetalleProducto tbody tr").length;
      $.ajax({
@@ -354,7 +356,9 @@ function EditarPedido(){
            total:total_,
            total_pedidos:total_pedidos_count,
            fechapedido:fecha,
-           mesa:mesas
+           mesa:mesas,
+           descuento:iddescuento,
+           comentario:idcomentario
           },
         success: function (data) {
           
@@ -416,8 +420,18 @@ function EditarPedido(){
                   table_status = false;
 
                   $('#descripcion').val('');
-                  $('#cantidad').val(''); 
-                  CargarDataCategoria();
+                  $('#cantidad').val('');  
+
+                  setTimeout(function(){ 
+                    var link = document.createElement('a');
+                    link.href = 'index.php';
+                    document.body.appendChild(link);
+                    link.click();  
+                  
+                  }, 1500);
+
+                  
+
               },},JSON).done(function() {
                 $("#overlay").fadeOut(); }); 
              
@@ -476,6 +490,9 @@ function ListarPedido(){
       } else {
 
         $.each(result, function () { 
+          $('#idcomentario').val(this.comentario);
+          $('#iddescuento').val(this.descuento);
+
           var estado_parallevar='';
           var aleatorio = Math.round(Math.random() * (1 - 100) + 100);
           if(this.lugarpedido == 2){
@@ -568,7 +585,9 @@ $(document).ajaxSend(function() {
  
  $(document).ready(function () {
   CargarCategoria(); 
-  ListarPlatosSearch()
+  ListarPlatosSearch() 
+  $('#title_secundary').text('El Nº de Mesa es '+$('#idmesas').val())
+  $('#idcreate').append('<a  href="index.php" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>')
 }); 
 
 
@@ -607,8 +626,8 @@ function ListarPlatosSearch(){
             '<td  class="align-middle"><span  style="font-size: 20px;font-family: "Poppins";font-weight: 600;>'+this.nombre+'</span>'+
             '<br > <span  class="text-black-50" style="font-size: 90%;">451223</span>'+
             '</td>'+ 
-            '<td  class="text-right font-semi-bold align-middle" style="min-width: 125px;">'+
-            this.preciounitario+
+            '<td  class="text-right font-semi-bold align-middle" style="min-width: 125px;font-size: 18px;font-weight:600">'+
+            "PEN "+this.preciounitario+
           '</td>'+
         '</tr>'          });
         $('#listarPlatos tbody').append(strHTML);
