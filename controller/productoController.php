@@ -34,7 +34,7 @@ require '../cnSql.php';
 
         $sql="insert into producto(idcategoria,nombre,codigo,idtipoproducto,idarbol,imagen,acronimo,preciounitario) VALUES($array->idcategoria,'$array->nombre','$array->codigo','$array->idtipoproducto',$array->idarbol,'$name','$array->acronimo',$array->preciounitario)" ;     
         $row_registro=$this->SelectSql($sql); 
-        return header("Location: http://192.168.1.12:8079/cevicheria/?page=productos", TRUE, 301);  
+        return header("Location: http://localhost:8079/cevicheria/?page=productos", TRUE, 301);  
     }
     function SelectSql($sql){ 
         $this->getConexion();

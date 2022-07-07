@@ -521,18 +521,18 @@ function SetFont($family, $style='', $size=0)
 	if(!isset($this->fonts[$fontkey]))
 	{
 		// Test if one of the core fonts
-		if($family=='arial')
+		// if($family=='arial')
 			$family = 'helvetica';
-		if(in_array($family,$this->CoreFonts))
-		{
-			if($family=='symbol' || $family=='zapfdingbats')
-				$style = '';
-			$fontkey = $family.$style;
-			if(!isset($this->fonts[$fontkey]))
-				$this->AddFont($family,$style);
-		}
-		else
-			$this->Error('Undefined font: '.$family.' '.$style);
+		// if(in_array($family,$this->CoreFonts))
+		// {
+		// 	if($family=='symbol' || $family=='zapfdingbats')
+		// 		$style = '';
+		// 	$fontkey = $family.$style;
+		// 	if(!isset($this->fonts[$fontkey]))
+		// 		$this->AddFont($family,$style);
+		// }
+		// else
+		// 	$this->Error('Undefined font: '.$family.' '.$style);
 	}
 	// Select it
 	$this->FontFamily = $family;
@@ -1050,9 +1050,9 @@ function _dochecks()
 	// Check mbstring overloading
 	if(ini_get('mbstring.func_overload') & 2)
 		$this->Error('mbstring overloading must be disabled');
-	// Ensure runtime magic quotes are disabled
-	if(get_magic_quotes_runtime())
-		@set_magic_quotes_runtime(0);
+	// Ensure runtime magic quotes are disabled	
+	// if(get_magic_quotes_runtime())
+		// @set_magic_quotes_runtime(0);
 }
 
 function _checkoutput()
@@ -1111,27 +1111,27 @@ function _beginpage($orientation, $size)
 		$size = $this->DefPageSize;
 	else
 		$size = $this->_getpagesize($size);
-	if($orientation!=$this->CurOrientation || $size[0]!=$this->CurPageSize[0] || $size[1]!=$this->CurPageSize[1])
-	{
-		// New size or orientation
-		if($orientation=='P')
-		{
-			$this->w = $size[0];
-			$this->h = $size[1];
-		}
-		else
-		{
-			$this->w = $size[1];
-			$this->h = $size[0];
-		}
-		$this->wPt = $this->w*$this->k;
-		$this->hPt = $this->h*$this->k;
-		$this->PageBreakTrigger = $this->h-$this->bMargin;
-		$this->CurOrientation = $orientation;
-		$this->CurPageSize = $size;
-	}
-	if($orientation!=$this->DefOrientation || $size[0]!=$this->DefPageSize[0] || $size[1]!=$this->DefPageSize[1])
-		$this->PageSizes[$this->page] = array($this->wPt, $this->hPt);
+	// if($orientation!=$this->CurOrientation || $size[0]!=$this->CurPageSize[0] || $size[1]!=$this->CurPageSize[1])
+	// {
+	// 	// New size or orientation
+	// 	if($orientation=='P')
+	// 	{
+	// 		$this->w = $size[0];
+	// 		$this->h = $size[1];
+	// 	}
+	// 	else
+	// 	{
+	// 		$this->w = $size[1];
+	// 		$this->h = $size[0];
+	// 	}
+	// 	$this->wPt = $this->w*$this->k;
+	// 	$this->hPt = $this->h*$this->k;
+	// 	$this->PageBreakTrigger = $this->h-$this->bMargin;
+	// 	$this->CurOrientation = $orientation;
+	// 	$this->CurPageSize = $size;
+	// }
+	// if($orientation!=$this->DefOrientation || $size[0]!=$this->DefPageSize[0] || $size[1]!=$this->DefPageSize[1])
+	// 	$this->PageSizes[$this->page] = array($this->wPt, $this->hPt);
 }
 
 function _endpage()

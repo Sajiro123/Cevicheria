@@ -9,14 +9,14 @@ class pedidoController extends cnSql
 
     function CargarDataCategoria()
     {
-        $sql = "select c.idcategoria,c.nombre,c.url_imagen from categoria c where c.deleted is  null";
+        $sql = "select c.idcategoria,c.nombre,c.url_imagen from categoria c where c.deleted is  null  order by c.nombre desc " ;
         $row_registro = $this->SelectSql($sql);
         echo json_encode($row_registro);
     }
 
     function CargarDataProducto()
     {
-        $sql = "select  * from producto p where p.deleted is null";
+        $sql = "select  * from producto p where p.deleted is null order by nombre desc";
         $row_registro = $this->SelectSql($sql);
         echo json_encode($row_registro);
     }
@@ -61,7 +61,7 @@ class pedidoController extends cnSql
 
     function ReporteProductoDetalle($idpedido)
     {
-        $sql = "select p1.lugarpedido, p1.idproducto,p2.idcategoria, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad FROM pedido p" .
+        $sql = "select p.descuento,p.comentario, p1.lugarpedido, p1.idproducto,p2.idcategoria, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad FROM pedido p" .
             " INNER JOIN pedidodetalle p1 ON p.idpedido=p1.idpedido" .
             " INNER JOIN producto p2 ON p1.idproducto=p2.idproducto " .
             " INNER JOIN categoria c ON c.idcategoria=p1.idcategoria" .
@@ -136,15 +136,15 @@ class pedidoController extends cnSql
     }
     
 
-    function EditarProducto($idpedido, $total, $total_pedidos, $fecha, $mesa)
+    function EditarProducto($idpedido, $total, $total_pedidos, $fecha, $mesa,$descuento,$comentario)
     {
         $fecha_time = date('Y-m-d H:i:s');
         $idcliente = $_SESSION['id_user'];
 
         
-        $sql = "update pedido set total='$total',total_pedidos='$total_pedidos',updated_at='$fecha_time',id_updated_at='$idcliente' where idpedido='$idpedido';";
+        $sql = "update pedido set comentario='$comentario', total='$total',total_pedidos='$total_pedidos',updated_at='$fecha_time',id_updated_at='$idcliente',descuento='$descuento' where idpedido='$idpedido';";
         runSQLReporte($sql);
-
+        echo  $sql;
         
         $sql = "delete from pedidodetalle  where idpedido='$idpedido';";
         runSQLReporte($sql);
@@ -241,7 +241,7 @@ switch ($function) {
         $pedidoclass->CargarDataProducto();
         break;
     case "EditarProducto":
-        $pedidoclass->EditarProducto($_REQUEST['idpedido'], $_REQUEST['total'], $_REQUEST['total_pedidos'], $_REQUEST['fechapedido'], $_REQUEST['mesa']);
+        $pedidoclass->EditarProducto($_REQUEST['idpedido'], $_REQUEST['total'], $_REQUEST['total_pedidos'], $_REQUEST['fechapedido'], $_REQUEST['mesa'], $_REQUEST['descuento'], $_REQUEST['comentario']);
         break;
     case "InsertarProducto":
         $pedidoclass->InsertarProducto($_REQUEST['total'], $_REQUEST['total_pedidos'], $_REQUEST['fechapedido'], $_REQUEST['mesa']);
