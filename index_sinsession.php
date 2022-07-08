@@ -129,7 +129,7 @@
                                   include('views\editarusuario.php');
                                     break; 
                               case 'NuevoPedido':  
-                                  include('subdominio\nuevoPedido.php');
+                                  include('views\nuevoPedido.php');
                                       break; 
                               case 'EditarPedido':  
                                   include('views\editarPedido.php');
