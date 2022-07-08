@@ -30,7 +30,7 @@ class pedidoController extends cnSql
 
     function ListarPedidosMesa()
     {
-        $sql = "select p2.idproducto,p1.lugarpedido,p2.acronimo, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad ,u.nombre usuario,p1.pedido_estado,p1.idpedidodetalle FROM pedido p" .
+        $sql = "select p.comentario,p.descuento, p2.idproducto,p1.lugarpedido,p2.acronimo, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad ,u.nombre usuario,p1.pedido_estado,p1.idpedidodetalle FROM pedido p" .
             " INNER JOIN pedidodetalle p1 ON p.idpedido=p1.idpedido" .
             " INNER JOIN producto p2 ON p1.idproducto=p2.idproducto " .
             " INNER JOIN categoria c ON c.idcategoria=p1.idcategoria" .
@@ -70,7 +70,7 @@ class pedidoController extends cnSql
         echo json_encode($row_registro);
     }
 
-    function InsertarProducto($total, $total_pedidos, $fecha, $mesa)
+    function InsertarProducto($total, $total_pedidos, $fecha, $mesa,$descuento,$comentario)
     {
         $idcliente = $_SESSION['id_user'];
         $fecha_time = date('Y-m-d H:i:s');
@@ -87,9 +87,11 @@ class pedidoController extends cnSql
         ,total_pedidos ,
         created_at,
         estado,
-        mesa
+        mesa,
+        descuento,
+        comentario
         )
-        VALUES('$idcliente','$fecha','$total','$total_pedidos','$fecha_time',1,'$mesa');";
+        VALUES('$idcliente','$fecha','$total','$total_pedidos','$fecha_time',1,'$mesa','$descuento','$comentario');";
         // insertar producto;
         runSQLReporte($sql);
 
@@ -244,7 +246,7 @@ switch ($function) {
         $pedidoclass->EditarProducto($_REQUEST['idpedido'], $_REQUEST['total'], $_REQUEST['total_pedidos'], $_REQUEST['fechapedido'], $_REQUEST['mesa'], $_REQUEST['descuento'], $_REQUEST['comentario']);
         break;
     case "InsertarProducto":
-        $pedidoclass->InsertarProducto($_REQUEST['total'], $_REQUEST['total_pedidos'], $_REQUEST['fechapedido'], $_REQUEST['mesa']);
+        $pedidoclass->InsertarProducto($_REQUEST['total'], $_REQUEST['total_pedidos'], $_REQUEST['fechapedido'], $_REQUEST['mesa'], $_REQUEST['descuento'], $_REQUEST['comentario']);
         break;
     case "InsertarProductoDetalle":
         $pedidoclass->InsertarProductoDetalle($_REQUEST['detalle_total']);

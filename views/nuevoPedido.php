@@ -1,28 +1,16 @@
-<script type="text/javascript" src="./js/page_js/EditarPedido.js"></script>
-<link href="css/page_css/editarPedido.css" rel="stylesheet">
+<script type="text/javascript" src="./js/page_js/NuevoPedido.js"></script>
+<link href="css/page_css/editarPedido.css" rel="stylesheet"> 
+<style type="text/css">
+   
 
 
-
-<style>
-.btn-outline-success {
-    color: #28a745;
-    border-color: #28a745;
-}
-
-input[type=checkbox] {
-    transform: scale(1.5);
-}
 </style>
-<?php
-if (isset($_GET['mesa'])) {
-   $mesaid = $_GET['mesa'];
-}
-if (isset($_GET['idpedido'])) {
-   $idpedido = $_GET['idpedido'];
+<?php 
+if(isset($_GET['mesa'])){
+   $mesaid = $_GET['mesa'];  
 }
 ?>
-<input type="hidden" id="idmesas" name="" value="<?php echo $mesaid ?>">
-<input type="hidden" id="idpedido" name="" value="<?php echo $idpedido ?>">
+<input type="hidden" id="idmesas" name="" value="<?php echo $mesaid?>">
 
 <div class="row">
 
@@ -74,7 +62,7 @@ if (isset($_GET['idpedido'])) {
                         <div class="col-md-6 mb-2 ">
                             <div style="display: flex!important;">
 
-                                <button type="button" class="btn btn-sm btn-success" onclick="EditarPedido()"
+                                <button type="button" class="btn btn-sm btn-success" onclick="RegistrarPedido()"
                                     id="Guardar_tabla" style="width: 100%;">
                                     <div data-v-b991a720="" class="tw-flex" style="line-height: 10px;">
                                         <span style="float: center;font-size: 18px;">Guardar</span>

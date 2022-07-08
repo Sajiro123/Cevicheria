@@ -46,13 +46,15 @@ function Opciones_Mesa(id,estado){
    var html_footer="";
    var int_responsive="";
    var total= 0;
+   var descuento=0;
    $(pedido_mesa).each(function() {
        var checked='';
        if(this.pedido_estado == 1){
           checked='checked';
        }
-    
-       total+= parseInt(this.cantidad)*this.precioU;
+    debugger;
+       total+= parseInt(this.cantidad)*this.precioU ;
+       descuento = (this.descuento != null ? this.descuento:0 )
        html_pedido+="<tr>"+
        "<td class='text-center' style='font-size: 20px;'>"+this.categoria+"</td>"+
        "<td class='text-center' style='font-size: 20px;' >"+this.cantidad+"</td>"+
@@ -61,17 +63,22 @@ function Opciones_Mesa(id,estado){
        "<td class='text-center' style='font-size: 20px;'>"+(this.lugarpedido == 1 ? "Mesa":"Llevar")+"</td>"+
        "<td class='text-center' style='font-size: 20px;'>"+this.precioU+"</td>"+
        "<td class='text-center' style='font-size: 20px;'>"+this.total+"</td>"+
-       "</tr>"; 
-
-       html_footer="<tr>"+
-       "<td colspan='6' class='text-center' style='font-weight:bold;font-size: 26px;' >Total</td>"+          
-       "<td class='text-center' style='font-weight:bold;font-size: 26px;'>"+total+"</td>"+
-       "</tr>"; 
+       "</tr>";  
+      
        id_pedido=this.idpedido
 
    });
-
-  
+   total=total- descuento ;
+   html_footer=(descuento != null ?"<tr>"+
+   "<td colspan='6' class='text-center' style='font-weight:bold;font-size: 26px;' >Descuento</td>"+          
+   "<td class='text-center' style='font-weight:bold;font-size: 26px;'>"+descuento+"</td>"+
+   "</tr>":"")+
+   
+   "<tr>"+
+   "<td colspan='6' class='text-center' style='font-weight:bold;font-size: 26px;' >Total</td>"+          
+   "<td class='text-center' style='font-weight:bold;font-size: 26px;'>"+total+"</td>"+
+   "</tr>"
+   ; 
    
    if(pedido_mesa.length==0){
        int_responsive=12;
