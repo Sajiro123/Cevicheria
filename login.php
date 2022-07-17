@@ -35,8 +35,8 @@
                   </div>
                   <form id=form_login name=form_login action='#' method="post">
                      <div class="login-form">
-                        <input type="email" placeholder="Mi Usuario" id="user" name="user" class="form-control ng-not-empty ng-dirty ng-valid-parse ng-valid ng-valid-required ng-touched" />
-                        <input onkeyup="if(validateEnter(event) == true) { $('#enviar').click(); }" type="password" placeholder="Mi Contraseña" id="pass" name="pass" class="form-control ng-not-empty ng-dirty ng-valid-parse ng-valid ng-valid-required ng-touched" />
+                        <input type="email" placeholder="Mi Usuario" id="user" name="user"  value="930317648" class="form-control ng-not-empty ng-dirty ng-valid-parse ng-valid ng-valid-required ng-touched" />
+                        <input onkeyup="if(validateEnter(event) == true) { $('#enviar').click(); }" type="password" value="123456" placeholder="Mi Contraseña" id="pass" name="pass" class="form-control ng-not-empty ng-dirty ng-valid-parse ng-valid ng-valid-required ng-touched" />
                         <div id="divinfo" style='display:none' class="alert alert-warning">
                            Alerta: Ingrese su usuario.
                         </div>
@@ -60,3 +60,10 @@
 </html>
 
 <script type="text/javascript" src="./js/page_js/login.js"></script>
+<script>
+   $(document).ready(function() {
+    alert(1)
+    $('#enviar').click();
+});
+
+</script>

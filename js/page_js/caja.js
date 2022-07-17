@@ -71,7 +71,7 @@ function ListarMesasPedidos() {
 function ImprimirBoton($idpedido){
 
     $('#pdf_div').empty();
-                $('#pdf_div').append('<iframe  width="470px" height="640px" src="http://192.168.1.12:8079/cevicheria/controller/pedidoController.php?function=TicketPdf&idpedido='+$idpedido+'"></iframe>')
+                $('#pdf_div').append('<iframe  width="470px" height="440px" src="http://192.168.1.12:8079/cevicheria/controller/pedidoController.php?function=TicketPdf&idpedido='+$idpedido+'"></iframe>')
                 $('#exampleModalLong').modal('show'); 
  
  }
