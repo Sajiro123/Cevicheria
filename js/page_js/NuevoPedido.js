@@ -100,7 +100,7 @@ function RegresarProducto(){
     STATUS_PEDIDO--;
   }
   
-  debugger; 
+   
  var idcategoria=IDCATEGORIA_GLOBAL
  var codigo =CODIGO_GLOBAL
  var idarbol =IDARBOL_GLOBAL;
@@ -247,7 +247,7 @@ function agregarProducto(row,status = false) {
   if ($("#tbDetalleProducto tbody tr").length == 0) 
       i = 0;
 
-      debugger;
+      
   var aleatorio = Math.round(Math.random() * (1 - 100) + 100);
 
   correlativo++;
@@ -366,7 +366,7 @@ function RegistrarPedido(){
   var iddescuento= $('#iddescuento').val();
   var idcomentario= $('#idcomentario').val();
   
-  debugger;
+  
   total_pedidos_count=$("#tbDetalleProducto tbody tr").length;
      $.ajax({
         url: "./controller/pedidoController.php",
@@ -387,7 +387,7 @@ function RegistrarPedido(){
           $.each($('#tbDetalleProducto tbody > tr'), function () { 
             var tr=$(this); 
             $.each($(tr), function (j,x) {
-              debugger;
+              
                var parallevar=$($(x).children()[3]).children().children().children('input')[0];//cambiar
               if ($(parallevar).prop("checked" ) ) {
                 parallevar=2;

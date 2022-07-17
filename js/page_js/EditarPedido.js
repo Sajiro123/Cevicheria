@@ -367,6 +367,7 @@ function EditarPedido(){
           $.each($('#tbDetalleProducto tbody > tr'), function () { 
             var tr=$(this); 
             $.each($(tr), function (j,x) {
+              debugger
               
               var parallevar=$($(x).children()[3]).children().children().children('input')[0];//cambiar
               if ($(parallevar).prop("checked" ) ) {
@@ -380,7 +381,15 @@ function EditarPedido(){
 
               var totaltd=$(x).children()[6]; //cambiar
               totaltd=totaltd.innerText;
+              debugger
 
+              var pedido_estado_=$(x).children()[8]; //cambiar
+              if(pedido_estado_ == undefined){
+                pedido_estado_=null;
+              }else{
+                pedido_estado_=pedido_estado_.innerText;
+              }
+              
               
               var detalle={
                 idpedido:idpedido,
@@ -389,7 +398,8 @@ function EditarPedido(){
                 cantidad:cantidadval,
                 precioU: x.dataset.precio,
                 total: totaltd,
-                lugarpedido:parallevar 
+                lugarpedido:parallevar, 
+                pedido_estado:pedido_estado_
               };
 
               prod_detall.push(detalle);
@@ -523,6 +533,7 @@ function ListarPedido(){
             '<td class="text-center" style="FONT-SIZE: 17px;">' + (this.precioU == null ? "" : this.precioU) + '</td>' +
             '<td class="text-center" style="FONT-SIZE: 17px;">' + (this.total == null ? "" : this.total) + '</td>' +  
             "<td>" +'<span class="fa fa-trash" aria-hidden="true" style="cursor:pointer;font-size:19px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' +"</td>" +
+            '<td class="text-center" style="display: none">' + (this.pedido_estado == null ? "" : this.pedido_estado) + '</td>' + 
             '</tr>';
 
         });
