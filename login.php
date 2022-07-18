@@ -62,8 +62,7 @@
 <script type="text/javascript" src="./js/page_js/login.js"></script>
 <script>
    $(document).ready(function() {
-    alert(1)
-    $('#enviar').click();
+     $('#enviar').click();
 });
 
 </script>
