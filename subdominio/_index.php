@@ -17,10 +17,6 @@ if (!isset($_SESSION['idperfil'])) {
 
 
 <style>
-.modal-backdrop.show {
-    opacity: 0;
-}
-
 body {
     font-family: 'Open Sans', sans-serif;
 }
@@ -77,7 +73,7 @@ input[type="radio"] {
 </style>
 
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-5">
         <div id="idmesas">
             <div style="height: 69px;margin-top: -18px;">
                 <input type="radio" id="pisouno" name="piso" value="1" style="width: 4%;height: 2em;"
@@ -86,14 +82,18 @@ input[type="radio"] {
                 <input type="radio" id="pisodos" name="piso" value="2" style="width: 4%;height: 2em;"
                     onchange="mesapiso($('#pisodos').val())">
                 <label for="dos" style="font-size: 22px">Segundo Piso</label>
+                <input type="radio" id="pedidosinmesa" name="piso" value="0" style="width: 4%;height: 2em;"
+                    onchange="mesapiso($('#pedidosinmesa').val())">
+                <label for="dos" style="font-size: 22px">Pedido sin Mesa</label>
             </div>
             <div class="row" id="mesascantidad">
             </div>
         </div>
     </div>
+
     <div class="col-sm-6">
 
-        <div id="idopciones" style="    margin-top: -46px;">
+        <div id="idopciones" style="margin-top: -46px;">
             <div class="modal-body">
                 <div class="row" id="regresar">
                     <!-- <div class="col-sm-1" style="margin-left: 46px;">
@@ -110,6 +110,9 @@ input[type="radio"] {
         </div>
     </div>
 
+    <div class="col-sm-1" id="opciones_botones">
+    </div> 
+    
     <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -132,25 +135,74 @@ input[type="radio"] {
         </div>
     </div>
 
-    <script>
-    $(document).ready(function() {
-        ListarMesas('#mesascantidad');
-    });
-    </script>
+    <div class="modal fade" id="idModalCobrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Cobrar</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body row">
+                    <div class="col-md-3">
+                        <h4 class="text-center">EFECTIVO</h4>
+                        <input type="number" class="form-control" placeholder="Efectivo" id="idefectivo"
+                            name="idefectivo" />
+                    </div>
+                    <div class="col-md-2">
+                        <h4 class="text-center">VISA</h4>
+                        <input type="number" class="form-control" placeholder="Visa" id="idvisa" name="idvisa" />
+                    </div>
+                    <div class="col-md-2">
+                        <h4 class="text-center">YAPE</h4>
+                        <input type="number" class="form-control" placeholder="Yape" id="idyape" name="idyape" />
+                    </div>
+                    <div class="col-md-2">
+                        <h4 class="text-center">PLIN</h4>
+                        <input type="number" class="form-control" placeholder="Plin" id="idplin" name="idplin" />
+                    </div>
 
+                    <div class="col-md-3">
+                        <h4 class="text-center">Total</h4>
+                        <input type="number" class="form-control" placeholder="Total" name="totalid" id="idtotal" disabled
+                            name="idplin" />
+                        <input type="number" class="form-control" placeholder="Total" name="totalid" id="idpedido_cobrar" style="display: none"
+                            disabled name="idplin" />
 
-    <?php if ($_SESSION['idperfil'] == 1) { ?>
-    <!--COCINA -->
-    <div class="modal-body">
-        <div class="row" id="idpedidos_cocina">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                    <button type="button" class="btn btn-primary" onclick="CobrarSumar()">Guardar</button>
+                </div>
+            </div>
         </div>
     </div>
-    <script>
-    $(document).ready(function() {
-        ListarMesasPedidos();
-    });
-    </script>
-    <?php
+</div>
+
+
+
+<script>
+$(document).ready(function() {
+    ListarMesas('#mesascantidad');
+});
+</script>
+
+
+<?php if ($_SESSION['idperfil'] == 1) { ?>
+<!--COCINA -->
+<div class="modal-body">
+    <div class="row" id="idpedidos_cocina">
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    ListarMesasPedidos();
+});
+</script>
+<?php
     }
     ?>
 </div>

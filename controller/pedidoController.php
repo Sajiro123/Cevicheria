@@ -50,12 +50,12 @@ class pedidoController extends cnSql
         runSQLReporte($sql);
     }
 
-    function CobrarPedido($mesa, $idpedido)
-    {
+    function CobrarPedido($mesa, $idpedido,$data)
+    {  
         $sql = "update mesa set estado=0 where idmesa='$mesa';";
         runSQLReporte($sql);
 
-        $sql = "update pedido set estado=3 where idpedido='$idpedido';";
+        $sql = "update pedido set estado=3,plin=$data[plin],efectivo=$data[efectivo],yape=$data[yape],visa=$data[visa] where idpedido='$idpedido';";
         runSQLReporte($sql);
     }
 
@@ -201,7 +201,7 @@ class pedidoController extends cnSql
     function TicketCocinaPdf($idpedido)
     {
 
-        $sql = "select p.descuento,p.comentario, p2.acronimo,p1.idproducto,p2.idcategoria, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad FROM pedido p" .
+        $sql = "select DATE_FORMAT(p.created_at,'%H:%i:%s') as pedido_hora, p1.lugarpedido, p.descuento,p.comentario, p2.acronimo,p1.idproducto,p2.idcategoria, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad FROM pedido p" .
             " INNER JOIN pedidodetalle p1 ON p.idpedido=p1.idpedido" .
             " INNER JOIN producto p2 ON p1.idproducto=p2.idproducto " .
             " INNER JOIN categoria c ON c.idcategoria=p1.idcategoria" .
@@ -277,7 +277,7 @@ switch ($function) {
         $pedidoclass->DeletePedidoMesa($_REQUEST['mesa'], $_REQUEST['idpedido']);
         break;
     case "CobrarPedido":
-        $pedidoclass->CobrarPedido($_REQUEST['mesa'], $_REQUEST['idpedido']);
+        $pedidoclass->CobrarPedido($_REQUEST['mesa'], $_REQUEST['idpedido'], $_REQUEST['data']);
         break;
     case "ReporteProductoDetalle":
         $pedidoclass->ReporteProductoDetalle($_REQUEST['idpedido']);
