@@ -183,20 +183,25 @@ function GenerarTicketCocina(&$pdf,$data_)
 	$pdf->Ln(6);
 
 	foreach($data_ as $row){
-		// $pdf->SetX(1);
+		if($row['pedido_estado'] != 1){
+			$pdf->SetX(1);
+			// $pdf->SetY(3);
 
-		$pdf->SetTextColor(0,0,0);  
+			$pdf->SetTextColor(0,0,0);  
 
-		$comentario=$row['comentario'];
-		$pdf->SetFont('Arial', 'B', 12);
-		$pdf->Cell(-10,4,$row['cantidad'],0,'L'); 
-		$pdf->Cell(50, -4, $row['acronimo'],0,0,'R');
-		$pdf->SetFont('Arial', 'B', 10);  
-		// $pdf->Cell(15, -4,  number_format(round($row['total'],2), 2, ',', '24'),0,0,'R');
-		$pdf->SetTextColor(194,8,8);  
- 		$pdf->Cell(13, -4,  ($row['lugarpedido'] == 1 ? 'Mesa' : 'Llevar'),0,0,'R'); 
- 		$pdf->Ln(0);
+			$comentario=$row['comentario'];
+			$pdf->SetFont('Arial', 'B', 14);
+			$pdf->Cell(-10,4,$row['cantidad'],0,'L'); 
+			$pdf->SetX(9);
+			$pdf->SetFont('Arial', 'B', 12);
 
+			$pdf->Cell(50, -4, $row['acronimo'],0,0,'R');
+			$pdf->SetFont('Arial', 'B', 10);  
+			// $pdf->Cell(15, -4,  number_format(round($row['total'],2), 2, ',', '24'),0,0,'R');
+			$pdf->SetTextColor(194,8,8);  
+			$pdf->Cell(13, -4,  ($row['lugarpedido'] == 1 ? 'Mesa' : 'Llevar'),0,0,'R'); 
+			$pdf->Ln(0);
+		}
 	}
 	
 	$pdf->SetTextColor(0,0,0);   

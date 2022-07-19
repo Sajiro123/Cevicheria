@@ -1,13 +1,15 @@
 <script type="text/javascript" src="./js/page_js/NuevoPedido.js"></script>
-<link href="css/page_css/editarPedido.css" rel="stylesheet"> 
+<link href="css/page_css/editarPedido.css" rel="stylesheet">
 <style type="text/css">
-   
+
 
 
 </style>
 <?php 
 if(isset($_GET['mesa'])){
    $mesaid = $_GET['mesa'];  
+}else{
+    $mesaid=0;
 }
 ?>
 <input type="hidden" id="idmesas" name="" value="<?php echo $mesaid?>">
@@ -48,12 +50,14 @@ if(isset($_GET['mesa'])){
                         <div class="d-flex justify-content-end"><strong>
                                 <span>Descuentos (-) </span> <span style="padding-left: 1em;">
                                     S/</span></strong>
-                            <div class="text-right pl-3" style="width: 7rem;"><input type="number" value="0" min="0" step="0.01" id="iddescuento"
-                                    placeholder="Desc." class="form-control form-control-sm text-right discount-input"
+                            <div class="text-right pl-3" style="width: 7rem;"><input type="number" value="0" min="0"
+                                    step="0.01" id="iddescuento" placeholder="Desc."
+                                    class="form-control form-control-sm text-right discount-input"
                                     style="background-position: left calc(0.2em) center;border-color: rgba(0, 0, 0, 0.08);margin-left: 13px;margin-top: -6px;">
                             </div>
                         </div>
                     </div>
+                    
                     <div class="row">
                         <div class="mb-2 col-md-6">
                         </div>
@@ -122,8 +126,7 @@ if(isset($_GET['mesa'])){
             </div>
         </div>
     </section>
-</div>
-<link href="./library/plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
+ <link href="./library/plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
 <script src='./library/plugins/datepicker/bootstrap-datepicker.js' type='text/javascript'></script>
 <script>
 $(document).ready(function() {
