@@ -59,16 +59,17 @@ function GenerarTicket(&$pdf,$data_)
 {
 	$fecha=date('d/m/Y H:i:s');
 	$mesa='';
-	$totalidad='';
+	$totalidad=0;
+	$descuento=0;
 	$idpedido='';
 
-	foreach($data_ as $row){
-		if($row['mesa'] != null){
-			$mesa=$row['mesa'];
-			$totalidad=$row['totalidad'];
-			$idpedido=$row['idpedido'];
-		} 
-	}
+	foreach($data_ as $row){ 
+ 			$descuento=$row['descuento'];
+			$mesa=(isset($row['mesa']) ? $row['mesa'] :'' ); 
+			$totalidad+=intval($row['precioU']) * intval($row['cantidad']);
+ 			$idpedido=$row['idpedido'];
+ 	}
+	
 	// CABECERA
 	$pdf->SetFont('Helvetica','',12);
 	$pdf->Cell(60,4,'CEVICHERIA WILLY GOURMET',0,1,'C');
@@ -110,6 +111,9 @@ function GenerarTicket(&$pdf,$data_)
  		$pdf->Ln(0);
 
 	}
+
+	$totalidad = $totalidad - intval($descuento);
+
 	$pdf->Ln(6);
 
  	$pdf->SetFont('Helvetica','',9); 
@@ -121,9 +125,103 @@ function GenerarTicket(&$pdf,$data_)
 	 
 	// PIE DE PAGINA
 	$pdf->Ln(4);
+	if($descuento != 0){
+		$pdf->SetFont('Helvetica','',12);
+		$pdf->Cell(60,0,'DESCUENTO: S/'.$descuento,0,1,'C');
+		$pdf->Ln(4); 
+		$pdf->Ln(2);  
+	}
+	$pdf->SetFont('Arial','B',15); 
 	$pdf->Cell(60,0,'TOTAL: S/'.$totalidad,0,1,'C');
 	$pdf->Ln(3); 
 	$pdf->Ln(3); 
+	
+	$pdf->Output('ticket.pdf','i');
+}
+
+// Tabla coloreada
+function GenerarTicketCocina(&$pdf,$data_)
+{
+	$fecha=date('d/m/Y H:i:s');
+	$mesa='';
+	$totalidad=0;
+	$descuento=0;
+	$idpedido='';
+	$Hora='';
+
+	foreach($data_ as $row){ 
+ 		if($row['mesa'] != null){
+			$descuento=$row['descuento'];
+			$mesa=$row['mesa']; 
+			$totalidad+=intval($row['precioU']) * intval($row['cantidad']);
+			$idpedido=$row['idpedido'];
+			$Hora=$row['pedido_hora'];  
+		} 
+	}
+	// CABECERA
+	$pdf->SetFont('Helvetica','',12);
+	$pdf->Cell(60,4,'CEVICHERIA WILLY GOURMET',0,1,'C');
+	$pdf->Ln(3); 
+	$pdf->SetFont('Helvetica', 'B', 14);  
+	$pdf->Cell(60,4,'Mesa   : '.$mesa,0,1,'C'); 
+	$pdf->Ln(3); 
+	$pdf->Cell(60,4,'HORA   : '.$Hora,0,1,'C'); 
+	// DATOS FACTURA   
+ 	$pdf->Ln(8);
+	
+	if($mesa !=''){
+
+		$pdf->SetFont('Helvetica', '', 14); 
+		$pdf->Ln(0.5); 
+		$pdf->SetX(0);
+
+		$pdf->Cell(0, 3, '- - - - - - - - - - - - - - - - - - - - - - - - - - ', 0);
+		$pdf->Ln(0.7); 
+ 		$pdf->Ln(3.5);
+	} 
+	$comentario="";
+	$pdf->Ln(6);
+
+	foreach($data_ as $row){
+		if($row['pedido_estado'] != 1){
+			$pdf->SetX(1);
+			// $pdf->SetY(3);
+
+			$pdf->SetTextColor(0,0,0);  
+
+			$comentario=$row['comentario'];
+			$pdf->SetFont('Arial', 'B', 14);
+			$pdf->Cell(-10,4,$row['cantidad'],0,'L'); 
+			$pdf->SetX(9);
+			$pdf->SetFont('Arial', 'B', 12);
+
+			$pdf->Cell(50, -4, $row['acronimo'],0,0,'R');
+			$pdf->SetFont('Arial', 'B', 10);  
+			// $pdf->Cell(15, -4,  number_format(round($row['total'],2), 2, ',', '24'),0,0,'R');
+			$pdf->SetTextColor(194,8,8);  
+			$pdf->Cell(13, -4,  ($row['lugarpedido'] == 1 ? 'Mesa' : 'Llevar'),0,0,'R'); 
+			$pdf->Ln(0);
+		}
+	}
+	
+	$pdf->SetTextColor(0,0,0);   
+	$pdf->Ln(6);
+	$pdf->Ln(6);
+ 	$pdf->Ln(6);
+
+ 	$pdf->SetFont('Helvetica','',9); 
+	$pdf->Cell(60,0,'DETALLES DEL PEDIDO :',0,1,'C');
+	$pdf->Ln(3);
+	$pdf->SetFont('Arial','B',15);  
+	$pdf->Cell(0, 3.5, '* * * * * * * * * * * * * * * * *', 0);
+	$pdf->Ln(3);
+	$pdf->Ln(3);
+ 	$pdf->SetFont('Helvetica','',12);
+	$pdf->SetTextColor(194,8,8); 
+	$pdf->Cell(60,0,$comentario,0,1,'C');
+	$pdf->SetTextColor(0,0,0); 
+
+  
 	$pdf->Output('ticket.pdf','i');
 }
 
@@ -135,8 +233,23 @@ class reporteDetalle{
 	}
 	function imprimir ($data_){  
 		$pdf = new PDF('P','mm',array(80,150));  
-		$pdf->AddPage(); 
+		    // $html2pdf = new Html2Pdf('P', 'A4', 'fr', true, 'UTF-8', array(15, 5, 15, 5));
+
+		$pdf->SetDisplayMode("fullpage");
+		$pdf->AddPage();  
 		$pdf->GenerarTicket($pdf,$data_);
+		$pdf->Output();
+
+		return $pdf;
+	}
+
+	function imprimirCocina ($data_){  
+		$pdf = new PDF('P','mm',array(80,150));  
+		    // $html2pdf = new Html2Pdf('P', 'A4', 'fr', true, 'UTF-8', array(15, 5, 15, 5));
+
+		$pdf->SetDisplayMode("fullpage");
+		$pdf->AddPage();  
+		$pdf->GenerarTicketCocina($pdf,$data_);
 		$pdf->Output();
 
 		return $pdf;
