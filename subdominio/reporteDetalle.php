@@ -191,16 +191,16 @@ function GenerarTicketCocina(&$pdf,$data_)
 
 			$comentario=$row['comentario'];
 			$pdf->SetFont('Arial', 'B', 14);
-			$pdf->Cell(-10,4,$row['cantidad'],0,'L'); 
-			$pdf->SetX(9);
+			$pdf->Cell(20,-4,$row['cantidad'],0,'L'); 
+			$pdf->SetX(1.5);
 			$pdf->SetFont('Arial', 'B', 12);
 
 			$pdf->Cell(50, -4, $row['acronimo'],0,0,'R');
-			$pdf->SetFont('Arial', 'B', 10);  
-			// $pdf->Cell(15, -4,  number_format(round($row['total'],2), 2, ',', '24'),0,0,'R');
-			$pdf->SetTextColor(194,8,8);  
+			$pdf->SetFont('Arial', 'B', 13);  
+			$pdf->Cell(15, -4,  $row['precioU'],0,0,'R');
+			$pdf->SetTextColor(0,0,0);  
 			$pdf->Cell(13, -4,  ($row['lugarpedido'] == 1 ? 'Mesa' : 'Llevar'),0,0,'R'); 
-			$pdf->Ln(0);
+			$pdf->Ln(5);
 		}
 	}
 	
