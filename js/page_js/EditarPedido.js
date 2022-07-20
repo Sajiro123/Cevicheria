@@ -5,7 +5,7 @@ var total=0;
 var array_img='images/platos_pedido/';
 var array_productos=[];
 var Array_categoria=[];
-
+var ROW_PRECIO="";
 
 var date = new Date()
 
@@ -268,8 +268,10 @@ function agregarProducto(row,status = false) {
       "<button  onclick='sumarinput(this)'><i class='fa fa-plus' style='color: red;'></i></button>"+
       '<input  min="0" name="quantity"  type="number" value="1" style="text-align: center;height: 28px;" class="quantity"  />'+ 
       "<button  onclick='restarinput(this)'.stepUp()\"><i  style='color: red;' class='fa fa-minus'></i></button>"+
-      '  </div>'+      '<td style="text-align: center;FONT-SIZE: 17px;">'+data.preciounitario +"</td>" +
-      '<td style="text-align: center;FONT-SIZE: 17px;">' +total_multiplicado +"</td>" +      
+      '  </div></td>'+ 
+      '<td style="text-align: center;FONT-SIZE: 17px;">'+data.preciounitario +"</td>" +
+      '<td style="text-align: center;FONT-SIZE: 17px;">' +total_multiplicado +"</td>" +
+      "<td>" +'<span class="fa fa-money" aria-hidden="true" style="cursor:pointer;font-size:19px;color:red" onclick="cambiarPrecioModal($(this).parent().parent(),'+data.preciounitario+');" ></span>' +"</td>" +
       "<td>" +'<span class="fa fa-trash" aria-hidden="true" style="cursor:pointer;font-size:19px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' +"</td>" +
       "</tr>"
   );
@@ -279,6 +281,39 @@ function agregarProducto(row,status = false) {
 
   actualizarPedido();
 
+
+}
+function cambiarPrecioModal(row) {
+  $('#idcambioprecio').focus()
+  $('#idcambioprecio').select()
+  ROW_PRECIO=row;
+  $('#ModalCambiarPrecio').modal('show');   
+}
+
+function cambiarPrecio(){
+  debugger;
+  var row = ROW_PRECIO;
+  var i=0;
+  var precio=$('#idcambioprecio').val();
+  var cantidad=0;
+  $(row[0]).attr('data-precio',precio); 
+
+   $.each($(row[0]).children(),function(){
+      if(i == 4){
+        cantidad = $(this).children().children('input');      
+        cantidad = parseInt($(cantidad).val());     
+      }
+      if(i == 5){
+         this.innerText=precio;  
+      }
+      if(i == 6){
+         this.innerText=parseInt(cantidad) * parseInt(precio) ;  
+     }
+      i++;
+  }); 
+  actualizarPedido();
+
+  $('#ModalCambiarPrecio').modal('hide');
 
 }
 
@@ -532,6 +567,7 @@ function ListarPedido(){
             '  </td>' +  
             '<td class="text-center" style="FONT-SIZE: 17px;">' + (this.precioU == null ? "" : this.precioU) + '</td>' +
             '<td class="text-center" style="FONT-SIZE: 17px;">' + (this.total == null ? "" : this.total) + '</td>' +  
+            "<td>" +'<span class="fa fa-money" aria-hidden="true" style="cursor:pointer;font-size:19px;color:red" onclick="cambiarPrecioModal($(this).parent().parent(),'+data.preciounitario+');" ></span>' +"</td>" +
             "<td>" +'<span class="fa fa-trash" aria-hidden="true" style="cursor:pointer;font-size:19px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' +"</td>" +
             '<td class="text-center" style="display: none">' + (this.pedido_estado == null ? "" : this.pedido_estado) + '</td>' + 
             '</tr>';
