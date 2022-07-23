@@ -5,7 +5,7 @@ var total=0;
 var array_img='images/platos_pedido/';
 var array_productos=[];
 var Array_categoria=[];
-
+var ROW_PRECIO="";
 
 var date = new Date()
 
@@ -270,8 +270,9 @@ function agregarProducto(row,status = false) {
       "<button  onclick='sumarinput(this)'><i class='fa fa-plus'></i></button>"+
       '<input  min="0" name="quantity"  type="number" value="1" style="text-align: center;height: 28px;" class="quantity"  />'+ 
       "<button  onclick='restarinput(this)'.stepUp()\"><i class='fa fa-minus'></i></button>"+
-      '  </div>'+      '<td style="text-align: center;FONT-SIZE: 17px;">S/'+data.preciounitario +"</td>" +
+      '  </div></td>'+      '<td style="text-align: center;FONT-SIZE: 17px;">S/'+data.preciounitario +"</td>" +
       '<td style="text-align: center;FONT-SIZE: 17px;">' +total_multiplicado +"</td>" +      
+      "<td>" +'<span class="fa fa-money" aria-hidden="true" style="cursor:pointer;font-size:19px;color:red" onclick="cambiarPrecioModal($(this).parent().parent(),'+data.preciounitario+');" ></span>' +"</td>" +
       "<td>" +'<span class="fa fa-trash" aria-hidden="true" style="cursor:pointer;font-size:19px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' +"</td>" +
       "</tr>"
   );
@@ -281,6 +282,41 @@ function agregarProducto(row,status = false) {
 
   actualizarPedido();
 
+
+}
+
+function cambiarPrecioModal(row) {
+  debugger;
+  $('#idcambioprecio').focus()
+  $('#idcambioprecio').select()
+  ROW_PRECIO=row;
+  $('#ModalCambiarPrecio').modal('show');   
+}
+
+function cambiarPrecio(){
+  debugger;
+  var row = ROW_PRECIO;
+  var i=0;
+  var precio=$('#idcambioprecio').val();
+  var cantidad=0;
+  $(row[0]).attr('data-precio',precio); 
+
+   $.each($(row[0]).children(),function(){
+      if(i == 4){
+        cantidad = $(this).children().children('input');      
+        cantidad = parseInt($(cantidad).val());     
+      }
+      if(i == 5){
+         this.innerText=precio;  
+      }
+      if(i == 6){
+         this.innerText=parseInt(cantidad) * parseInt(precio) ;  
+     }
+      i++;
+  }); 
+  actualizarPedido();
+
+  $('#ModalCambiarPrecio').modal('hide');
 
 }
 

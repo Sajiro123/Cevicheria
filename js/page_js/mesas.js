@@ -388,6 +388,8 @@ function estadoPedido(row){
          } 
         }).done(function() {
             $("#overlay").fadeOut(); 
+            window.location.reload(1);
+
         });
     }else{
         $.ajax({
@@ -401,6 +403,8 @@ function estadoPedido(row){
           } 
          }).done(function() {
             $("#overlay").fadeOut(); 
+            window.location.reload(1);
+
         });
 
     }

@@ -126,6 +126,29 @@ if(isset($_GET['mesa'])){
             </div>
         </div>
     </section>
+    
+<div class="modal fade" id="ModalCambiarPrecio" tabindex="-1" role="dialog" aria-labelledby="ModalCambiarPrecioLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalCambiarPrecioLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <h2 class="text-center"> Ingresar Precio</h2>
+            <br/>
+            <input type="number" id="idcambioprecio" autofocus class="form-control" placeholder="Precio" />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="cambiarPrecio() ">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
  <link href="./library/plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
 <script src='./library/plugins/datepicker/bootstrap-datepicker.js' type='text/javascript'></script>
 <script>
