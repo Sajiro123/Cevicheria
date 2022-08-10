@@ -16,7 +16,8 @@ class pedidoController extends cnSql
 
     function CargarDataProducto()
     {
-        $sql = "select  * from products p where p.deleted is null order by nombre desc";
+        $sql = "select  p.*,c.nombre as categoria from products p INNER JOIN categors c ON c.idcategoria=p.idcategoria where p.deleted is null order by nombre desc";
+       
         $row_registro = $this->SelectSql($sql);
         echo json_encode($row_registro);
     }

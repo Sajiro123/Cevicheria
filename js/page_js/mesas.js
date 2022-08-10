@@ -252,6 +252,7 @@ function RegresarMesas(){
 }
 
 function ListarMesas(id){
+    $('#idloader').css('display','block');
    $.ajax({
                    url: "./controller/pedidoController.php",
                    type: "POST",
@@ -305,6 +306,9 @@ function ListarMesas(id){
                                        } else {  
                                        ARRAY_PEDIDO=result;
                                        } 
+                                       $('#idcard').css('display','flex');
+                                       $('#idloader').css('display','none');
+
                                    }
                            }, JSON).done(function() {
                             $("#overlay").fadeOut(); 

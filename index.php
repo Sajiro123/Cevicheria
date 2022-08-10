@@ -58,6 +58,30 @@
 html {
     zoom: 90%;
 }
+
+.loader {
+    
+    z-index: -10px;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 </style>
 <!--end::Head-->
 <!--begin::Body-->
@@ -67,6 +91,7 @@ html {
     style="--kt-toolbar-height:55px;--kt-toolbar-height-tablet-and-mobile:55px">
     <!--begin::Main-->
     <!--begin::Root-->
+    
     <div class="d-flex flex-column flex-root">
         <!--begin::Page-->
         <div class="page d-flex flex-row flex-column-fluid">
@@ -159,6 +184,14 @@ html {
                                                 <span class="bullet bullet-dot"></span>
                                             </span>
                                             <span class="menu-title">Nuevo Pedido</span>
+                                        </a>
+                                    </div>
+                                    <div class="menu-item">
+                                        <a class="menu-link active" href="?page=productos">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Nuevo Producto</span>
                                         </a>
                                     </div>
                                     <!-- <a class="" href="?page=Caja" style="color: #280909;">       -->
@@ -268,7 +301,13 @@ html {
                                                 </a> 
                                             </span> 
                                         </div>
-
+                                        <div class="menu-item here show menu-lg-down-accordion me-lg-1"> 
+                                            <span class="menu-link py-3">
+                                                <a class="menu-link active" href="?page=productos">
+                                                    <span class="menu-title">Nuevo Producto</span>
+                                                </a> 
+                                            </span> 
+                                        </div>
                                         <!--                                         
                                         <div data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
                                             class="menu-item menu-lg-down-accordion me-lg-1">
@@ -2512,6 +2551,7 @@ html {
                 <!--end::Header-->
                 <!--begin::Content-->
                 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+               
                     <!--begin::Toolbar-->
                     <div class="toolbar" id="kt_toolbar">
                         <!--begin::Container-->
@@ -2522,6 +2562,8 @@ html {
                                 class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0">
                                 <!--begin::Title-->
                                 <h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">
+                                
+
                                     <?php if(isset( $_GET['page']))echo $_GET['page'] ?>
                                     <!--begin::Separator-->
                                     <span class="h-20px border-1 border-gray-200 border-start ms-3 mx-2 me-1"></span>
