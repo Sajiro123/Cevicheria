@@ -71,8 +71,8 @@ input[type="radio"] {
 
 }
 </style>
-
-<div class="row">
+<div class="loader" id="idloader" style="display:none;"></div>
+<div class="row" id="idcard" style="display:none;">
     <div class="col-sm-5">
         <div id="idmesas">
             <div style="height: 69px;margin-top: -18px;">

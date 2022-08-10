@@ -32,9 +32,9 @@ require '../cnSql.php';
         file_put_contents($path['tmp_name'], $location);
 
 
-        $sql="insert into producto(idcategoria,nombre,codigo,idtipoproducto,idarbol,imagen,acronimo,preciounitario) VALUES($array->idcategoria,'$array->nombre','$array->codigo','$array->idtipoproducto',$array->idarbol,'$name','$array->acronimo',$array->preciounitario)" ;     
+        $sql="insert into products(idcategoria,nombre,codigo,idtipoproducto,idarbol,imagen,acronimo,preciounitario) VALUES($array->idcategoria,'$array->nombre','$array->codigo','$array->idtipoproducto',$array->idarbol,'$name','$array->acronimo',$array->preciounitario)" ;     
         $row_registro=$this->SelectSql($sql); 
-        return header("Location: http://localhost:8079/cevicheria/?page=productos", TRUE, 301);  
+        return header("Location: http://localhost/cevicheria/?page=productos", TRUE, 301);  
     }
     function SelectSql($sql){ 
         $this->getConexion();
