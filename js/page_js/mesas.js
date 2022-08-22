@@ -27,7 +27,6 @@ function mesapiso(valorpiso){
         //     console.log(elemento);
         // });
         $.each(data, function (id_pedido, data_row) {
-            debugger
             var status =true;
              $.each(this,function() {
                     if(this.mesa == 0 && status == true){
@@ -37,7 +36,6 @@ function mesapiso(valorpiso){
                             platos_text+='<span>'+this.acronimo+"</span><br/>";
                         }); 
 
-                        debugger;
                         $('#mesascantidad').append('<div class="col-sm-4 col-xs-4 col-md-4">'+
                         '<div class="card" style="text-align:center;cursor:pointer;border-color: rgb(255 90 0 / 90%)!important;background-color: rgb(232 227 221)!important;width: 203px;height: 262px;" onclick="Opciones_Mesa(0,1,'+this.idpedido+')">'+ 
                         '       <div class="'+clase+'" style="margin-left: 5px;"></div>'+
@@ -306,8 +304,27 @@ function ListarMesas(id){
                                        } else {  
                                        ARRAY_PEDIDO=result;
                                        } 
+                                       
+                                      var mesas_pedidos=[];
+
+                                    _.groupBy(ARRAY_PEDIDO, function (b)  { 
+                                        
+                                        if(!(mesas_pedidos.includes(b.mesa)))
+                                            mesas_pedidos.push(b.mesa);
+                                        return b.mesa 
+                                    }, (mesas_pedidos))
+
+                                    MESAS.forEach(function (row,index){
+                                        if(row.estado == 1){
+                                            if(!(mesas_pedidos.includes(row.numero)))
+                                                MESAS[index]['estado'] = 0;                                            
+                                        }
+
+                                    });
+
                                        $('#idcard').css('display','flex');
                                        $('#idloader').css('display','none');
+                                       mesapiso(1);
 
                                    }
                            }, JSON).done(function() {
@@ -391,8 +408,18 @@ function estadoPedido(row){
                function: "ActualizarEstado"
          } 
         }).done(function() {
+            ARRAY_PEDIDO.forEach(function(values,index){
+                if(values.idpedidodetalle == row.id){
+                    ARRAY_PEDIDO[index]['pedido_estado']=1;
+                    Swal.fire(
+                        "Se Actualizo Correctamente!",
+                        "Actualizo cobro el pedido seleccionado.",
+                        "success"
+                    ); 
+                }
+            });
             $("#overlay").fadeOut(); 
-            window.location.reload(1);
+            // window.location.reload(1);
 
         });
     }else{
@@ -407,8 +434,16 @@ function estadoPedido(row){
           } 
          }).done(function() {
             $("#overlay").fadeOut(); 
-            window.location.reload(1);
-
+            ARRAY_PEDIDO.forEach(function(values,index){
+                if(values.idpedidodetalle == row.id){
+                    Swal.fire(
+                        "Se Actualizo Correctamente!",
+                        "Actualizo cobro el pedido seleccionado.",
+                        "success"
+                    ); 
+                    ARRAY_PEDIDO[index]['pedido_estado']=null;
+                }
+            });
         });
 
     }

@@ -46,7 +46,7 @@ function CargarDataCategoria() {
         $('#idimagenes').prepend(            
           '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3 ">'+
           '<img src="'+array_img+this.url_imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="CargarDataProducto('+this.idcategoria+')" >'+
-          '<h5 class="text-center">'+this.nombre+'</h5>'+
+          '<h3 class="text-center">'+this.nombre+'</h3>'+
           '</div">'  
           ); 
     });
@@ -73,7 +73,7 @@ function CargarDataCategoria() {
                 $('#idimagenes').prepend(            
                   '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3 ">'+
                   '<img src="'+array_img+this.url_imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="CargarDataProducto('+this.idcategoria+')" >'+
-                  '<h5 class="text-center">'+this.nombre+'</h5>'+
+                  '<h3 class="text-center">'+this.nombre+'</h3>'+
                   '</div">'  
                   ); 
             });
@@ -121,14 +121,14 @@ function RegresarProducto(){
           '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3 ">'+
           '<span style="display: none">'+data+'</span>'+
           '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="agregarProducto($(this))" >'+
-          '<h5 class="text-center">'+this.nombre+'</h5>'+
+          '<h3 class="text-center">'+this.nombre+'</h3>'+
           '</div">'  
           ); 
       }else{
         $('#idimagenes').prepend(            
           '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3 ">'+
           '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick=\"CargarDataProducto('+this.idcategoria+',\''+this.codigo+'\','+this.idarbol+')\"  >'+
-          '<h5 class="text-center">'+this.nombre+'</h5>'+
+          '<h3 class="text-center">'+this.nombre+'</h3>'+
           '</div">'  
           ); 
       }
@@ -150,7 +150,7 @@ function RegresarProducto(){
       '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3 ">'+
       '<span style="display: none">'+data+'</span>'+
       '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="agregarProducto($(this))" >'+
-      '<h5 class="text-center">'+this.nombre+'</h5>'+
+      '<h3 class="text-center">'+this.nombre+'</h3>'+
       '</div">'  
       ); 
 
@@ -189,14 +189,14 @@ function CargarDataProducto(idcategoria,codigo=0,idarbol=0) {
               '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3 ">'+
               '<span style="display: none">'+data+'</span>'+
               '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="agregarProducto($(this))" >'+
-              '<h5 class="text-center">'+this.nombre+'</h5>'+
+              '<h3 class="text-center">'+this.nombre+'</h3>'+
               '</div">'  
               ); 
           }else{
             $('#idimagenes').prepend(            
               '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3 ">'+
               '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick=\"CargarDataProducto('+this.idcategoria+',\''+this.codigo+'\','+this.idarbol+')\" >'+
-              '<h5 class="text-center">'+this.nombre+'</h5>'+
+              '<h3 class="text-center">'+this.nombre+'</h3>'+
               '</div">'  
               ); 
           }
@@ -218,7 +218,7 @@ function CargarDataProducto(idcategoria,codigo=0,idarbol=0) {
           '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3 ">'+
           '<span style="display: none">'+data+'</span>'+
           '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="agregarProducto($(this))" >'+
-          '<h5 class="text-center">'+this.nombre+'</h5>'+
+          '<h3 class="text-center">'+this.nombre+'</h3>'+
           '</div">'  
           ); 
 

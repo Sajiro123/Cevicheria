@@ -92,7 +92,7 @@ if(isset($_GET['mesa'])){
         </div>
     </section>
     <section class="col-md-12 col-xl-3 col-sm-12 col-lg-3 modal-body">
-        <div class="col-md-12" style="margin-left: -30px;">
+        <div class="col-md-12" >
 
             <div class="card">
                 <div class="row">
@@ -101,7 +101,7 @@ if(isset($_GET['mesa'])){
                         <form id="myForm" onsubmit="return false">
                             <br />
                             <i class="fas fa-arrow-alt-circle-left" onclick="RegresarProducto()"
-                                style="font-size: 38px;cursor: pointer;margin-top: -15px;display:none"
+                                style="font-size: 63px;cursor: pointer;margin-top: -15px;display:none"
                                 id="idregresar"></i>
                             <div class="row" id="idimagenes"></div>
                         </form>
@@ -153,7 +153,7 @@ if(isset($_GET['mesa'])){
 <script src='./library/plugins/datepicker/bootstrap-datepicker.js' type='text/javascript'></script>
 <script>
 $(document).ready(function() {
-    $('#kt_content_container').css('margin-top', '-42px')
+    // $('#kt_content_container').css('margin-top', '-42px')
     // $('#fechapedido').datepicker({
     // 		format: "dd/mm/yyyy",
     // 		todayHighlight: true,
