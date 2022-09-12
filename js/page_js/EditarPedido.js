@@ -255,7 +255,7 @@ function agregarProducto(row,status = false) {
      "data-precio='"+data.preciounitario+"' data-subtotal='"+total_multiplicado+"'>"+
       "<td style='display:none'>" +correlativo +"</td>" +
       "<td style='display:none'>" + categoria_object.nombre + "</td>" +
-      "<td style='FONT-SIZE: 17px;font-weight: 900;'>" + data.nombre +"</td>" +
+      "<td style='FONT-SIZE: 17px;fontweight-: 900;'>" + data.nombre +"</td>" +
       "<td>"+
       '  <div class="switch-label">'+            
       '  <div class="switch-toggle">'+
@@ -271,8 +271,9 @@ function agregarProducto(row,status = false) {
       '  </div></td>'+ 
       '<td style="text-align: center;FONT-SIZE: 17px;">'+data.preciounitario +"</td>" +
       '<td style="text-align: center;FONT-SIZE: 17px;">' +total_multiplicado +"</td>" +
-      "<td>" +'<span class="fa fa-money" aria-hidden="true" style="cursor:pointer;font-size:19px;color:red" onclick="cambiarPrecioModal($(this).parent().parent(),'+data.preciounitario+');" ></span>' +"</td>" +
-      "<td>" +'<span class="fa fa-trash" aria-hidden="true" style="cursor:pointer;font-size:19px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' +"</td>" +
+      "<td>" +'<span class="fa fa-money" aria-hidden="true" style="cursor:pointer;font-size:30px;color:red" onclick="cambiarPrecioModal($(this).parent().parent(),'+data.preciounitario+');" ></span>' +"</td>" +
+      "<td>" +'<span class="fa fa-trash" aria-hidden="true" style="cursor:pointer;font-size:30px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' +"</td>" +
+      "<td>" +'<span class="fa fa-cog" aria-hidden="true" style="cursor:pointer;font-size:30px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' +"</td>" +
       "</tr>"
   );
 
