@@ -272,8 +272,10 @@ function agregarProducto(row,status = false) {
       "<button  onclick='restarinput(this)'.stepUp()\"><i class='fa fa-minus'></i></button>"+
       '  </div></td>'+      '<td style="text-align: center;FONT-SIZE: 17px;">S/'+data.preciounitario +"</td>" +
       '<td style="text-align: center;FONT-SIZE: 17px;">' +total_multiplicado +"</td>" +      
-      "<td>" +'<span class="fa fa-money" aria-hidden="true" style="cursor:pointer;font-size:19px;color:red" onclick="cambiarPrecioModal($(this).parent().parent(),'+data.preciounitario+');" ></span>' +"</td>" +
-      "<td>" +'<span class="fa fa-trash" aria-hidden="true" style="cursor:pointer;font-size:19px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' +"</td>" +
+      "<td>" +'<span class="fa fa-money" aria-hidden="true" style="cursor:pointer;font-size:30px;color:red" onclick="cambiarPrecioModal($(this).parent().parent(),'+data.preciounitario+');" ></span>' +"</td>" +
+      "<td>" +'<span class="fa fa-trash" aria-hidden="true" style="cursor:pointer;font-size:30px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' +"</td>" +
+      "<td>" +'<span class="fa fa-cog" aria-hidden="true" style="cursor:pointer;font-size:30px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' +"</td>" +
+
       "</tr>"
   );
 
