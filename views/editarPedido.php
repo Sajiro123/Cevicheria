@@ -156,7 +156,28 @@ if (isset($_GET['idpedido'])) {
     </div>
   </div>
 </div>
+<div class="modal fade" id="ModalOpcionesPlato" tabindex="-1" role="dialog" aria-labelledby="ModalOpcionesPlatoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="hidden" id="dataopcionplato" class="form-control" />
+                    <input type="hidden" id="dataopcioncorrelativo" class="form-control" />
 
+                    <h3 class="modal-title" id="ModalOpcionesPlatoLabel">Etiquetas Platos</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="id_opciones"></div> 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="GuardarOpcionPlato() ">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <link href="./library/plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
 <script src='./library/plugins/datepicker/bootstrap-datepicker.js' type='text/javascript'></script>
