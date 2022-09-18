@@ -194,6 +194,14 @@ html {
                                             <span class="menu-title">Nuevo Producto</span>
                                         </a>
                                     </div>
+                                    <div class="menu-item">
+                                        <a class="menu-link active" href="?page=reportediario">
+                                            <span class="menu-bullet">
+                                                <span class="bullet bullet-dot"></span>
+                                            </span>
+                                            <span class="menu-title">Reporte Diario</span>
+                                        </a>
+                                    </div>
                                     <!-- <a class="" href="?page=Caja" style="color: #280909;">       -->
 
                                 </div>
@@ -308,6 +316,14 @@ html {
                                                 </a> 
                                             </span> 
                                         </div>
+                                        <!-- <div class="menu-item here show menu-lg-down-accordion me-lg-1"> 
+                                            <span class="menu-link py-3">
+                                                <a class="menu-link active" href="?page=reportediario">
+                                                    <span class="menu-title">Reporte Diario</span>
+                                                </a> 
+                                            </span> 
+                                        </div> -->
+
                                         <!--                                         
                                         <div data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start"
                                             class="menu-item menu-lg-down-accordion me-lg-1">
@@ -2622,8 +2638,11 @@ html {
                                             include('views\Caja.php');
                                                 break;     
                                         case 'productos':  
-                                                    include('views\productos.php');
-                                                        break;   
+                                            include('views\productos.php');
+                                                break;   
+                                        case 'reportediario':  
+                                            include('views\reportediario.php');
+                                                break;
                                                 
                                                 
                                     }

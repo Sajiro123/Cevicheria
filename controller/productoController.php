@@ -36,6 +36,14 @@ require '../cnSql.php';
         $row_registro=$this->SelectSql($sql); 
         return header("Location: http://localhost/cevicheria/?page=productos", TRUE, 301);  
     }
+
+    function Opciones_Producto()
+    {
+        $sql = "select * FROM opciones_producto;";
+        $row_registro = $this->SelectSql($sql);
+        echo json_encode($row_registro);
+    }
+
     function SelectSql($sql){ 
         $this->getConexion();
         $rs_resultado= $this->cnx->prepare($sql);
@@ -53,6 +61,9 @@ $productoController = new productoController();
     switch ($function) {
         case "AgregarProductos":
             $productoController->AgregarProducto($array,$_FILES['imgproducto']);
+            break;   
+        case "Opciones_Producto":
+            $productoController->Opciones_Producto();
             break;   
         default:
             # code...

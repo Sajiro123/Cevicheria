@@ -166,7 +166,7 @@ function GenerarTicketCocina(&$pdf,$data_)
 	}
 	// CABECERA
 	$pdf->SetFont('Helvetica','',10);
-	$pdf->Cell(60,1,'CEVICHERIA WILLY GOURMET '.'00-'.$idpedido,0,1,'C');
+	$pdf->Cell(60,3,'CEVICHERIA WILLY GOURMET '.'00-'.$idpedido,0,1,'C');
 	$pdf->Ln(3); 
 	$pdf->SetFont('Helvetica', 'B', 14);  
 	$pdf->Cell(60,4,'Mesa   : '.$mesa,0,1,'C'); 
@@ -185,7 +185,6 @@ function GenerarTicketCocina(&$pdf,$data_)
 		$pdf->Ln(0.7); 
  		$pdf->Ln(3.5);
 	} 
-	$comentario="";
 	$pdf->Ln(6);
 
 	foreach($data_ as $row){
@@ -195,7 +194,6 @@ function GenerarTicketCocina(&$pdf,$data_)
 
 			$pdf->SetTextColor(0,0,0);  
 
-			$comentario=$row['comentario'];
 			$pdf->SetFont('Arial', 'B', 14);
 			$pdf->Cell(20,-4,$row['cantidad'],0,'L'); 
 			$pdf->SetX(1.5);
@@ -205,26 +203,24 @@ function GenerarTicketCocina(&$pdf,$data_)
 			$pdf->SetFont('Arial', 'B', 13);  
 			$pdf->Cell(15, -4,  $row['precioU'],0,0,'R');
 			$pdf->SetTextColor(0,0,0);  
-			$pdf->Cell(13, -4,  ($row['lugarpedido'] == 1 ? 'Mesa' : 'Llevar'),0,0,'R'); 
-			$pdf->Ln(5);
+			$pdf->Cell(14, -4,  ($row['lugarpedido'] == 1 ? 'Mesa' : 'Llevar'),0,0,'R'); 
+			$pdf->Ln();
+ 
+			if($row['opcionespedido']){ 
+				$pdf->SetFont('Arial', '', 9); 
+				$pdf->Cell(45, 11, '*** '. $row['opcionespedido'].'***',0,0,'C');
+				$pdf->Ln();
+				$pdf->Ln(3);
+			}else{
+				$pdf->Cell(0, 11,'',0,0,'C');
+				$pdf->Ln();
+
+			}
 		}
 	}
 	
-	$pdf->SetTextColor(0,0,0);   
-	$pdf->Ln(6);
-	$pdf->Ln(6);
- 	$pdf->Ln(6);
-
- 	$pdf->SetFont('Helvetica','',9); 
-	$pdf->Cell(60,0,'DETALLES DEL PEDIDO :',0,1,'C');
-	$pdf->Ln(3);
-	$pdf->SetFont('Arial','B',15);  
-	$pdf->Cell(0, 3.5, '* * * * * * * * * * * * * * * * *', 0);
-	$pdf->Ln(3); 
- 	$pdf->SetFont('Helvetica','',12);
-	$pdf->SetTextColor(194,8,8); 
-	$pdf->Cell(60,0,$comentario,0,1,'C');
-	$pdf->SetTextColor(0,0,0); 
+ 
+ 
 
   
 	$pdf->Output('ticket.pdf','i');
@@ -249,7 +245,18 @@ class reporteDetalle{
 	}
 
 	function imprimirCocina ($data_){  
-		$pdf = new PDF('P','mm',array(80,110));  
+		$inicial=110;
+		$items = count($data_);	
+
+		if($items > 5){
+			$inicial+=20;
+		}
+		if($items > 7){
+			$inicial+=12;
+		}
+		 
+		
+		$pdf = new PDF('P','mm',array(90,$inicial));  
 		    // $html2pdf = new Html2Pdf('P', 'A4', 'fr', true, 'UTF-8', array(15, 5, 15, 5));
 
 		$pdf->SetDisplayMode("fullpage");
@@ -260,7 +267,3 @@ class reporteDetalle{
 		return $pdf;
 	}	
 }
-
-
-
-?>
