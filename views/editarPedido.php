@@ -100,7 +100,7 @@ if (isset($_GET['idpedido'])) {
         </div>
     </section>
     <section class="col-md-12 col-xl-3 col-sm-12 col-lg-3 modal-body">
-        <div class="col-md-12" style="margin-left: -30px;">
+        <div class="col-md-12">
 
             <div class="card">
                 <div class="row">
@@ -109,7 +109,7 @@ if (isset($_GET['idpedido'])) {
                         <form id="myForm" onsubmit="return false">
                             <br />
                             <i class="fas fa-arrow-alt-circle-left" onclick="RegresarProducto()"
-                                style="font-size: 38px;cursor: pointer;margin-top: -15px;display:none"
+                                style="font-size: 63px;cursor: pointer;margin-top: -15px;display:none"
                                 id="idregresar"></i>
                             <div class="row" id="idimagenes"></div>
                         </form>
@@ -156,13 +156,34 @@ if (isset($_GET['idpedido'])) {
     </div>
   </div>
 </div>
+<div class="modal fade" id="ModalOpcionesPlato" tabindex="-1" role="dialog" aria-labelledby="ModalOpcionesPlatoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="hidden" id="dataopcionplato" class="form-control" />
+                    <input type="hidden" id="dataopcioncorrelativo" class="form-control" />
 
+                    <h3 class="modal-title" id="ModalOpcionesPlatoLabel">Etiquetas Platos</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="id_opciones"></div> 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="GuardarOpcionPlato() ">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <link href="./library/plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
 <script src='./library/plugins/datepicker/bootstrap-datepicker.js' type='text/javascript'></script>
 <script>
 $(document).ready(function() {
-    $('#kt_content_container').css('margin-top', '-42px')
+    // $('#kt_content_container').css('margin-top', '-42px')
     // $('#fechapedido').datepicker({
     // 		format: "dd/mm/yyyy",
     // 		todayHighlight: true,

@@ -20,6 +20,7 @@ if (!isset($_SESSION['idperfil'])) {
 body {
     font-family: 'Open Sans', sans-serif;
 }
+ 
 
 .pedido_cocina {
     font-size: 17px;
@@ -71,9 +72,9 @@ input[type="radio"] {
 
 }
 </style>
-
-<div class="row">
-    <div class="col-sm-5">
+<div class="loader" id="idloader" style="display:none;"></div>
+<div class="row" id="idcard" style="display:none;">
+    <div class="col-sm-12 col-lg-4">
         <div id="idmesas">
             <div style="height: 69px;margin-top: -18px;">
                 <input type="radio" id="pisouno" name="piso" value="1" style="width: 4%;height: 2em;"
@@ -91,16 +92,16 @@ input[type="radio"] {
         </div>
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-9 col-lg-5" >
 
-        <div id="idopciones" style="margin-top: -46px;">
+        <div id="idopciones" style="margin-top: -28px;">
             <div class="modal-body">
                 <div class="row" id="regresar">
                     <!-- <div class="col-sm-1" style="margin-left: 46px;">
                         <i class="fas fa-arrow-alt-circle-left" onclick="RegresarMesas()" style="font-size:60px;cursor:pointer;"></i>
                     </div> -->
                     <div class="col-sm-10">
-                        <h2 class="text-center" id="mesa" style="font-family: cursive;color: red;"></h2>
+                        <h2 class="text-center" id="mesa" style="font-family: cursive;color: red;font-size: 31px;"></h2>
                     </div>
 
                 </div>
@@ -110,7 +111,7 @@ input[type="radio"] {
         </div>
     </div>
 
-    <div class="col-sm-1" id="opciones_botones">
+    <div class="col-sm-2 col-lg-1"  id="opciones_botones">
     </div> 
     
     <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
@@ -183,6 +184,27 @@ input[type="radio"] {
 </div>
 
 
+<script runat="server">
+  public void Page_Load(Object sender, EventArgs e)
+  {
+    // Define the name and type of the client scripts on the page.
+    String csname1 = "PopupScript";
+    Type cstype = this.GetType();
+        
+    // Get a ClientScriptManager reference from the Page class.
+    ClientScriptManager cs = Page.ClientScript;
+
+    // Check to see if the startup script is already registered.
+    if (!cs.IsStartupScriptRegistered(cstype, csname1))
+    {
+        StringBuilder cstext1 = new StringBuilder();
+        cstext1.Append("<script type=text/javascript> alert('Hello World!') </");
+        cstext1.Append("script>");
+
+        cs.RegisterStartupScript(cstype, csname1, cstext1.ToString());
+    }
+  }
+</script>
 
 <script>
 $(document).ready(function() {

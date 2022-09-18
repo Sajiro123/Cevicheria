@@ -9,14 +9,15 @@ class pedidoController extends cnSql
 
     function CargarDataCategoria()
     {
-        $sql = "select c.idcategoria,c.nombre,c.url_imagen from categors c where c.deleted is  null  order by c.nombre desc " ;
+        $sql = "select c.idcategoria,c.nombre,c.url_imagen from categors c where c.deleted is  null  order by c.nombre desc ";
         $row_registro = $this->SelectSql($sql);
         echo json_encode($row_registro);
     }
 
     function CargarDataProducto()
     {
-        $sql = "select  * from products p where p.deleted is null order by nombre desc";
+        $sql = "select  p.*,c.nombre as categoria from products p INNER JOIN categors c ON c.idcategoria=p.idcategoria where p.deleted is null order by nombre desc";
+
         $row_registro = $this->SelectSql($sql);
         echo json_encode($row_registro);
     }
@@ -50,8 +51,8 @@ class pedidoController extends cnSql
         runSQLReporte($sql);
     }
 
-    function CobrarPedido($mesa, $idpedido,$data)
-    {  
+    function CobrarPedido($mesa, $idpedido, $data)
+    {
         $sql = "update mesa set estado=0 where idmesa='$mesa';";
         runSQLReporte($sql);
 
@@ -61,7 +62,7 @@ class pedidoController extends cnSql
 
     function ReporteProductoDetalle($idpedido)
     {
-        $sql = "select p1.pedido_estado, p.descuento,p.comentario, p1.lugarpedido, p1.idproducto,p2.idcategoria, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad FROM pedido p" .
+        $sql = "select p1.opcionespedido, p1.pedido_estado, p.descuento,p.comentario, p1.lugarpedido, p1.idproducto,p2.idcategoria, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad FROM pedido p" .
             " INNER JOIN pedidodetalle p1 ON p.idpedido=p1.idpedido" .
             " INNER JOIN products p2 ON p1.idproducto=p2.idproducto " .
             " INNER JOIN categors c ON c.idcategoria=p1.idcategoria" .
@@ -70,18 +71,18 @@ class pedidoController extends cnSql
         echo json_encode($row_registro);
     }
 
-    function InsertarProducto($total, $total_pedidos, $fecha, $mesa,$descuento,$comentario)
+    function InsertarProducto($total, $total_pedidos, $fecha, $mesa, $descuento, $comentario)
     {
         $idcliente = $_SESSION['id_user'];
         $fecha_time = date('Y-m-d H:i:s');
 
-        if (isset($mesa)){ 
+        if (isset($mesa)) {
             $sql = "update mesa set estado=1 where numero='$mesa';";
-            runSQLReporte($sql); 
-        }else{
-            $mesa=0;
+            runSQLReporte($sql);
+        } else {
+            $mesa = 0;
         }
-        
+
         $sql = "insert into pedido
         (id_created_at
         ,fecha
@@ -94,8 +95,8 @@ class pedidoController extends cnSql
         )
         VALUES($idcliente,'$fecha',$total_pedidos,'$fecha_time',1,'$mesa',$descuento,'$comentario');";
         // insertar producto;
-        
-         runSQLReporte($sql);
+
+        runSQLReporte($sql);
 
         $sql = "select MAX(idpedido) idpedido FROM pedido;";
         // insertar producto;
@@ -122,7 +123,7 @@ class pedidoController extends cnSql
 
     function ActualizarEstado($value, $idpedidodetalle)
     {
-        
+
         $sql = "update pedidodetalle set pedido_estado='$value'  where idpedidodetalle='$idpedidodetalle';";
         runSQLReporte($sql);
     }
@@ -131,23 +132,23 @@ class pedidoController extends cnSql
     {
         $sql = "select * FROM products p WHERE p.preciounitario IS NOT null";
 
-        if($value)
-          $sql.=" and p.nombre LIKE '%$value%'";
+        if ($value)
+            $sql .= " and p.nombre LIKE '%$value%'";
 
         $row_registro = $this->SelectSql($sql);
         echo json_encode($row_registro);
     }
-    
 
-    function EditarProducto($idpedido, $total, $total_pedidos, $fecha, $mesa,$descuento,$comentario)
+
+    function EditarProducto($idpedido, $total, $total_pedidos, $fecha, $mesa, $descuento, $comentario)
     {
         $fecha_time = date('Y-m-d H:i:s');
         $idcliente = $_SESSION['id_user'];
 
-        
+
         $sql = "update pedido set comentario='$comentario',total_pedidos='$total_pedidos',updated_at='$fecha_time',id_updated_at='$idcliente',descuento='$descuento' where idpedido='$idpedido';";
-        runSQLReporte($sql); 
-        
+        runSQLReporte($sql);
+
         $sql = "update pedidodetalle set deleted = 1 where idpedido='$idpedido';";
         runSQLReporte($sql);
     }
@@ -156,9 +157,10 @@ class pedidoController extends cnSql
     {
         foreach ($detalle_total as $row) {
             $fecha = date('Y-m-d H:i:s');
-            $row['pedido_estado']=(isset($row['pedido_estado']) ?$row['pedido_estado'] : null);
+            $row['pedido_estado'] = (isset($row['pedido_estado']) ? $row['pedido_estado'] : null);
+            $var = ($row['opcionesarray'][0])['opciones'];
+            $opciones= isset($var)? $var : null;
 
-            
             $sql = "insert INTO pedidodetalle
         (idpedido
         ,idcategoria
@@ -167,6 +169,7 @@ class pedidoController extends cnSql
         ,precioU
         ,total
         ,lugarpedido
+        ,opcionespedido
         ,created_at 
         ,pedido_estado,
         id_created_at
@@ -178,7 +181,8 @@ class pedidoController extends cnSql
         '$row[cantidad]',
         '$row[precioU]',
          $row[total],
-        '$row[lugarpedido]',         
+        '$row[lugarpedido]',   
+        '$opciones',      
         '$fecha',
         '$row[pedido_estado]',
         2);";
@@ -204,7 +208,7 @@ class pedidoController extends cnSql
     function TicketCocinaPdf($idpedido)
     {
 
-        $sql = "select p1.pedido_estado,DATE_FORMAT(p.created_at,'%H:%i:%s') as pedido_hora, p1.lugarpedido, p.descuento,p.comentario, p2.acronimo,p1.idproducto,p2.idcategoria, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad FROM pedido p" .
+        $sql = "select p1.opcionespedido, p1.pedido_estado,DATE_FORMAT(p.created_at,'%H:%i:%s') as pedido_hora, p1.lugarpedido, p.descuento,p.comentario, p2.acronimo,p1.idproducto,p2.idcategoria, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad FROM pedido p" .
             " INNER JOIN pedidodetalle p1 ON p.idpedido=p1.idpedido" .
             " INNER JOIN products p2 ON p1.idproducto=p2.idproducto " .
             " INNER JOIN categors c ON c.idcategoria=p1.idcategoria" .
@@ -250,7 +254,7 @@ $cliente = "";
 $data_cliente = "";
 $pedidoclass = new pedidoController();
 date_default_timezone_set("America/Lima");
- 
+
 switch ($function) {
     case "CargarDataCategoria":
         $pedidoclass->CargarDataCategoria();
@@ -296,7 +300,7 @@ switch ($function) {
         break;
     case "BuscarPlatoSearch":
         $pedidoclass->BuscarPlatoSearch($_REQUEST['plato']);
-        break; 
+        break;
     default:
         # code...
         break;
