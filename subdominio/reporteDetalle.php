@@ -203,7 +203,18 @@ function GenerarTicketCocina(&$pdf,$data_)
 			$pdf->Cell(15, -4,  $row['precioU'],0,0,'R');
 			$pdf->SetTextColor(0,0,0);  
 			$pdf->Cell(13, -4,  ($row['lugarpedido'] == 1 ? 'Mesa' : 'Llevar'),0,0,'R'); 
-			$pdf->Ln(5);
+ 			$pdf->Ln();
+ 
+			if($row['opcionespedido']){ 
+				$pdf->SetFont('Arial', '', 9); 
+				$pdf->Cell(45, 11, '*** '. $row['opcionespedido'].'***',0,0,'C');
+				$pdf->Ln();
+				$pdf->Ln(3);
+			}else{
+				$pdf->Cell(0, 11,'',0,0,'C');
+				$pdf->Ln();
+
+			}
 		}
 	}
 	
@@ -221,7 +232,26 @@ class reporteDetalle{
 	{
 	}
 	function imprimir ($data_){  
-		$pdf = new PDF('P','mm',array(80,130));  
+
+		$inicial=113;
+		$items = count($data_);	
+
+		if($items > 3){
+			$inicial+=12;
+		}
+		if($items > 7){
+			$inicial+=12;
+		}
+		if($items > 10){
+			$inicial+=12;
+		}
+		if($items > 12){
+			$inicial+=12;
+		}
+		if($items > 14){
+			$inicial+=12;
+		}
+		$pdf = new PDF('P','mm',array(80,$inicial));  
 		    // $html2pdf = new Html2Pdf('P', 'A4', 'fr', true, 'UTF-8', array(15, 5, 15, 5));
 
 		$pdf->SetDisplayMode("fullpage");
