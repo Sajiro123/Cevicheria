@@ -195,16 +195,15 @@ function GenerarTicketCocina(&$pdf,$data_)
 			$pdf->SetTextColor(0,0,0);  
 
 			$pdf->SetFont('Arial', 'B', 14);
-			$pdf->Cell(20,-4,$row['cantidad'],0,'L'); 
-			$pdf->SetX(1.5);
-			$pdf->SetFont('Arial', 'B', 12);
+			$pdf->Cell(-1,-3,$row['cantidad'],0,0,'L'); 
+ 			$pdf->SetFont('Arial', 'B', 12);
 
 			$pdf->Cell(50, -4, $row['acronimo'],0,0,'R');
 			$pdf->SetFont('Arial', 'B', 13);  
 			$pdf->Cell(15, -4,  $row['precioU'],0,0,'R');
 			$pdf->SetTextColor(0,0,0);  
-			$pdf->Cell(14, -4,  ($row['lugarpedido'] == 1 ? 'Mesa' : 'Llevar'),0,0,'R'); 
-			$pdf->Ln();
+			$pdf->Cell(13, -4,  ($row['lugarpedido'] == 1 ? 'Mesa' : 'Llevar'),0,0,'R'); 
+ 			$pdf->Ln();
  
 			if($row['opcionespedido']){ 
 				$pdf->SetFont('Arial', '', 9); 
@@ -233,7 +232,26 @@ class reporteDetalle{
 	{
 	}
 	function imprimir ($data_){  
-		$pdf = new PDF('P','mm',array(80,130));  
+
+		$inicial=113;
+		$items = count($data_);	
+
+		if($items > 3){
+			$inicial+=12;
+		}
+		if($items > 7){
+			$inicial+=12;
+		}
+		if($items > 10){
+			$inicial+=12;
+		}
+		if($items > 12){
+			$inicial+=12;
+		}
+		if($items > 14){
+			$inicial+=12;
+		}
+		$pdf = new PDF('P','mm',array(80,$inicial));  
 		    // $html2pdf = new Html2Pdf('P', 'A4', 'fr', true, 'UTF-8', array(15, 5, 15, 5));
 
 		$pdf->SetDisplayMode("fullpage");
