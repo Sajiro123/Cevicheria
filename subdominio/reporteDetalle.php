@@ -6,7 +6,7 @@ require('../library/fpdf/fpdf.php');
 
 class PDF extends FPDF
 {
-	public $pathFirma = 'C:\xampp\htdocs\cevicheria\images\logo.png';
+	public $pathFirma = 'C:\laragon\www\cevicheria\images\logo.png';
 	// public $pathFirma = 'http://dulce.com.pe/taller2/subdominio/icon.png';
 	
 // Cargar los datos

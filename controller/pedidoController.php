@@ -9,14 +9,21 @@ class pedidoController extends cnSql
 
     function CargarDataCategoria()
     {
-        $sql = "select c.idcategoria,c.nombre,c.url_imagen from categors c where c.deleted is  null  order by c.nombre desc ";
+        $sql = "select c.idcategoria,c.nombre,c.url_imagen from categoria c where c.deleted is  null  order by c.nombre desc ";
         $row_registro = $this->SelectSql($sql);
         echo json_encode($row_registro);
     }
 
-    function CargarDataProducto()
+    function CargarDataProducto($valor='',$tipo='')
     {
-        $sql = "select  p.*,c.nombre as categoria from products p INNER JOIN categors c ON c.idcategoria=p.idcategoria where p.deleted is null order by nombre desc";
+        if(isset($tipo) && $valor){
+             $sql = "select  p.*,c.nombre as categoria from producto p INNER JOIN categoria c ON c.idcategoria=p.idcategoria".
+            " where p.deleted is null and " .$tipo."=".$valor." order by nombre asc";
+        }else{
+            $sql = "select  p.*,c.nombre as categoria from producto p INNER JOIN categoria c ON c.idcategoria=p.idcategoria where p.deleted is null order by nombre asc";
+        }
+
+        
 
         $row_registro = $this->SelectSql($sql);
         echo json_encode($row_registro);
@@ -33,8 +40,8 @@ class pedidoController extends cnSql
     {
         $sql = "select    DATE_FORMAT(p.created_at,'%H:%i:%s') as pedido_hora,p.comentario,p.descuento, p2.idproducto,p1.lugarpedido,p2.acronimo, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad ,u.nombre usuario,p1.pedido_estado,p1.idpedidodetalle FROM pedido p" .
             " INNER JOIN pedidodetalle p1 ON p.idpedido=p1.idpedido" .
-            " INNER JOIN products p2 ON p1.idproducto=p2.idproducto " .
-            " INNER JOIN categors c ON c.idcategoria=p1.idcategoria" .
+            " INNER JOIN producto p2 ON p1.idproducto=p2.idproducto " .
+            " INNER JOIN categoria c ON c.idcategoria=p1.idcategoria" .
             " INNER JOIN usuarios u ON p.id_created_at=u.idusuario" .
 
             " WHERE p.estado=1  AND p.deleted  IS null  AND p1.deleted  IS null ORDER BY p1.idpedido desc;";
@@ -64,8 +71,8 @@ class pedidoController extends cnSql
     {
         $sql = "select p1.opcionespedido, p1.pedido_estado, p.descuento,p.comentario, p1.lugarpedido, p1.idproducto,p2.idcategoria, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad FROM pedido p" .
             " INNER JOIN pedidodetalle p1 ON p.idpedido=p1.idpedido" .
-            " INNER JOIN products p2 ON p1.idproducto=p2.idproducto " .
-            " INNER JOIN categors c ON c.idcategoria=p1.idcategoria" .
+            " INNER JOIN producto p2 ON p1.idproducto=p2.idproducto " .
+            " INNER JOIN categoria c ON c.idcategoria=p1.idcategoria" .
             " WHERE p.estado=1 AND p.idpedido='$idpedido' AND p.deleted  IS null  AND p1.deleted  IS null ORDER BY p.mesa;";
         $row_registro = $this->SelectSql($sql);
         echo json_encode($row_registro);
@@ -128,12 +135,15 @@ class pedidoController extends cnSql
         runSQLReporte($sql);
     }
 
-    function BuscarPlatoSearch($value)
+    function BuscarPlatoSearch($value,$type)
     {
-        $sql = "select * FROM products p WHERE p.preciounitario IS NOT null";
+        $sql = "select * FROM producto p WHERE p.preciounitario IS NOT null";
 
-        if ($value)
+        if ($type=='nombre'){
             $sql .= " and p.nombre LIKE '%$value%'";
+        }else if ($type){
+            $sql .= " and $type = '$value'";
+        }
 
         $row_registro = $this->SelectSql($sql);
         echo json_encode($row_registro);
@@ -196,8 +206,8 @@ class pedidoController extends cnSql
 
         $sql = "select p.descuento,p.comentario, p2.acronimo,p1.idproducto,p2.idcategoria, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad FROM pedido p" .
             " INNER JOIN pedidodetalle p1 ON p.idpedido=p1.idpedido" .
-            " INNER JOIN products p2 ON p1.idproducto=p2.idproducto " .
-            " INNER JOIN categors c ON c.idcategoria=p1.idcategoria" .
+            " INNER JOIN producto p2 ON p1.idproducto=p2.idproducto " .
+            " INNER JOIN categoria c ON c.idcategoria=p1.idcategoria" .
             " WHERE p.estado=1 AND p.idpedido='$idpedido' AND p.deleted  IS null  AND p1.deleted  IS null ORDER BY p.mesa;";
         $data_json = $this->SelectSql($sql);
         $pdf = new ReporteDetalle();
@@ -210,8 +220,8 @@ class pedidoController extends cnSql
 
         $sql = "select p1.opcionespedido, p1.pedido_estado,DATE_FORMAT(p.created_at,'%H:%i:%s') as pedido_hora, p1.lugarpedido, p.descuento,p.comentario, p2.acronimo,p1.idproducto,p2.idcategoria, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad FROM pedido p" .
             " INNER JOIN pedidodetalle p1 ON p.idpedido=p1.idpedido" .
-            " INNER JOIN products p2 ON p1.idproducto=p2.idproducto " .
-            " INNER JOIN categors c ON c.idcategoria=p1.idcategoria" .
+            " INNER JOIN producto p2 ON p1.idproducto=p2.idproducto " .
+            " INNER JOIN categoria c ON c.idcategoria=p1.idcategoria" .
             " WHERE p.estado=1 AND p.idpedido='$idpedido' AND p.deleted  IS null  AND p1.deleted  IS null ORDER BY p.mesa;";
         $data_json = $this->SelectSql($sql);
         $pdf = new ReporteDetalle();
@@ -263,7 +273,7 @@ switch ($function) {
         $pedidoclass->ListarPedidosMesa();
         break;
     case "CargarDataProducto":
-        $pedidoclass->CargarDataProducto();
+        $pedidoclass->CargarDataProducto(isset($_REQUEST['valor']), isset($_REQUEST['tipo']));
         break;
     case "EditarProducto":
         $pedidoclass->EditarProducto($_REQUEST['idpedido'], $_REQUEST['total'], $_REQUEST['total_pedidos'], $_REQUEST['fechapedido'], $_REQUEST['mesa'], $_REQUEST['descuento'], $_REQUEST['comentario']);
@@ -299,7 +309,7 @@ switch ($function) {
         $pedidoclass->ActualizarEstado($_REQUEST['value'], $_REQUEST['idpedidodetalle']);
         break;
     case "BuscarPlatoSearch":
-        $pedidoclass->BuscarPlatoSearch($_REQUEST['plato']);
+        $pedidoclass->BuscarPlatoSearch($_REQUEST['plato'],$_REQUEST['type']);
         break;
     default:
         # code...

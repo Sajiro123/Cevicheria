@@ -8,8 +8,6 @@ require '../cnSql.php';
         if($array->idarbol == true){$array->idarbol =2;}else{$array->idarbol =1;}  
         if( ! isset($array->idtipoproducto)) {$array->idtipoproducto = null;} 
 
-
-
         $target_dir = "C:/xampp/htdocs/cevicheria/images/platos_pedido/";
         $file = $path['name'];
         $pathe = pathinfo($file);
@@ -32,7 +30,29 @@ require '../cnSql.php';
         file_put_contents($path['tmp_name'], $location);
 
 
-        $sql="insert into products(idcategoria,nombre,codigo,idtipoproducto,idarbol,imagen,acronimo,preciounitario) VALUES($array->idcategoria,'$array->nombre','$array->codigo','$array->idtipoproducto',$array->idarbol,'$name','$array->acronimo',$array->preciounitario)" ;     
+        $sql="insert into producto(idcategoria,nombre,codigo,idtipoproducto,idarbol,imagen,acronimo,preciounitario,id_created_at) VALUES($array->idcategoria,'$array->nombre','$array->codigo','$array->idtipoproducto',$array->idarbol,'$name','$array->acronimo',$array->preciounitario,2)" ;     
+        $row_registro=$this->SelectSql($sql); 
+        return header("Location: http://localhost/cevicheria/?page=productos", TRUE, 301);  
+    }
+
+
+    function EditarProducto($array,$path){
+        $row_registro="";
+        if($array->idproductoeditar){
+            $sql="select * from producto where idproducto = '$array->idproductoeditar'" ;     
+            $row_registro=$this->SelectSql($sql); 
+
+            $sql="delete from producto where idproducto = '$array->idproductoeditar'" ;     
+            $this->SelectSql($sql); 
+        }
+            
+
+        if($array->idarbol == true){$array->idarbol =2;}else{$array->idarbol =1;}  
+        if( ! isset($array->idtipoproducto)) {$array->idtipoproducto = null;}  
+
+        $name =$row_registro->imagen; 
+
+        $sql="insert into producto(idcategoria,nombre,codigo,idtipoproducto,idarbol,imagen,acronimo,preciounitario) VALUES($array->idcategoria,'$array->nombre','$array->codigo','$array->idtipoproducto',$array->idarbol,'$name','$array->acronimo',$array->preciounitario)" ;     
         $row_registro=$this->SelectSql($sql); 
         return header("Location: http://localhost/cevicheria/?page=productos", TRUE, 301);  
     }
@@ -62,6 +82,10 @@ $productoController = new productoController();
         case "AgregarProductos":
             $productoController->AgregarProducto($array,$_FILES['imgproducto']);
             break;   
+        case "EditarProducto":
+            $productoController->EditarProducto($array,$_FILES['imgproducto']);
+            break;   
+            
         case "Opciones_Producto":
             $productoController->Opciones_Producto();
             break;   

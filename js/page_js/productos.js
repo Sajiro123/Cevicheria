@@ -4,13 +4,18 @@ function AbrirModal() {
     $("#exampleModal").modal("show");
 }
 
-function CargarProducto(){
+function CargarProducto(valor='',tipo=''){
+
   $('#idProductoTable tbody').empty();
   $.ajax({
     url: "./controller/pedidoController.php",
     type: "POST",
     datatype: "json",
-    data: { function: "CargarDataProducto"},
+    data: { 
+      function: "CargarDataProducto",
+      valor:valor,
+      tipo:tipo
+  },
     success: function (data) {
      
       var data_ = JSON.parse(data);
@@ -68,8 +73,12 @@ function CargarDataCategoria() {
   
             $.each(data_, function () {
                 $('#idcategoria').prepend('<option value="'+this.idcategoria+'">'+this.nombre+'</option>'); 
+                $('#seltected_categoria').prepend('<option value="'+this.idcategoria+'">'+this.nombre+'</option>'); 
+
             });
           }
+          $('#seltected_categoria').append('<option selected value="">--Seleccionar--</option>'); 
+
           $('#idloader').css('display', 'none')
           $('#idcard').css('display', 'block')
 
@@ -77,6 +86,19 @@ function CargarDataCategoria() {
       },
       JSON
     ); 
+}
+
+function FiltrarDataCategoria(){
+ var valor= $('#seltected_categoria').val(); 
+ CargarProducto(valor,'p.idcategoria');
+}
+
+
+function seleccionaFila(elementFila) {
+  $.each($('#idProductoTable tbody > tr'), function () {
+      $(this).css('background-color', '');    
+  });
+  elementFila.css('background-color', '#17a2b838');
 }
 
 
