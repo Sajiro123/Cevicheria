@@ -79,7 +79,7 @@ function GenerarTicket(&$pdf,$data_)
 	$pdf->SetFont('Helvetica','',12);
 	$pdf->Cell(60,1,'CEVICHERIA WILLY GOURMET',0,1,'C');
 	$pdf->SetFont('Helvetica','',8);
-	$pdf->Cell(60,4,'Nota de Venta: 000-'.$idpedido,0,1,'C');
+	$pdf->Cell(60,6,'Nota de Venta: 000-'.$idpedido,0,1,'C');
 	$pdf->Cell(60,4,'RUC.: 01234567A',0,1,'C'); 
 	$pdf->Image($pdf->pathFirma, 27, 30, 30, 0, 'PNG'); 
 	$pdf->Cell(60,4,'Av.Victor Malazques Mr Lt10 Pachamac-Manchay',0,1,'C');
@@ -94,7 +94,8 @@ function GenerarTicket(&$pdf,$data_)
 	$pdf->Ln(8);
 	$pdf->Ln(5);
  	$pdf->Ln(5);
- 
+	 $pdf->Ln(5);
+
   	$pdf->Cell(60,4,'Fecha     : '.$fecha,0,1,'');
 
 	if($mesa !=''){
@@ -233,7 +234,7 @@ class reporteDetalle{
 	}
 	function imprimir ($data_){  
 
-		$inicial=113;
+		$inicial=120;
 		$items = count($data_);	
 
 		if($items > 3){

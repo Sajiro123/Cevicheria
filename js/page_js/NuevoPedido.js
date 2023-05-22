@@ -34,6 +34,7 @@ $(document).ready(function () {
   ListarPlatosSearch()
   $('#title_secundary').text('El Nº de Mesa es ' + $('#idmesas').val())
   $('#idcreate').append('<a  href="index.php" class="btn btn-dark btn-sm"><i class="fas fa-arrow-left"></i></a>')
+  $('#idcreate2').append('<div class="row"><div class="col-sm-5"><input  style="text-align:center" type="hidden" placeholder="N° Plato" class="form form-control"/>  </div>   <div class="col-sm-3"><ion-icon name="calculator-outline" onclick="$(\'#ModalCalculadora\').modal(\'show\');$(\'#NumberLote\').val(\'\')\" style="font-size: 38px;color: darkorange;"></ion-icon>  </div>  ');
 });
 
 function Opciones_Producto() {
@@ -55,7 +56,11 @@ function CargarProductos() {
     url: "./controller/pedidoController.php",
     type: "POST",
     datatype: "json",
-    data: { function: "CargarDataProducto" },
+    data: { 
+      function: "CargarDataProducto",
+      valor:"",
+      tipo:""
+     },
     success: function (data) {
       var data_ = JSON.parse(data);
       array_productos = data_;
@@ -73,9 +78,10 @@ function CargarDataCategoria() {
 
     $.each(Array_categoria, function () {
       $('#idimagenes').prepend(
-        '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3 ">' +
-        '<img src="' + array_img + this.url_imagen + '" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="CargarDataProducto(' + this.idcategoria + ')" >' +
-        '<h3 class="text-center">' + this.nombre + '</h3>' +
+        '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3" onclick="CargarDataProducto(' + this.idcategoria + ')">' +
+        '<div class="jumbotron">' +
+        '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -24px;">' + this.nombre + '</h3>' +
+        '</div>' +
         '</div">'
       );
     });
@@ -100,9 +106,10 @@ function CargarDataCategoria() {
 
             $.each(data_, function () {
               $('#idimagenes').prepend(
-                '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3 ">' +
-                '<img src="' + array_img + this.url_imagen + '" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="CargarDataProducto(' + this.idcategoria + ')" >' +
-                '<h3 class="text-center">' + this.nombre + '</h3>' +
+                '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3" onclick="CargarDataProducto(' + this.idcategoria + ')">' +
+                '<div class="jumbotron">' +
+                '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -24px;">' + this.nombre + '</h3>' +
+                '</div>' +
                 '</div">'
               );
             });
@@ -123,6 +130,7 @@ function OnchangeProducto() {
 }
 
 function RegresarProducto() {
+  debugger
   if (STATUS_PEDIDO == 1) {
     CargarDataCategoria();
     return;
@@ -148,19 +156,21 @@ function RegresarProducto() {
       if (this.preciounitario) {
         var data = JSON.stringify(this);
         $('#idimagenes').prepend(
-          '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3 ">' +
-          '<span style="display: none">' + data + '</span>' +
-          '<img src="' + array_img + this.imagen + '" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="agregarProducto($(this))" >' +
-          '<h3 class="text-center">' + this.nombre + '</h3>' +
+          '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3" onclick="agregarProducto($(this))">' +
+          '<span style="display: none">' + data + '</span>' + 
+          '<div class="jumbotron">' +
+          '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -24px;">' + this.nombre + '</h3>' +
+          '</div>' +
           '</div">'
         );
       } else {
         $('#idimagenes').prepend(
-          '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3 ">' +
-          '<img src="' + array_img + this.imagen + '" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick=\"CargarDataProducto(' + this.idcategoria + ',\'' + this.codigo + '\',' + this.idarbol + ')\"  >' +
-          '<h3 class="text-center">' + this.nombre + '</h3>' +
+          '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3" onclick=\"CargarDataProducto(' + this.idcategoria + ',\'' + this.codigo + '\',' + this.idarbol + ')\" >' +
+           '<div class="jumbotron">' +
+          '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -24px;">' + this.nombre + '</h3>' +
+          '</div>' +
           '</div">'
-        );
+         );
       }
 
 
@@ -176,13 +186,15 @@ function RegresarProducto() {
 
     $(each_imagenes).each(function () {
       var data = JSON.stringify(this);
+
       $('#idimagenes').prepend(
-        '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3 ">' +
-        '<span style="display: none">' + data + '</span>' +
-        '<img src="' + array_img + this.imagen + '" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="agregarProducto($(this))" >' +
-        '<h3 class="text-center">' + this.nombre + '</h3>' +
-        '</div">'
-      );
+        '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3" onclick="agregarProducto($(this))" >' +
+        '<span style="display: none">' + data + '</span>' + 
+         '<div class="jumbotron">' +
+        '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -24px;">' + this.nombre + '</h3>' +
+        '</div>' +
+        '</div">'  
+       );
 
     });
 
@@ -216,17 +228,19 @@ function CargarDataProducto(idcategoria, codigo = 0, idarbol = 0) {
       if (this.preciounitario) {
         var data = JSON.stringify(this);
         $('#idimagenes').prepend(
-          '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3 ">' +
-          '<span style="display: none">' + data + '</span>' +
-          '<img src="' + array_img + this.imagen + '" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="agregarProducto($(this))" >' +
-          '<h3 class="text-center">' + this.nombre + '</h3>' +
-          '</div">'
-        );
+            '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3" onclick="agregarProducto($(this))">' +
+            '<span style="display: none">' + data + '</span>' + 
+             '<div class="jumbotron">' +
+            '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -24px;">' + this.nombre + '</h3>' +
+            '</div>' +
+            '</div">'
+         );
       } else {
         $('#idimagenes').prepend(
-          '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3 ">' +
-          '<img src="' + array_img + this.imagen + '" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick=\"CargarDataProducto(' + this.idcategoria + ',\'' + this.codigo + '\',' + this.idarbol + ')\" >' +
-          '<h3 class="text-center">' + this.nombre + '</h3>' +
+          '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3" onclick=\"CargarDataProducto(' + this.idcategoria + ',\'' + this.codigo + '\',' + this.idarbol + ')\">' +
+          '<div class="jumbotron">' +
+          '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -24px;">' + this.nombre + '</h3>' +
+          '</div>' +
           '</div">'
         );
       }
@@ -245,12 +259,13 @@ function CargarDataProducto(idcategoria, codigo = 0, idarbol = 0) {
     $(each_imagenes).each(function () {
       var data = JSON.stringify(this);
       $('#idimagenes').prepend(
-        '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3 ">' +
+        '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3 " onclick="agregarProducto($(this))" >' +
         '<span style="display: none">' + data + '</span>' +
-        '<img src="' + array_img + this.imagen + '" class="img-thumbnail img-fluid" alt="Responsive image" width="600PX" onclick="agregarProducto($(this))" >' +
-        '<h3 class="text-center">' + this.nombre + '</h3>' +
+        '<div class="jumbotron">' +
+        '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -24px;">' + this.nombre + '</h3>' +
+        '</div>' +
         '</div">'
-      );
+       );
 
     });
 
@@ -260,7 +275,7 @@ function CargarDataProducto(idcategoria, codigo = 0, idarbol = 0) {
 CargarDataCategoria();
 function agregarProducto(row, status = false) {
   if (!status) {
-    var data = JSON.parse(($(row).parent().children('span'))[0].innerText);
+    var data = JSON.parse(($(row).children('span'))[0].innerText);
   } else {
     var data = JSON.parse($(row).children().children('span')[0].innerText);
   }
@@ -298,7 +313,7 @@ function agregarProducto(row, status = false) {
     '<td style="text-align: center;" width="5%">' +
     '<div class="number-input">' +
     "<button  onclick='sumarinput(this)'><i class='fa fa-plus'></i></button>" +
-    '<input  min="0" name="quantity"  type="number" value="1" style="text-align: center;height: 28px;" class="quantity"  />' +
+    '<input  min="0" name="quantity"  type="number" value="1" style="text-align: center;height: 21px;" class="quantity"  />' +
     "<button  onclick='restarinput(this)'.stepUp()\"><i class='fa fa-minus'></i></button>" +
     '  </div></td>' + '<td style="text-align: center;FONT-SIZE: 17px;">S/' + data.preciounitario + "</td>" +
     '<td style="text-align: center;FONT-SIZE: 17px;">' + total_multiplicado + "</td>" +
@@ -415,10 +430,8 @@ function cantidadPlatos(row) {
 }
 
 function RegistrarPedido() {
+  debugger
 
-  $('#Guardar_tabla').prop('disabled', true).html('<span>Cargando...</span></div>');
-
-  $('#Guardar_tabla').attr('disabled', 'disabled');
 
   if ($("#tbDetalleProducto tbody tr").length == 1 && table_status == false) {
     Swal.fire({
@@ -432,6 +445,10 @@ function RegistrarPedido() {
   var iddescuento = $('#iddescuento').val();
   var idcomentario = $('#idcomentario').val();
 
+  $('#Guardar_tabla').prop('disabled', true).html('<span>Cargando...</span></div>');
+  $('#Guardar_tabla').attr('disabled', 'disabled');
+  
+  
   total_pedidos_count = $("#tbDetalleProducto tbody tr").length;
   $.ajax({
     url: "./controller/pedidoController.php",
@@ -598,7 +615,8 @@ function ListarPlatosSearch() {
     datatype: "json",
     data: {
       function: "BuscarPlatoSearch",
-      plato: plato_text
+      plato: plato_text,
+      type:"nombre"
     },
     success: function (data) {
       var result = JSON.parse(data);
@@ -630,8 +648,7 @@ function ListarPlatosSearch() {
 }
 
 function OpcionesPlato(row) {
-  debugger;
-  $('#id_opciones').empty();
+   $('#id_opciones').empty();
   $('#ModalOpcionesPlato').modal('show');
   var idproducto = $(row[0]).attr('data-idproducto');
   var idcorrelativo = $(row[0]).attr('data-correlativo');
@@ -643,8 +660,9 @@ function OpcionesPlato(row) {
   $('#dataopcionplato').val(idproducto);
   $('#dataopcioncorrelativo').val(idcorrelativo);
 
+  debugger
   var OPCIONES_PRODUCTO_temp = OPCIONES_PRODUCTO.filter(function (producto) {
-    return producto.idproducto;
+    return producto.idproducto === idproducto;
   });
 
   var strHTML = "";
@@ -659,10 +677,10 @@ function OpcionesPlato(row) {
     });
 
     strHTML += '<div class="row">' +
-      '<div class="col-md-1">' +
-      '  <input '+status+' style="width: 178%;height: 2.5em;margin-left: -2%;margin-top: -4px;" class="form-check-input" type="checkbox" id="' + row2.idopciones + '">' +
+      '<div class="col-md-2">' +
+      '  <input '+status+' style="width: 30px;height: 2.5em;margin-left: -2%;margin-top: -4px;" class="form-check-input" type="checkbox" id="' + row2.idopciones + '">' +
       '</div>' +
-      '<div class="col-md-10">' +
+      '<div class="col-md-8">' +
       '   <h1>' + row2.nombre + '</h1>' +
       '</div>' +
       '</div><br/>'

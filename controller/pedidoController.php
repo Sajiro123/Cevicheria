@@ -21,10 +21,7 @@ class pedidoController extends cnSql
             " where p.deleted is null and " .$tipo."=".$valor." order by nombre asc";
         }else{
             $sql = "select  p.*,c.nombre as categoria from producto p INNER JOIN categoria c ON c.idcategoria=p.idcategoria where p.deleted is null order by nombre asc";
-        }
-
-        
-
+        } 
         $row_registro = $this->SelectSql($sql);
         echo json_encode($row_registro);
     }
@@ -98,9 +95,10 @@ class pedidoController extends cnSql
         estado,
         mesa,
         descuento,
-        comentario
+        comentario,
+        total
         )
-        VALUES($idcliente,'$fecha',$total_pedidos,'$fecha_time',1,'$mesa',$descuento,'$comentario');";
+        VALUES($idcliente,'$fecha',$total_pedidos,'$fecha_time',1,'$mesa',$descuento,'$comentario',$total)";
         // insertar producto;
 
         runSQLReporte($sql);
@@ -137,7 +135,7 @@ class pedidoController extends cnSql
 
     function BuscarPlatoSearch($value,$type)
     {
-        $sql = "select * FROM producto p WHERE p.preciounitario IS NOT null";
+        $sql = "select * FROM producto p WHERE p.preciounitario IS NOT null and deleted is null ";
 
         if ($type=='nombre'){
             $sql .= " and p.nombre LIKE '%$value%'";
@@ -156,7 +154,7 @@ class pedidoController extends cnSql
         $idcliente = $_SESSION['id_user'];
 
 
-        $sql = "update pedido set comentario='$comentario',total_pedidos='$total_pedidos',updated_at='$fecha_time',id_updated_at='$idcliente',descuento='$descuento' where idpedido='$idpedido';";
+        $sql = "update pedido set comentario='$comentario',total_pedidos='$total_pedidos',updated_at='$fecha_time',id_updated_at='$idcliente',descuento='$descuento',total='$total' where idpedido='$idpedido';";
         runSQLReporte($sql);
 
         $sql = "update pedidodetalle set deleted = 1 where idpedido='$idpedido';";
@@ -273,7 +271,7 @@ switch ($function) {
         $pedidoclass->ListarPedidosMesa();
         break;
     case "CargarDataProducto":
-        $pedidoclass->CargarDataProducto(isset($_REQUEST['valor']), isset($_REQUEST['tipo']));
+        $pedidoclass->CargarDataProducto($_REQUEST['valor'], $_REQUEST['tipo']);
         break;
     case "EditarProducto":
         $pedidoclass->EditarProducto($_REQUEST['idpedido'], $_REQUEST['total'], $_REQUEST['total_pedidos'], $_REQUEST['fechapedido'], $_REQUEST['mesa'], $_REQUEST['descuento'], $_REQUEST['comentario']);
@@ -309,7 +307,7 @@ switch ($function) {
         $pedidoclass->ActualizarEstado($_REQUEST['value'], $_REQUEST['idpedidodetalle']);
         break;
     case "BuscarPlatoSearch":
-        $pedidoclass->BuscarPlatoSearch($_REQUEST['plato'],$_REQUEST['type']);
+        $pedidoclass->BuscarPlatoSearch($_REQUEST['plato'],isset($_REQUEST['type']));
         break;
     default:
         # code...

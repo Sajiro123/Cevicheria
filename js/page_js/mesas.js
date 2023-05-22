@@ -63,7 +63,6 @@ function mesapiso(valorpiso){
 }
 
 function Opciones_Mesa(id,estado,idpedido=0){   
-    debugger
    if(idpedido == 0){
         if(estado == 0){//agregar nuevo pedido
             // Create anchor element.

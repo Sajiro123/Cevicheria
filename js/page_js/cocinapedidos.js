@@ -63,7 +63,6 @@ function ListarMesasPedidos() {
                 return accumulator;
             }, {});
 
-            debugger
             $.each(array_final, function (id_pedido, data_row) {
                 var status_pedido=false;
 
