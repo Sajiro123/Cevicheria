@@ -27,7 +27,10 @@ $.ajax({
     url: "./controller/pedidoController.php",
     type: "POST",
     datatype: "json",
-    data: { function: "CargarDataProducto"},
+    data: {
+       function: "CargarDataProducto",
+       valor:"",
+       tipo:""},
     success: function (data) {
       var data_ = JSON.parse(data);
       array_productos=data_;
@@ -268,7 +271,7 @@ function agregarProducto(row,status = false) {
      "data-precio='"+data.preciounitario+"' data-subtotal='"+total_multiplicado+"'>"+
       "<td style='display:none'>" +correlativo +"</td>" +
       "<td style='display:none'>" + categoria_object.nombre + "</td>" +
-      "<td style='FONT-SIZE: 17px;fontweight-: 900;'>" + data.nombre +"</td>" +
+      "<td style='FONT-SIZE: 17px;font-weight: 900;'>" + data.nombre +"</td>" +
       "<td>"+
       '  <div class="switch-label">'+            
       '  <div class="switch-toggle">'+
@@ -305,7 +308,6 @@ function cambiarPrecioModal(row) {
 }
 
 function cambiarPrecio(){
-  debugger;
   var row = ROW_PRECIO;
   var i=0;
   var precio=$('#idcambioprecio').val();
@@ -377,10 +379,6 @@ function cantidadPlatos(row){
 
 function EditarPedido(){
  
-  $('#Guardar_tabla').prop('disabled', true).html('<span>Cargando...</span></div>');
-
-  $('#Guardar_tabla').attr('disabled', 'disabled');
-
   if ($("#tbDetalleProducto tbody tr").length == 1 && table_status == false) {
     Swal.fire({
       icon: 'info',
@@ -388,12 +386,17 @@ function EditarPedido(){
      })
      return false;
   } 
+
   var total_=$('#subtotal').text();
   var mesas= $('#idmesas').val();
   var idpedido= $('#idpedido').val();
   var iddescuento= $('#iddescuento').val();
   var idcomentario= $('#idcomentario').val();
 
+  $('#Guardar_tabla').prop('disabled', true).html('<span>Cargando...</span></div>');
+
+  $('#Guardar_tabla').attr('disabled', 'disabled');
+ 
   total_pedidos_count=$("#tbDetalleProducto tbody tr").length;
      $.ajax({
         url: "./controller/pedidoController.php",
@@ -435,7 +438,6 @@ function EditarPedido(){
 
               var totaltd=$(x).children()[6]; //cambiar
               totaltd=totaltd.innerText;
-              debugger
 
               var pedido_estado_=$(x).children()[8]; //cambiar
               if(pedido_estado_ == undefined){
@@ -590,8 +592,8 @@ function ListarPedido(){
             '  </td>' +  
             '<td class="text-center" style="FONT-SIZE: 17px;">' + (this.precioU == null ? "" : this.precioU) + '</td>' +
             '<td class="text-center" style="FONT-SIZE: 17px;">' + (this.total == null ? "" : this.total) + '</td>' +  
-            "<td>" +'<span class="fa fa-money" aria-hidden="true" style="cursor:pointer;font-size:19px;color:red" onclick="cambiarPrecioModal($(this).parent().parent(),'+data.preciounitario+');" ></span>' +"</td>" +
-            "<td>" +'<span class="fa fa-trash" aria-hidden="true" style="cursor:pointer;font-size:19px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' +"</td>" +
+            "<td>" +'<span class="fa fa-money" aria-hidden="true" style="cursor:pointer;font-size:30px;color:red" onclick="cambiarPrecioModal($(this).parent().parent(),'+data.preciounitario+');" ></span>' +"</td>" +
+            "<td>" +'<span class="fa fa-trash" aria-hidden="true" style="cursor:pointer;font-size:30px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' +"</td>" +
             "<td>" + '<span class="fa fa-cog" aria-hidden="true" style="cursor:pointer;font-size:30px;color:red" onclick="OpcionesPlato($(this).parent().parent());" ></span>' + "</td>" +
             '<td class="text-center" style="display: none">' + (this.pedido_estado == null ? "" : this.pedido_estado) + '</td>' + 
             '</tr>';
@@ -680,7 +682,8 @@ function ListarPlatosSearch(){
     datatype: "json",
     data: { 
       function: "BuscarPlatoSearch",
-      plato:plato_text
+      plato:plato_text,
+      type:'todos'
       },
     success: function (data) {  
       var result = JSON.parse(data); 
@@ -694,7 +697,7 @@ function ListarPlatosSearch(){
           '<span style="display: none">'+data+'</span>'+
           '<img src="'+array_img+this.imagen+'" class="img-thumbnail img-fluid" alt="Responsive image" width="300px"  >'+  
           '</td>'+
-            '<td  class="align-middle"><span  style="font-size: 20px;font-family: "Poppins";font-weight: 600;>'+this.nombre+'</span>'+
+            '<td  class="align-middle"><span  style="font-size: 20px;font-family: "Poppins";font-weight: 600;">'+this.nombre+'</span>'+
             '<br > <span  class="text-black-50" style="font-size: 90%;">451223</span>'+
             '</td>'+ 
             '<td  class="text-right font-semi-bold align-middle" style="min-width: 125px;font-size: 18px;font-weight:600">'+
@@ -709,7 +712,6 @@ function ListarPlatosSearch(){
 }
 
 function OpcionesPlato(row) {
-  debugger;
   $('#id_opciones').empty();
   $('#ModalOpcionesPlato').modal('show');
   var idproducto = $(row[0]).attr('data-idproducto');
@@ -723,7 +725,7 @@ function OpcionesPlato(row) {
   $('#dataopcioncorrelativo').val(idcorrelativo);
 
   var OPCIONES_PRODUCTO_temp = OPCIONES_PRODUCTO.filter(function (producto) {
-    return producto.idproducto;
+    return producto.idproducto == idproducto;
   });
 
   var strHTML = "";
@@ -738,10 +740,10 @@ function OpcionesPlato(row) {
     });
 
     strHTML += '<div class="row">' +
-      '<div class="col-md-1">' +
-      '  <input '+status+' style="width: 178%;height: 2.5em;margin-left: -2%;margin-top: -4px;" class="form-check-input" type="checkbox" id="' + row2.idopciones + '">' +
+      '<div class="col-sm-1">' +
+      '  <input '+status+' style="" class="form-check-input" type="checkbox" id="' + row2.idopciones + '">' +
       '</div>' +
-      '<div class="col-md-10" style="margin-left: 22px;">' +
+      '<div class="col-sm-3">' +
       '   <h1>' + row2.nombre + '</h1>' +
       '</div>' +
       '</div><br/><br/>'

@@ -43,7 +43,8 @@
                      <th class="text-center" style="font-size: 15px">Precio</th>
                      <th class="text-center" style="font-size: 15px">Codigo</th>
                      <th class="text-center" style="font-size: 15px">Categoria</th>
-                     <th></th>
+                     <th class="text-center"></th>
+                     <th class="text-center"></th>
                   </tr>
                   <tr class="warning no-result">
                      <td colspan="4"><i class="fa fa-warning"></i> No result</td>
@@ -69,7 +70,7 @@
             </button>
          </div>
          <div class="modal-body">
-            <form id="form" action="./controller/productoController.php?function=AgregarProductos" method="post"
+            <form id="form" action="" method="post"
                enctype="multipart/form-data">
                <div class="row">
                   <div class="col-sm-8 row">
@@ -105,13 +106,12 @@
                            value="" />
                      </div>
                      <label class="col-sm-2 col-xs-6 control-label text-theme mt-2">Nivel 2</label>
-                     <input class="col-sm-7 col-xs-6 mt-3" type="checkbox" name="idarbol" class="form-control"
-                        id="checknivel2" value="true">
+                     <input class="col-sm-7 col-xs-6 mt-3" type="checkbox" name="idarbol" class="form-control" id="checknivel2" value="true">
                   </div>
                   <div class="col-sm-4 ">
                      <img name="" id="img_producto" />
                      <div class="col-sm-12">
-                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                        <!-- <div class="fileinput fileinput-new" data-provides="fileinput">
                            <div class="fileinput-preview img-thumbnail" data-trigger="fileinput" id="id_img"
                               style="width: 200px; height: 150px;"></div>
                            <div>
@@ -123,16 +123,36 @@
                               </span>
                               <a href="#" class="btn btn-outline-secondary fileinput-exists"
                                  data-dismiss="fileinput">Eliminar</a>
-                           </div>
-                        </div>
+                           </div>-->
+                        </div> 
                      </div>
+                     <br/>  
+                  <br/>
+                  <button  type="button" Onclick='($("#opcion_show").css("display")=="none"? $("#opcion_show").css("display","block") : $("#opcion_show").css("display","none"))' style="border: #bb0000;padding: 2px;margin;margin-top: 42px"  class="btn btn-info">Ver más</button>
+                  <div class="row" id="opcion_show" style="display:none">
+                  <br/>
+                  <div class="row">
+                     <h4 class="col-sm-3">Opciones Producto</h4>  
+                     <div class="col-sm-1">
+                         <button onclick="CrearOpciones()" type="button" class="btn btn-success" style="margin-top: -5px;margin-left: -10px;">
+                           <svg style="width: 14px;height:16px;"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg>
+                        </button> 
+                     </div> 
+                  </div> 
+                  <div id="html_opciones">
+
                   </div>
+                  
+                     
+ 
                </div>
                <input type="hidden" name="idproductoeditar" id="idproductoeditar"/>
          </div>
+         </div>
+
          <div class="modal-footer">
          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-         <button type="submit" class="btn btn-success">Save changes</button>
+         <button type="submit" class="btn btn-success" id="id_button_productos">Guardar</button>
          </div>
          </form>
       </div>

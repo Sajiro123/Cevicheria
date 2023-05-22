@@ -55,6 +55,16 @@
     <!--end::Global Stylesheets Bundle-->
 </head>
 <style>
+
+.jumbotron{
+    background-color: #eee;
+    margin-bottom: 30px;
+    color: inherit;
+    background-color: #eee;
+    padding-top: 48px;
+    padding-bottom: 48px;
+}
+
 html {
     zoom: 90%;
 }
@@ -2590,7 +2600,7 @@ html {
                                 </h1>
                                 <!--end::Title-->
                                 <div id="idcreate" style="margin-left: 26px;"></div>
-
+                                <div id="idcreate2" style="margin-left: 33px;"></div>
                             </div>
                             <!--end::Page title-->
                             <!--begin::Actions-->

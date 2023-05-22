@@ -1,9 +1,23 @@
 <script type="text/javascript" src="./js/page_js/NuevoPedido.js"></script>
 <link href="css/page_css/editarPedido.css" rel="stylesheet">
-<style type="text/css">
+<script src="https://unpkg.com/ionicons@latest/dist/ionicons.js"></script>
 
+<style>
+ .colorDashboar{    
+    height: 115px;
+    border: 2px solid #DDD;
+    border-radius: 10px;
+    cursor: pointer;
+}
 
-
+.numbersDashboard{
+  background-color: #FFF;
+  height: 115px;
+  border: 2px solid #DDD;
+  border-radius: 8px;
+  font-size: 2em;
+  cursor: pointer;
+}
 </style>
 <?php
 if (isset($_GET['mesa'])) {
@@ -13,7 +27,6 @@ if (isset($_GET['mesa'])) {
 }
 ?>
 <input type="hidden" id="idmesas" name="" value="<?php echo $mesaid ?>">
-
 <div class="row">
 
     <section class="col-md-12 col-xl-4 col-sm-12 col-lg-4 modal-body">
@@ -86,6 +99,7 @@ if (isset($_GET['mesa'])) {
             </div>
         </div>
     </section>
+    
     <section class="col-md-12 col-xl-3 col-sm-12 col-lg-3 modal-body">
         <div class="col-md-12">
 
@@ -123,7 +137,7 @@ if (isset($_GET['mesa'])) {
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="ModalCambiarPrecioLabel">Modal title</h5>
+                    <h5 class="modal-title" id="ModalCambiarPrecioLabel">Cambiar Precio</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -132,6 +146,56 @@ if (isset($_GET['mesa'])) {
                     <h2 class="text-center"> Ingresar Precio</h2>
                     <br />
                     <input type="number" id="idcambioprecio" autofocus class="form-control" placeholder="Precio" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="cambiarPrecio() ">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ModalCalculadora" tabindex="-1" role="dialog" aria-labelledby="ModalCambiarPrecioLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalCambiarPrecioLabel">N° PLATO</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h2 class="text-center"> Ingresar Plato N°</h2>
+                    <br />
+
+                    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-panel">
+                <div class="row">
+                    <section class="input-filts col-sm-5">
+                        <input type="Number" name="NumberLote" id="NumberLote" placeholder="Número" class="form-control form-sm" style="font-size: 2.9rem;text-align:center">
+                        <label for="NumberLote"></label>
+                    </section>
+                    <section class="row ">
+                
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(1)"><p>1</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(2)"><p>2</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(3)"><p>3</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(4)"><p>4</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(5)"><p>5</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(6)"><p>6</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(7)"><p>7</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(8)"><p>8</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(9)"><p>9</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard('none')"><p></p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(0)"><p>0</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard('clear')"><p>Limpiar</p></div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -164,7 +228,7 @@ if (isset($_GET['mesa'])) {
             </div>
         </div>
     </div>
-
+ 
 
     <link href="./library/plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
     <script src='./library/plugins/datepicker/bootstrap-datepicker.js' type='text/javascript'></script>
@@ -181,6 +245,20 @@ if (isset($_GET['mesa'])) {
 
         function cacheInput(e) {
             localStorage.setItem(e.attributes["name"].value, e.value)
+        }
+
+        function setNumbersSelectDashboard(data){
+            console.log('Se ha seleccionado el Numero '+ data);
+            var inp = $('input[name=NumberLote]');
+            if(data === "Clear") {
+                console.log('Limpiar')
+                inp.val('');
+            } 
+            if(data !== 'none') {
+                var ant = inp.val();
+                var newN = data;
+                inp.val(`${ant}${newN}`);
+             }
         }
 
         window.onload = function() {
