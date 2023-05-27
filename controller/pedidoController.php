@@ -307,7 +307,7 @@ switch ($function) {
         $pedidoclass->ActualizarEstado($_REQUEST['value'], $_REQUEST['idpedidodetalle']);
         break;
     case "BuscarPlatoSearch":
-        $pedidoclass->BuscarPlatoSearch($_REQUEST['plato'],isset($_REQUEST['type']));
+        $pedidoclass->BuscarPlatoSearch($_REQUEST['plato'],(isset($_REQUEST['type']) ? $_REQUEST['type'] : ''));
         break;
     default:
         # code...

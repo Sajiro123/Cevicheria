@@ -5,9 +5,12 @@ var OPCIONES_PRODUCTO_temp= [];
 
   
 $(function() {
+ 
+
     Opciones_Producto();
     //hang on event of form with id=myform
     $("#form").submit(function(e) { 
+        debugger
         $('#id_button_productos').attr('disabled', 'disabled');
         //prevent Default functionality
         e.preventDefault();
@@ -108,6 +111,8 @@ function CargarProducto(valor = '', tipo = '') {
             tipo: tipo
         },
         success: function(data) {
+            
+
 
             var data_ = JSON.parse(data);
             array_productos = data_;
@@ -119,16 +124,20 @@ function CargarProducto(valor = '', tipo = '') {
 
                 } else {
                     $('#idProductoTable tbody').empty();
+                    $('#idtipoproducto').prepend('<option value="" selected>-- Seleccionar --</option>');
 
                     $.each(data_, function() {
-                        if (this.preciounitario == null)
+                         if(!this.idtipoproducto && !this.preciounitario)
+                            $('#idtipoproducto').prepend('<option value="' + this.idproducto + '">' + this.nombre + '</option>');
+
+                        if (this.preciounitario == null && this.idarbol==2)
                             return;
                         i++;
                         strHTML += '<tr onclick="seleccionaFila($(this))">' +
                             '<td class="text-center" style="font-size: 15px">' + i + '</td>' +
                             '<td class="text-center" style="font-size: 15px" >' + this.nombre + '</td>' +
-                            '<td class="text-center" style="font-size: 15px">' + this.preciounitario + '</td>' +
-                            '<td class="text-center" style="font-size: 15px">' + this.codigo + '</td>' +
+                            '<td class="text-center" style="font-size: 15px">' + (this.preciounitario == null ? '': this.preciounitario) + '</td>' +
+                            '<td class="text-center" style="font-size: 15px">' + (this.numero_carta == null ? '': this.numero_carta)  + '</td>' +
                             '<td class="text-center" style="font-size: 15px">' + this.categoria + '</td>' +
                             '<td><i onclick="Editarproducto(' + this.idproducto + ')" class="fas fa-pencil-alt" style="font-size: 18px;" aria-hidden="true"></i></td>'+
                             '<td><i onclick="Eliminar_Producto(' + this.idproducto + ')" class="fas fa-trash-alt" style="font-size: 18px;" aria-hidden="true"></i></td>' 
@@ -140,12 +149,13 @@ function CargarProducto(valor = '', tipo = '') {
                 $('#idProductoTable tbody').append(strHTML);
             } else {
                 $('#nombre').val(array_productos[0].nombre);
-                $('#codigo').val(array_productos[0].codigo);
+                // $('#codigo').val(array_productos[0].codigo);
                 $('#idcategoria').val(array_productos[0].idcategoria);
                 $('#precio').val(array_productos[0].preciounitario);
                 $('#acronimo').val(array_productos[0].acronimo);
                 $('#idtipoproducto').val(array_productos[0].idtipoproducto);
                 $('#idproductoeditar').val(array_productos[0].idproducto);
+                $('#numero_carta').val(array_productos[0].numero_carta); 
                 if (array_productos[0].idarbol == 2)
                     $('#checknivel2').prop('checked', true);
             }
@@ -267,9 +277,8 @@ function CargarDataCategoria() {
 
                     $.each(data_, function() {
                         $('#idcategoria').prepend('<option value="' + this.idcategoria + '">' + this.nombre + '</option>');
-                        $('#seltected_categoria').prepend('<option value="' + this.idcategoria + '">' + this.nombre + '</option>');
-
-                    });
+                        $('#seltected_categoria').prepend('<option value="' + this.idcategoria + '">' + this.nombre + '</option>'); 
+                    }); 
                 }
                 $('#seltected_categoria').append('<option selected value="">--Seleccionar--</option>');
 
