@@ -41,7 +41,7 @@
                      <th class="text-center" style="font-size: 15px">#</th>
                      <th class="text-center" style="font-size: 15px">Producto</th>
                      <th class="text-center" style="font-size: 15px">Precio</th>
-                     <th class="text-center" style="font-size: 15px">Codigo</th>
+                     <th class="text-center" style="font-size: 15px">N° Plato</th>
                      <th class="text-center" style="font-size: 15px">Categoria</th>
                      <th class="text-center"></th>
                      <th class="text-center"></th>
@@ -79,11 +79,11 @@
                         <input type="text" class="form-control vacios" id="nombre" name="nombre" value=""
                            required />
                      </div>
-                     <label class="col-sm-4 col-xs-6 control-label text-theme mt-2">Codigo</label>
+                     <!-- <label class="col-sm-4 col-xs-6 control-label text-theme mt-2">Codigo</label>
                      <div class="col-sm-8 col-xs-6 mt-2">
                         <input type="text" class="form-control vacios" id="codigo" name="codigo" value=""
                            required />
-                     </div>
+                     </div> -->
                      <label class="col-sm-4 col-xs-6 control-label text-theme mt-2">Categoria</label>
                      <div class="col-sm-8 col-xs-6 mt-2">
                         <select id="idcategoria" class="form-control" required name="idcategoria">
@@ -92,21 +92,28 @@
                      <label class="col-sm-4 col-xs-6 control-label text-theme mt-2">Precio</label>
                      <div class="col-sm-8 col-xs-6 mt-2">
                         <input type="number" class="form-control vacios" id="precio" name="preciounitario"
-                           value="" required />
+                           value="" />
                      </div>
                      <label class="col-sm-4 col-xs-6 control-label text-theme mt-2">Acronimo</label>
                      <div class="col-sm-8 col-xs-6 mt-2">
                         <input type="text" class="form-control vacios" id="acronimo" name="acronimo" value=""
-                           required />
+                             />
                      </div>
-                     <label class="col-sm-4 col-xs-6 control-label text-theme mt-2" style=""
-                        id="labelcoditotipoprod">Codigo Tipo Producto</label>
+                     <label class="col-sm-4 col-xs-6 control-label text-theme mt-2" style=""id="labelcoditotipoprod">Codigo Tipo Producto</label>
                      <div class="col-sm-8 col-xs-6 mt-2" id="idcoditotipoprod" style="">
-                        <input type="text" class="form-control vacios" id="idtipoproducto" name="idtipoproducto"
-                           value="" />
+                           <select id="idtipoproducto" class="form-control" name="idtipoproducto">
+                           </select>
                      </div>
                      <label class="col-sm-2 col-xs-6 control-label text-theme mt-2">Nivel 2</label>
                      <input class="col-sm-7 col-xs-6 mt-3" type="checkbox" name="idarbol" class="form-control" id="checknivel2" value="true">
+
+
+                     <label class="col-sm-4 col-xs-6 control-label text-theme mt-5" style="margin-top:30px !important">N° Plato Carta</label>
+                     <div class="col-sm-8 col-xs-6 mt-5" style="margin-top:30px !important">
+                        <input type="number" class="form-control vacios" id="numero_carta" name="numero_carta" value="" />
+                     </div>
+
+ 
                   </div>
                   <div class="col-sm-4 ">
                      <img name="" id="img_producto" />

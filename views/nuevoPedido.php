@@ -187,7 +187,7 @@ if (isset($_GET['mesa'])) {
                         <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(7)"><p>7</p></div>
                         <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(8)"><p>8</p></div>
                         <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(9)"><p>9</p></div>
-                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard('none')"><p></p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="ListarPedidoNumeroCalculadora()" style="font-size: 67px;color: green;text-align: center;"><p><ion-icon name="checkmark-circle" role="img" class="md hydrated"></ion-icon></p></div>
                         <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(0)"><p>0</p></div>
                         <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard('clear')"><p>Limpiar</p></div>
                     </section>
@@ -198,9 +198,8 @@ if (isset($_GET['mesa'])) {
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="cambiarPrecio() ">Guardar</button>
-                </div>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                 </div>
             </div>
         </div>
     </div>

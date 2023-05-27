@@ -34,7 +34,7 @@ require '../cnSql.php';
         // file_put_contents($path['tmp_name'], $location);
 
 
-        $sql="insert into producto(idcategoria,nombre,codigo,idtipoproducto,idarbol,imagen,acronimo,preciounitario,id_created_at) VALUES($array->idcategoria,'$array->nombre','$array->codigo','$array->idtipoproducto',$array->idarbol,'$name','$array->acronimo',$array->preciounitario,2)" ;     
+        $sql="insert into producto(numero_carta,idcategoria,nombre,codigo,idtipoproducto,idarbol,imagen,acronimo,preciounitario,id_created_at) VALUES($array->numero_carta,$array->idcategoria,'$array->nombre','$array->codigo','$array->idtipoproducto',$array->idarbol,'$name','$array->acronimo',$array->preciounitario,2)" ;     
         $row_registro=$this->SelectSql($sql); 
 
         $sql_idproducto = "select max(idproducto)as idproducto FROM producto;";
@@ -67,10 +67,42 @@ require '../cnSql.php';
 
         if($array->idarbol == true){$array->idarbol =2;}else{$array->idarbol =1;}  
         if( ! isset($array->idtipoproducto)) {$array->idtipoproducto = null;}  
-
+        if( ! isset($array->numero_carta)) {$array->numero_carta = null;}  
+        if( ! isset($array->preciounitario)) {$array->preciounitario = null;}  
+        if($array->numero_carta=="") {$array->numero_carta = null;}  
+        if($array->preciounitario=="") {$array->preciounitario = null;}  
         $name =$row_registro->imagen; 
 
-        $sql="update producto set idcategoria=$array->idcategoria ,nombre='$array->nombre',codigo='$array->codigo',idtipoproducto='$array->idtipoproducto',idarbol=$array->idarbol,imagen='arroz.jpg',acronimo='$array->acronimo',preciounitario=$array->preciounitario where idproducto= $array->idproductoeditar" ;     
+        $sql="update producto set";
+        
+        if(isset($array->preciounitario)){
+            $sql.= " preciounitario='$array->preciounitario', ";
+        }
+        if(isset($array->idcategoria)){
+            $sql.= " idcategoria='$array->idcategoria', ";
+        }
+        if(isset($array->nombre)){
+            $sql.= " nombre='$array->nombre', ";
+        }
+        if(isset($array->idtipoproducto)){
+            $sql.= " idtipoproducto='$array->idtipoproducto', ";
+        }
+        if(isset($array->numero_carta)){
+            $sql.= " numero_carta='$array->numero_carta', ";
+        }
+        if(isset($array->idarbol)){
+            $sql.= " idarbol='$array->idarbol', ";
+        }
+        if(isset($array->imagen)){
+            $sql.= " imagen='arroz.jpg', ";
+        }
+        if(isset($array->acronimo)){
+            $sql.= "acronimo='$array->acronimo',";
+        }  
+        $sql=substr($sql,0,strlen($sql)-1);
+         
+        $sql.= " where idproducto= $array->idproductoeditar";     
+
         $row_registro=$this->SelectSql($sql); 
 
         $sql_row = "delete from  opciones_producto WHERE idproducto=".$array->idproductoeditar;

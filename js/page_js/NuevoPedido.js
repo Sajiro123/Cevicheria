@@ -165,7 +165,7 @@ function RegresarProducto() {
         );
       } else {
         $('#idimagenes').prepend(
-          '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3" onclick=\"CargarDataProducto(' + this.idcategoria + ',\'' + this.codigo + '\',' + this.idarbol + ')\" >' +
+          '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3" onclick=\"CargarDataProducto(' + this.idcategoria + ',\'' + this.idproducto + '\',' + this.idarbol + ')\" >' +
            '<div class="jumbotron">' +
           '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -24px;">' + this.nombre + '</h3>' +
           '</div>' +
@@ -237,7 +237,7 @@ function CargarDataProducto(idcategoria, codigo = 0, idarbol = 0) {
          );
       } else {
         $('#idimagenes').prepend(
-          '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3" onclick=\"CargarDataProducto(' + this.idcategoria + ',\'' + this.codigo + '\',' + this.idarbol + ')\">' +
+          '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3" onclick=\"CargarDataProducto(' + this.idcategoria + ',\'' + this.idproducto + '\',' + this.idarbol + ')\">' +
           '<div class="jumbotron">' +
           '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -24px;">' + this.nombre + '</h3>' +
           '</div>' +
@@ -711,4 +711,88 @@ function GuardarOpcionPlato() {
   });
 
   $('#ModalOpcionesPlato').modal('hide');
+}
+
+function ListarPedidoNumeroCalculadora(){
+  if($('#NumberLote').val()){
+    
+    $.ajax({
+      url: "./controller/pedidoController.php",
+      type: "POST",
+      datatype: "json",
+      data: { 
+        function: "BuscarPlatoSearch",
+        plato: $('#NumberLote').val(),
+        type:"p.numero_carta" 
+       },
+      success: function (data) {
+        debugger
+        var data = JSON.parse(data);
+        if(data.length == 0){
+          $('#NumberLote').val('')
+          Swal.fire(
+            "No existe Número!",
+            "No existe Número.",
+            "info"
+          );
+        }
+        
+        data =data[0];
+ 
+      var categoria_object = Array_categoria.filter(function (row) {
+        return row.idcategoria == data.idcategoria;
+      })[0];
+
+      if ($("#tbDetalleProducto tbody tr").length == 1 && table_status == false) {
+        $("#tbDetalleProducto tbody").empty();
+        total = 0;
+      }
+
+      if ($("#tbDetalleProducto tbody tr").length == 0)
+        i = 0;
+
+
+      var aleatorio = Math.round(Math.random() * (1 - 100) + 100);
+
+      correlativo++;
+      total_multiplicado = data.preciounitario * 1;
+      $("#tbDetalleProducto tbody").append(
+        "<tr data-correlativo='" + correlativo + "' data-cantidad='1' data-idproducto='" + data.idproducto + "' data-idcategoria='" + categoria_object.idcategoria + "'" +
+        "data-precio='" + data.preciounitario + "' data-subtotal='" + total_multiplicado + "'>" +
+        "<td style='display: none;'>" + correlativo + "</td>" +
+        "<td style='display: none;'>" + categoria_object.nombre + "</td>" +
+        "<td style='FONT-SIZE: 17px;font-weight: 900;'>" + data.nombre + "</td>" +
+        "<td>" +
+        '  <div class="switch-label">' +
+        '  <div class="switch-toggle">' +
+        '      <input type="checkbox" id="' + data.nombre + aleatorio + '">' +
+        '      <label for="' + data.nombre + aleatorio + '"></label>' +
+        '  </div>' +
+        "</td>" +
+        '<td style="text-align: center;" width="5%">' +
+        '<div class="number-input">' +
+        "<button  onclick='sumarinput(this)'><i class='fa fa-plus'></i></button>" +
+        '<input  min="0" name="quantity"  type="number" value="1" style="text-align: center;height: 21px;" class="quantity"  />' +
+        "<button  onclick='restarinput(this)'.stepUp()\"><i class='fa fa-minus'></i></button>" +
+        '  </div></td>' + '<td style="text-align: center;FONT-SIZE: 17px;">S/' + data.preciounitario + "</td>" +
+        '<td style="text-align: center;FONT-SIZE: 17px;">' + total_multiplicado + "</td>" +
+        "<td>" + '<span class="fa fa-money" aria-hidden="true" style="cursor:pointer;font-size:30px;color:red" onclick="cambiarPrecioModal($(this).parent().parent(),' + data.preciounitario + ');" ></span>' + "</td>" +
+        "<td>" + '<span class="fa fa-trash" aria-hidden="true" style="cursor:pointer;font-size:30px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' + "</td>" +
+        "<td>" + '<span class="fa fa-cog" aria-hidden="true" style="cursor:pointer;font-size:30px;color:red" onclick="OpcionesPlato($(this).parent().parent());" ></span>' + "</td>" +
+
+        "</tr>"
+      );
+
+      table_status = true;
+      total = 0;
+
+      actualizarPedido();
+
+      $('#ModalCalculadora').modal('hide');
+      
+      },
+    });
+
+  }
+  
 }
