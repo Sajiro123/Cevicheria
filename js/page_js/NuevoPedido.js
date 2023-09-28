@@ -27,9 +27,12 @@ $(document).ajaxSend(function () {
 });
 
 $(document).ready(function () {
+  CargarCategoria(); 
+
   $("button[data-dismiss='modal']").click(function () {
     $(".modal").modal('hide');
   });
+  debugger
   CargarProductos();
   ListarPlatosSearch()
   $('#title_secundary').text('El Nº de Mesa es ' + $('#idmesas').val())
@@ -37,6 +40,102 @@ $(document).ready(function () {
   $('#idcreate2').append('<div class="row"><div class="col-sm-5"><input  style="text-align:center" type="hidden" placeholder="N° Plato" class="form form-control"/>  </div>   <div class="col-sm-3"><ion-icon name="calculator-outline" onclick="$(\'#ModalCalculadora\').modal(\'show\');$(\'#NumberLote\').val(\'\')\" style="font-size: 38px;color: darkorange;"></ion-icon>  </div>  ');
 });
 
+function CargarCategoria() {
+  $.ajax({
+      url: "./controller/pedidoController.php",
+      type: "POST",
+      datatype: "json",
+      data: {
+         function: "CargarDataProducto",
+         valor:"",
+         tipo:""},
+      success: function (data) {
+        var data_ = JSON.parse(data);
+        array_productos=data_;
+        debugger
+        ListarPedido();
+      },
+    });
+  
+  
+  }
+  function ListarPedido(){
+    debugger
+    $('#tbDetalleProducto tbody').empty();  
+  
+    var idpedido= $('#idpedido').val();
+    table_status=true;
+      $.ajax({
+      url: "./controller/pedidoController.php",
+      type: "POST",
+      datatype: "json",
+      data: { 
+        function: "ReporteProductoDetalle",
+        idpedido:idpedido, 
+        },
+      success: function (data) {  
+        Opciones_Producto();
+  
+        var result = JSON.parse(data); 
+        var i=0;
+         var strHTML=''
+        if (result.length <= 0) {
+          strHTML += '<tr><td colspan="100" class="text-left" style="padding-left: 15%">No hay información para mostrar</td></tr>';
+  
+        } else {
+  
+          $.each(result, function () { 
+            $('#idcomentario').val(this.comentario);
+            $('#iddescuento').val(this.descuento);
+  
+            var estado_parallevar='';
+            var aleatorio = Math.round(Math.random() * (1 - 100) + 100);
+            if(this.lugarpedido == 2){
+              estado_parallevar='checked="checked"'
+            }
+                    correlativo++
+            strHTML += 
+            "<tr data-opcionesproducto='"+this.opcionespedido+"' data-correlativo='"+correlativo+"' data-cantidad='1' data-idproducto='"+this.idproducto+"' data-idcategoria='"+this.idcategoria+"'"+
+            "data-precio='"+this.precioU+"' data-subtotal='"+this.total+"'>"+
+  
+            '<td class="text-center" style="display:none" >'+correlativo+'</td>' +  
+            '<td class="text-center" style="display:none" >' + (this.categoria == null ? "" : this.categoria) + '</td>' + 
+              '<td  style="FONT-SIZE: 17px;font-weight: 900;">' + (this.nombre == null ? "" : this.nombre) + '</td>' +
+              "<td>"+
+            '  <div class="switch-label">'+            
+            '  <div class="switch-toggle">'+
+            '      <input type="checkbox" id="'+this.nombre+aleatorio+'"'+estado_parallevar+'>'+
+            '      <label for="'+this.nombre+aleatorio+'"></label>'+
+            '  </div>'+
+            "</td>" +
+              '<td style="text-align: center;" width="5%">'+
+              '<div class="number-input">'+
+              "<button  onclick='sumarinput(this)'><i  style='color: red;' class='fa fa-plus'></i></button>"+
+              '<input  min="0" name="quantity"  type="number" value="'+this.cantidad+'" style="text-align: center;height: 28px;" class="quantity"  />'+ 
+              "<button  onclick='restarinput(this)'.stepUp()\"><i  style='color: red;' class='fa fa-minus'></i></button>"+
+              '  </div>'+
+              '  </td>' +  
+              '<td class="text-center" style="FONT-SIZE: 17px;">' + (this.precioU == null ? "" : this.precioU) + '</td>' +
+              '<td class="text-center" style="FONT-SIZE: 17px;">' + (this.total == null ? "" : this.total) + '</td>' +  
+              "<td>" +'<span class="fa fa-money" aria-hidden="true" style="cursor:pointer;font-size:30px;color:red" onclick="cambiarPrecioModal($(this).parent().parent(),'+data.preciounitario+');" ></span>' +"</td>" +
+              "<td>" +'<span class="fa fa-trash" aria-hidden="true" style="cursor:pointer;font-size:30px;color:red" onclick="confirmarAnulacionPedido($(this).parent().parent());" ></span>' +"</td>" +
+              "<td>" + '<span class="fa fa-cog" aria-hidden="true" style="cursor:pointer;font-size:30px;color:red" onclick="OpcionesPlato($(this).parent().parent());" ></span>' + "</td>" +
+              '<td class="text-center" style="display: none">' + (this.pedido_estado == null ? "" : this.pedido_estado) + '</td>' + 
+              '</tr>';
+  
+          });
+  
+        }
+        $('#tbDetalleProducto tbody').append(strHTML);
+        actualizarPedido();
+  
+       },
+      },
+      JSON
+    ).done(function() {
+      $("#overlay").fadeOut(); }); 
+   
+  }
 function Opciones_Producto() {
   $.ajax({
     url: "./controller/productoController.php",
@@ -202,7 +301,7 @@ function RegresarProducto() {
 
 }
 
-function CargarDataProducto(idcategoria, codigo = 0, idarbol = 0) {
+function CargarDataProducto(idcategoria, codigo = "0", idarbol = "0") {
   STATUS_PEDIDO++;
 
   if (STATUS_PEDIDO == 1) {
@@ -604,6 +703,138 @@ function checkTime(i) {
   return i;
 }
 
+function EditarPedido(){
+ 
+  if ($("#tbDetalleProducto tbody tr").length == 1 && table_status == false) {
+    Swal.fire({
+      icon: 'info',
+      title: 'Ingresar un nuevo pedido'
+     })
+     return false;
+  } 
+
+  var total_=$('#subtotal').text();
+  var mesas= $('#idmesas').val();
+  var idpedido= $('#idpedido').val();
+  var iddescuento= $('#iddescuento').val();
+  var idcomentario= $('#idcomentario').val();
+
+  $('#Guardar_tabla').prop('disabled', true).html('<span>Cargando...</span></div>');
+
+  $('#Guardar_tabla').attr('disabled', 'disabled');
+ 
+  total_pedidos_count=$("#tbDetalleProducto tbody tr").length;
+     $.ajax({
+        url: "./controller/pedidoController.php",
+        type: "POST",
+        datatype: "json",
+        data: { 
+          function: "EditarProducto",
+           idpedido:idpedido,
+           total:total_,
+           total_pedidos:total_pedidos_count,
+           fechapedido:fecha,
+           mesa:mesas,
+           descuento:iddescuento,
+           comentario:idcomentario
+          },
+        success: function (data) {
+          
+          var prod_detall=[];
+
+          $.each($('#tbDetalleProducto tbody > tr'), function () { 
+            var tr=$(this); 
+            $.each($(tr), function (j,x) {
+              var opcionesarray = [];
+
+              var opcionesobject = { idproducto: "", opciones: [] };
+              opcionesobject.opciones = $(tr).attr('data-opcionesproducto');
+              opcionesobject.idproducto = $(tr).attr('data-idproducto');
+              opcionesarray.push(opcionesobject);
+              
+              var parallevar=$($(x).children()[3]).children().children().children('input')[0];//cambiar
+              if ($(parallevar).prop("checked" ) ) {
+                parallevar=2;
+              }else{
+                parallevar=1;
+              }
+
+              var cantidadtd=$(x).children()[4]; //cambiar
+              var cantidadval=($(cantidadtd).children().children('input')).val();
+
+              var totaltd=$(x).children()[6]; //cambiar
+              totaltd=totaltd.innerText;
+
+              var pedido_estado_=$(x).children()[8]; //cambiar
+              if(pedido_estado_ == undefined){
+                pedido_estado_=null;
+              }else{
+                pedido_estado_=pedido_estado_.innerText;
+              }
+              
+              
+              var detalle={
+                idpedido:idpedido,
+                categoria: x.dataset.idcategoria,
+                producto: x.dataset.idproducto ,
+                cantidad:cantidadval,
+                precioU: x.dataset.precio,
+                total: totaltd,
+                lugarpedido:parallevar, 
+                pedido_estado:pedido_estado_,
+                opcionesarray:opcionesarray
+
+              };
+
+              prod_detall.push(detalle);
+            }); 
+          }); 
+         
+             $.ajax({
+              url: "./controller/pedidoController.php",
+              type: "POST",
+              datatype: "json",
+              data: { 
+                function: "EditarProductoDetalle",
+                detalle_total:prod_detall
+                },
+              success: function (data) {  
+                  $('#Guardar_tabla').prop('disabled', false).html('Procesar Compras');
+                  $('#Guardar_tabla').removeAttr('disabled');
+                  Swal.fire(
+                    "Se Registro correctamente su pedido",
+                    "se registro correctamente.",
+                    "success"
+                  );         
+                  $("#tbDetalleProducto tbody").empty(); 
+                  $("#tbDetalleProducto tbody ").append(
+                    "<tr>" +'<td colspan="8" style="text-align: center;"> Presionar el boton Agregar Productos para obtener la informacion.</td>'+"</tr>"
+                  );         
+                  $('#subtotal').text(0);
+                  table_status = false;
+
+                  $('#descripcion').val('');
+                  $('#cantidad').val('');  
+
+                  setTimeout(function(){ 
+                    var link = document.createElement('a');
+                    link.href = 'index.php';
+                    document.body.appendChild(link);
+                    link.click();  
+                  
+                  }, 1500);
+
+                  
+
+              },},JSON).done(function() {
+                $("#overlay").fadeOut(); }); 
+             
+           
+         },
+      },
+      JSON
+    )  
+}
 
 function ListarPlatosSearch() {
   $('#listarPlatos tbody').empty();
@@ -793,6 +1024,6 @@ function ListarPedidoNumeroCalculadora(){
       },
     });
 
-  }
-  
+  } 
+ 
 }

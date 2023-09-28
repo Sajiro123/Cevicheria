@@ -62,7 +62,9 @@
     color: inherit;
     background-color: #eee;
     padding-top: 48px;
-    padding-bottom: 48px;
+    padding-bottom: 50%;
+    /* width: 100%; */
+    height: 67%;
 }
 
 html {

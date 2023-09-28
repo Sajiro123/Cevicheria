@@ -5,6 +5,7 @@ if(isset($_GET['idusuario'])){
  }
 
 ?>
+<script type="text/javascript" src="./js/page_js/NuevoPedido.js"></script>
 
 <style>
     .nav-pills .nav-link.active,

@@ -154,7 +154,6 @@ function GenerarTicketCocina(&$pdf,$data_)
 	$descuento=0;
 	$idpedido='';
 	$Hora='';
-	
 
 	foreach($data_ as $row){ 
  		if($row['mesa'] != null){
@@ -170,40 +169,42 @@ function GenerarTicketCocina(&$pdf,$data_)
 	$pdf->Cell(60,3,'CEVICHERIA WILLY GOURMET '.'00-'.$idpedido,0,1,'C');
 	$pdf->Ln(3); 
 	$pdf->SetFont('Helvetica', 'B', 14);  
-	$pdf->Cell(60,4,'Mesa   : '.$mesa,0,1,'C'); 
+	if($mesa !=''){
+		$pdf->Cell(60,4,'Mesa   : '.$mesa,0,1,'C'); 
+	}  
+
 	$pdf->Ln(3); 
 	$pdf->Cell(60,4,'HORA   : '.$Hora,0,1,'C'); 
 	// DATOS FACTURA   
  	$pdf->Ln(4);
-	
-	if($mesa !=''){
+	 $pdf->Ln(2);
 
-		$pdf->SetFont('Helvetica', '', 14); 
-		$pdf->Ln(0.5); 
-		$pdf->SetX(0);
+	 $pdf->SetFont('Times', 'B', 12	);
+ 	 $pdf->Cell(-5,0,'Cant',0,1,'C'); 
+ 	 $pdf->Cell(53, 0, 'Plato',0,0,'C');
+ 	 $pdf->Cell(5, 0, 'S/',0,0,'R'); 
+	  $pdf->Ln(0.5); 
+	  $pdf->SetFont('Helvetica', '', 14); 
+	  $pdf->Ln(0.5); 
 
-		$pdf->Cell(0, 3, '- - - - - - - - - - - - - - - - - - - - - - - - - - ', 0);
-		$pdf->Ln(0.7); 
- 		$pdf->Ln(3.5);
-	} 
-	$pdf->Ln(6);
+		$pdf->SetX(0); 
+		$pdf->Cell(0, 3, '- - - - - - - - - - - - - - - - - - - - - - - - - - - - - ', 0);
+  		$pdf->Ln(1);
+ 	
+ 	 $pdf->Ln(6);
 
+	 
 	foreach($data_ as $row){
 		if($row['pedido_estado'] != 1){
-			$pdf->SetX(1);
-			// $pdf->SetY(3);
+			 $pdf->SetX(0); 
+			$pdf->SetFont('Arial', 'B', 12);
+			$pdf->Cell(13,0,$row['cantidad'],0,1,'C'); 
+			$pdf->SetFont('Arial', 'I', 13);
 
+			$pdf->Cell(53, 0, $row['acronimo'],0,0,'L');
+ 			$pdf->Cell(7, 0,  $row['precioU'],0,0,'L');
 			$pdf->SetTextColor(0,0,0);  
-
-			$pdf->SetFont('Arial', 'B', 14);
-			$pdf->Cell(-1,-3,$row['cantidad'],0,0,'L'); 
- 			$pdf->SetFont('Arial', 'B', 12);
-
-			$pdf->Cell(50, -4, $row['acronimo'],0,0,'R');
-			$pdf->SetFont('Arial', 'B', 13);  
-			$pdf->Cell(15, -4,  $row['precioU'],0,0,'R');
-			$pdf->SetTextColor(0,0,0);  
-			$pdf->Cell(13, -4,  ($row['lugarpedido'] == 1 ? 'Mesa' : 'Llevar'),0,0,'R'); 
+			$pdf->Cell(13, 0,  ($row['lugarpedido'] == 1 ? 'Mesa' : 'Llevar'),0,0,'R'); 
  			$pdf->Ln();
  
 			if($row['opcionespedido']){ 
@@ -212,7 +213,7 @@ function GenerarTicketCocina(&$pdf,$data_)
 				$pdf->Ln();
 				$pdf->Ln(3);
 			}else{
-				$pdf->Cell(0, 11,'',0,0,'C');
+				$pdf->Cell(0, 7,'',0,0,'C');
 				$pdf->Ln();
 
 			}
