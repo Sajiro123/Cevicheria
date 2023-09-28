@@ -39,7 +39,7 @@ class pedidoController extends cnSql
             " INNER JOIN pedidodetalle p1 ON p.idpedido=p1.idpedido" .
             " INNER JOIN producto p2 ON p1.idproducto=p2.idproducto " .
             " INNER JOIN categoria c ON c.idcategoria=p1.idcategoria" .
-            " INNER JOIN usuarios u ON p.id_created_at=u.idusuario" .
+            " INNER JOIN usuario u ON p.id_created_at=u.idusuario" .
 
             " WHERE p.estado=1  AND p.deleted  IS null  AND p1.deleted  IS null ORDER BY p1.idpedido desc;";
         $row_registro = $this->SelectSql($sql);

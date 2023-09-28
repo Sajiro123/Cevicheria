@@ -177,7 +177,7 @@ function RegresarProducto(){
 
 }
 
-function CargarDataProducto(idcategoria,codigo=0,idarbol=0) { 
+function CargarDataProducto(idcategoria,codigo="0",idarbol="0") { 
   STATUS_PEDIDO++;
 
   if(STATUS_PEDIDO==1){

@@ -5,7 +5,7 @@ require "cnSql.php";
 $user=$_POST['user'];
 $pass=$_POST['pass'];
 $rol=0;
-$sql="select * from usuarios WHERE usuario='$user' AND password='$pass' and deleted is null";
+$sql="select * from usuario WHERE usuario='$user' AND password='$pass' and deleted is null";
 $query = runSQL($sql);
 $query=json_decode($query);
 $res=0;

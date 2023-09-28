@@ -74,7 +74,7 @@ input[type="radio"] {
 </style>
 <div class="loader" id="idloader" style="display:none;"></div>
 <div class="row" id="idcard" style="display:none;">
-    <div class="col-sm-12 col-lg-4">
+    <div class="col-lg-5 col-sm-12 ">
         <div id="idmesas">
             <div style="height: 69px;margin-top: -18px;">
                 <input type="radio" id="pisouno" name="piso" value="1" style="width: 4%;height: 2em;"
@@ -92,7 +92,7 @@ input[type="radio"] {
         </div>
     </div>
 
-    <div class="col-sm-9 col-lg-5" >
+    <div class="col-lg-5 col-sm-9" >
 
         <div id="idopciones" style="margin-top: -28px;">
             <div class="modal-body">
@@ -111,7 +111,7 @@ input[type="radio"] {
         </div>
     </div>
 
-    <div class="col-sm-2 col-lg-1"  id="opciones_botones">
+    <div class="col-lg-2 col-sm-3"  id="opciones_botones">
     </div> 
     
     <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"

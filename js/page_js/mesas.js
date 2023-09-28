@@ -7,8 +7,8 @@ function mesapiso(valorpiso){
          if(this.piso ==valorpiso ){   
              var clase= (this.estado ==  0 ?"circuloverde" :"circulorojo" );
              
-             $('#mesascantidad').append('<div class="col-sm-2 col-xs-2 col-md-2">'+
-             '<div class="card" style="text-align:center;cursor:pointer;border-color: rgb(255 90 0 / 90%)!important;background-color: rgb(232 227 221)!important;width: 123px;height: 142px;" onclick="Opciones_Mesa('+this.numero+','+this.estado+')">'+ 
+             $('#mesascantidad').append('<div class="col-sm-2 col-xs-2 col-md-2 ">'+
+             '<div class="card" style="text-align:center;cursor:pointer;border-color: rgb(255 90 0 / 90%)!important;background-color: rgb(255 223 183)!important;width: 123px;height: 142px;" onclick="Opciones_Mesa('+this.numero+','+this.estado+')">'+ 
              '       <div class="'+clase+'" style="margin-left: 5px;"></div>'+
              '         <div class="card-body">'+
              '           <h2 style="margin-left: -14px;">Mesa Nº'+this.numero+'</h2>'+
@@ -37,7 +37,7 @@ function mesapiso(valorpiso){
                         }); 
 
                         $('#mesascantidad').append('<div class="col-sm-4 col-xs-4 col-md-4">'+
-                        '<div class="card" style="text-align:center;cursor:pointer;border-color: rgb(255 90 0 / 90%)!important;background-color: rgb(232 227 221)!important;width: 203px;height: 262px;" onclick="Opciones_Mesa(0,1,'+this.idpedido+')">'+ 
+                        '<div class="card" style="text-align:center;cursor:pointer;border-color: rgb(255 90 0 / 90%)!important;background-color: rgb(255 223 183)!important;width: 203px;height: 262px;" onclick="Opciones_Mesa(0,1,'+this.idpedido+')">'+ 
                         '       <div class="'+clase+'" style="margin-left: 5px;"></div>'+
                         '         <div class="card-body">'+
                         '           <h2 style="margin-left: -14px;">Pedido</h2><br/>'+platos_text+
@@ -273,7 +273,7 @@ function ListarMesas(id){
                                     var clase= (this.estado ==  0 ?"circuloverde" :"circulorojo" );
                                     
                                     $(id).append('<div class="col-sm-2 col-xs-2 col-md-2">'+
-                                    '<div class="card" style="text-align:center;cursor:pointer;border-color: rgb(255 90 0 / 90%)!important;background-color: rgb(232 227 221)!important;width: 123px;height: 142px;" onclick="Opciones_Mesa('+this.numero+','+this.estado+')">'+ 
+                                    '<div class="card" style="text-align:center;cursor:pointer;border-color: rgb(255 90 0 / 90%)!important;background-color: rgb(255 223 183)!important;width: 123px;height: 142px;" onclick="Opciones_Mesa('+this.numero+','+this.estado+')">'+ 
                                     '       <div class="'+clase+'" style="margin-left: 5px;"></div>'+
                                     '         <div class="card-body">'+
                                     // '              <i class="fas fa-utensils" style="font-size: 55px;"></i>'+

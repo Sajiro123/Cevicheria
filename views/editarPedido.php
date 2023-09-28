@@ -1,9 +1,18 @@
-<script type="text/javascript" src="./js/page_js/EditarPedido.js"></script>
+<!-- <script type="text/javascript" src="./js/page_js/EditarPedido.js"></script> -->
 <link href="css/page_css/editarPedido.css" rel="stylesheet">
+<script type="text/javascript" src="./js/page_js/NuevoPedido.js"></script>
 
 
 
 <style>
+    .numbersDashboard{
+  background-color: #FFF;
+  height: 115px;
+  border: 2px solid #DDD;
+  border-radius: 8px;
+  font-size: 2em;
+  cursor: pointer;
+}
 .btn-outline-success {
     color: #28a745;
     border-color: #28a745;
@@ -23,6 +32,7 @@ if (isset($_GET['idpedido'])) {
 ?>
 <input type="hidden" id="idmesas" name="" value="<?php echo $mesaid ?>">
 <input type="hidden" id="idpedido" name="" value="<?php echo $idpedido ?>">
+<script src="https://unpkg.com/ionicons@latest/dist/ionicons.js"></script>
 
 <div class="row">
 
@@ -179,6 +189,47 @@ if (isset($_GET['idpedido'])) {
         </div>
     </div>
 
+    <div class="modal fade" id="ModalCalculadora" tabindex="-1" role="dialog" aria-labelledby="ModalCambiarPrecioLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalCambiarPrecioLabel">N° PLATO</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h2 class="text-center"> Ingresar Plato N°</h2>
+                    <br />
+
+                    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-panel">
+                <div class="row">
+                    <section class="input-filts col-sm-5">
+                        <input type="Number" name="NumberLote" id="NumberLote" placeholder="Número" class="form-control form-sm" style="font-size: 2.9rem;text-align:center">
+                        <label for="NumberLote"></label>
+                    </section>
+                    <section class="row ">
+                
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(1)"><p>1</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(2)"><p>2</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(3)"><p>3</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(4)"><p>4</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(5)"><p>5</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(6)"><p>6</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(7)"><p>7</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(8)"><p>8</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(9)"><p>9</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="ListarPedidoNumeroCalculadora()" style="font-size: 67px;color: green;text-align: center;"><p><ion-icon name="checkmark-circle" role="img" class="md hydrated"></ion-icon></p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard(0)"><p>0</p></div>
+                        <div class="col-sm-4 light-blue numbersDashboard center " onclick="setNumbersSelectDashboard('clear')"><p>Limpiar</p></div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <link href="./library/plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
 <script src='./library/plugins/datepicker/bootstrap-datepicker.js' type='text/javascript'></script>
 <script>
@@ -201,6 +252,20 @@ $("#idcambioprecio").on("keydown", function(event) {
 function cacheInput(e) {
     localStorage.setItem(e.attributes["name"].value, e.value)
 }
+function setNumbersSelectDashboard(data){
+            console.log('Se ha seleccionado el Numero '+ data);
+            var inp = $('input[name=NumberLote]');
+            if(data === "Clear") {
+                console.log('Limpiar')
+                inp.val('');
+            } 
+            if(data !== 'none') {
+                var ant = inp.val();
+                var newN = data;
+                inp.val(`${ant}${newN}`);
+             }
+        }
+        
 
 window.onload = function() {
     let form = document.getElementById("myForm");
