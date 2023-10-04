@@ -9,6 +9,16 @@ require '../cnSql.php';
         echo json_encode($row_registro);
     }
 
+    function ReporteDia($array){ 
+        $sql = "select ".
+        "p.mesa ,p.idpedido,p.fecha,p.mesa,p.descuento,p.total,p.total_pedidos,  p.yape,  p.plin,  p.efectivo,  p.visa,TIME_FORMAT(p.created_at , '%H:%i') AS hora".
+        " FROM pedido p ". 
+        "WHERE p.estado = 3 ".
+        "and p.fecha = '$array->fecha' order by p.idpedido  desc";
+        $row_registro = $this->SelectSql($sql);
+        echo json_encode($row_registro);
+    }
+    
 
     function SelectSql($sql){ 
         $this->getConexion();
@@ -26,6 +36,9 @@ $ReportesController = new ReportesController();
     switch ($function) {
         case "ReporteDiario":
             $ReportesController->ReporteDiario($array);
+            break;  
+        case "ReporteDia":
+            $ReportesController->ReporteDia($array);
             break;   
         default:
             # code...

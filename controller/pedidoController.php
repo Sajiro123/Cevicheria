@@ -51,7 +51,7 @@ class pedidoController extends cnSql
         $sql = "update mesa set estado=0 where idmesa='$mesa';";
         runSQLReporte($sql);
 
-        $sql = "update pedido set estado=2 where idpedido='$idpedido';";
+        $sql = "update pedido set estado=2 where estado=1 and mesa = $mesa;";
         runSQLReporte($sql);
     }
 
