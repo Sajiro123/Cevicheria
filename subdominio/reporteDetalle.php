@@ -265,13 +265,22 @@ class reporteDetalle{
 	}
 
 	function imprimirCocina ($data_){  
-		$inicial=110;
+		$inicial=100;
 		$items = count($data_);	
 
 		if($items > 5){
 			$inicial+=20;
 		}
 		if($items > 7){
+			$inicial+=12;
+		}
+		if($items > 10){
+			$inicial+=12;
+		}
+		if($items > 12){
+			$inicial+=12;
+		}
+		if($items > 14){
 			$inicial+=12;
 		}
 		 
