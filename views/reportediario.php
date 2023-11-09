@@ -53,7 +53,7 @@
       </tr>
     </tbody>
   </table>
-</div> 
+</div>
 
 
 <div class="modal fade bd-example-modal-lg" id="ModalReportDiario" tabindex="-1" role="dialog"
@@ -70,17 +70,18 @@
         <table class="table table-bordered  " id="data-table-diario">
           <thead>
             <tr class="fw-bolder text-muted bg-light">
-               <th class="text-center">Nª Pedido</th>
-               <th class="text-center">Mesa</th> 
+              <th class="text-center">Nª Pedido</th>
+              <th class="text-center">Mesa</th>
               <th class="text-center">Cantidad</th>
-              <th class="text-center">Hora</th> 
+              <th class="text-center">Hora</th>
               <th class="text-center">Yape</th>
               <th class="text-center">Plin</th>
               <th class="text-center">Efectivo</th>
               <th class="text-center">Visa</th>
               <th class="text-center">Total</th>
+              <th class="text-center"></th>
 
-             </tr>
+            </tr>
           </thead>
           <tfoot>
           </tfoot>
@@ -91,7 +92,7 @@
             </tr>
           </tbody>
         </table>
-      </div>
+      </div> 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" onclick="cambiarPrecio() ">Guardar</button>
@@ -102,14 +103,13 @@
 </div>
 </div>
 
-
 <script type="text/javascript">
   function DetalleList(fecha) {
     $('#ModalReportDiario').modal('show');
 
     $('#data-table-diario tbody').empty();
     var i = 0;
-      var strHTML = "";
+    var strHTML = "";
 
     $.ajax({
       url: "./controller/ReportesController.php",
@@ -120,16 +120,16 @@
         fecha: fecha,
       },
       success: function (data) {
-         var result = JSON.parse(data);
+        var result = JSON.parse(data);
         if (result.length <= 0) {
           strHTML += '<tr><td colspan="10" class="text-left" style="padding-left: 15%">No hay información para mostrar</td></tr>';
         } else {
 
           $.each(result, function () {
             i++;
-            strHTML += '<tr  data-idpersona="' + this.idpersona + '">' +
-               '<td class="text-center" >' + (this.idpedido = null ? "" : this.idpedido) + '</td>' +
-               '<td class="text-center" >' + (this.mesa = null ? "" : this.mesa) + '</td>' +
+            strHTML += '<tr>' +
+              '<td class="text-center" >' + (this.idpedido = null ? "" : this.idpedido) + '</td>' +
+              '<td class="text-center" >' + (this.mesa = null ? "" : this.mesa) + '</td>' +
 
               '<td class="text-center" >' + (this.total_pedidos == null ? "" : this.total_pedidos) + '</td>' +
               '<td class="text-center" >' + (this.hora == null ? "" : this.hora) + '</td>' +
@@ -138,22 +138,39 @@
               '<td class="text-center" >' + (this.plin == null ? "" : this.plin) + '</td>' +
               '<td class="text-center" >' + (this.efectivo == null ? "" : this.efectivo) + '</td>' +
               '<td class="text-center" >' + (this.visa == null ? "" : this.visa) + '</td>' +
-              '<td class="text-center" >' + (this.total == null ? "" : this.total) + '</td>' + 
-
-              '</tr>';
+              '<td class="text-center" >' + (this.total == null ? "" : this.total) + '</td>' +
+              '<td><button onclick="pedidodetalle(this,'+i+')" class="btn btn-secondary" ><i class="far fa-regular fa-eye"></i></button></td>'
+            '</tr>';
           });
         }
         $('#data-table-diario tbody').append(strHTML);
       },
     },
       JSON
-    );
-
+    );  
+    
   }
 
+  function pedidodetalle(html,position) {
+    position=position -1 ;
+    var strHTML="";
+    $($($($($(html).parent()).parent())).parent()).children().each(function(index,row){
+     
+      strHTML+='<tr>'+row.innerHTML+'</tr>' 
+      if(index == position){
+        strHTML+='<tr><td>aqui toy</td></tr>'
+      }
+    })
+    $('#data-table-diario tbody').empty();
+
+    $('#data-table-diario tbody').append(strHTML);
+
+    // append('<tr><td>aqui toy</td></tr>')
+  }
 
   $(function () {
     moment.locale('es');
+
 
 
 
@@ -187,7 +204,7 @@
         success: function (data) {
           var result = JSON.parse(data);
           if (result.length <= 0) {
-            strHTML += '<tr><td colspan="10" class="text-left" style="padding-left: 15%">No hay información para mostrar</td></tr>';
+            strHTML += '<tr><td colspan="10" class="text-center" style="padding-left: 15%">No hay información para mostrar</td></tr>';
           } else {
             var yape_total = 0;
             var plin_total = 0;
@@ -223,17 +240,19 @@
                 '</tr>';
             });
           }
+          if (result.length != 0) {
+            strHTML_foot = '<tr>' +
+              '<td class="text-center" > </td>' +
+              '<td class="text-center font-weight-bold" colspan="2">Total  </td>' +
+              '<td class="text-center font-weight-bold" >' + yape_total + '</td>' +
+              '<td class="text-center font-weight-bold" >' + visa_total + '</td>' +
+              '<td class="text-center font-weight-bold " >' + efectivo_total + '</td>' +
+              '<td class="text-center font-weight-bold" >' + plin_total + '</td>' +
+              '<td class="text-center font-weight-bold" >' + TOTAL_TOTAL + ' </td>' +
+              '</tr>';
 
+          }
 
-          strHTML_foot = '<tr>' +
-            '<td class="text-center" > </td>' +
-            '<td class="text-center font-weight-bold" colspan="2">Total  </td>' +
-            '<td class="text-center font-weight-bold" >' + yape_total + '</td>' +
-            '<td class="text-center font-weight-bold" >' + visa_total + '</td>' +
-            '<td class="text-center font-weight-bold " >' + efectivo_total + '</td>' +
-            '<td class="text-center font-weight-bold" >' + plin_total + '</td>' +
-            '<td class="text-center font-weight-bold" >' + TOTAL_TOTAL + ' </td>' +
-            '</tr>';
 
           $('#data-table tbody').append(strHTML);
           $('#data-table').find('tfoot').append(strHTML_foot);
