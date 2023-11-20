@@ -166,7 +166,9 @@ class pedidoController extends cnSql
         foreach ($detalle_total as $row) {
             $fecha = date('Y-m-d H:i:s');
             $row['pedido_estado'] = (isset($row['pedido_estado']) ? $row['pedido_estado'] : null);
-            $var = ($row['opcionesarray'][0])['opciones'];
+            if(isset($row['opcionesarray'][0]['opciones'])){
+                $var = ($row['opcionesarray'][0])['opciones']; 
+            }
             $opciones= isset($var)? $var : null;
 
             $sql = "insert INTO pedidodetalle
@@ -295,7 +297,7 @@ switch ($function) {
         $pedidoclass->CobrarPedido($_REQUEST['mesa'], $_REQUEST['idpedido'], $_REQUEST['data']);
         break;
     case "ReporteProductoDetalle":
-        $pedidoclass->ReporteProductoDetalle($_REQUEST['idpedido']);
+        $pedidoclass->ReporteProductoDetalle((isset($_REQUEST['idpedido']) ? $_REQUEST['idpedido'] : ''));
         break;
     case "TicketPdf":
         $pedidoclass->TicketPdf($_REQUEST['idpedido']);

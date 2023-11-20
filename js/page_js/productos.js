@@ -10,7 +10,7 @@ $(function() {
     Opciones_Producto();
     //hang on event of form with id=myform
     $("#form").submit(function(e) { 
-        debugger
+        
         $('#id_button_productos').attr('disabled', 'disabled');
         //prevent Default functionality
         e.preventDefault();

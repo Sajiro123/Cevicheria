@@ -1,4 +1,4 @@
-<script type="text/javascript" src="./js/page_js/NuevoPedido.js"></script>
+<script type="text/javascript" src="./js/page_js/pedido.js"></script>
 <link href="css/page_css/editarPedido.css" rel="stylesheet">
 <script src="https://unpkg.com/ionicons@latest/dist/ionicons.js"></script>
 

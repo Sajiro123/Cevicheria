@@ -235,7 +235,7 @@ class reporteDetalle{
 	}
 	function imprimir ($data_){  
 
-		$inicial=120;
+		$inicial=122;
 		$items = count($data_);	
 
 		if($items > 3){
@@ -245,13 +245,13 @@ class reporteDetalle{
 			$inicial+=12;
 		}
 		if($items > 10){
-			$inicial+=12;
+			$inicial+=14;
 		}
 		if($items > 12){
-			$inicial+=12;
+			$inicial+=14;
 		}
 		if($items > 14){
-			$inicial+=12;
+			$inicial+=14;
 		}
 		$pdf = new PDF('P','mm',array(80,$inicial));  
 		    // $html2pdf = new Html2Pdf('P', 'A4', 'fr', true, 'UTF-8', array(15, 5, 15, 5));

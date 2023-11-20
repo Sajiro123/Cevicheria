@@ -6,6 +6,8 @@
     crossorigin="anonymous" />
 
 <script src="js\page_js\mesas.js"></script>
+<script src="js\page_js\cocinapedidos.js"></script>
+
 <!-- <script src="js\page_js\cocinapedidos.js"></script>  -->
 
 
@@ -17,10 +19,14 @@ if (!isset($_SESSION['idperfil'])) {
 
 
 <style>
+    html{
+        zoom: 90%;
+
+    }
 body {
     font-family: 'Open Sans', sans-serif;
 }
- 
+
 
 .pedido_cocina {
     font-size: 17px;
@@ -71,8 +77,21 @@ input[type="radio"] {
     margin: .4rem;
 
 }
+.row_ {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    margin-top: calc(-1 * var(--bs-gutter-y));
+    margin-right: calc(-.5 * var(--bs-gutter-x));
+    margin-left: calc(-.5 * var(--bs-gutter-x));
+    flex-wrap: nowrap;
+}
 </style>
 <div class="loader" id="idloader" style="display:none;"></div>
+<hr> 
+<p style="font-size: 37px;font-family: system-ui;color: #fb5170;margin-top: -39px;margin-top: -124px;"   ><b> Mesas</b></p>
+
+<br>
 <div class="row" id="idcard" style="display:none;">
     <div class="col-lg-5 col-sm-12 ">
         <div id="idmesas">
@@ -101,7 +120,7 @@ input[type="radio"] {
                         <i class="fas fa-arrow-alt-circle-left" onclick="RegresarMesas()" style="font-size:60px;cursor:pointer;"></i>
                     </div> -->
                     <div class="col-sm-10">
-                        <h2 class="text-center" id="mesa" style="font-family: cursive;color: red;font-size: 31px;"></h2>
+                        <h2 class="text-center" id="mesa" style="margin-top: -19px;font-family: cursive;color: red;font-size: 31px;"></h2>
                     </div>
 
                 </div>
@@ -112,8 +131,8 @@ input[type="radio"] {
     </div>
 
     <div class="col-lg-2 col-sm-3"  id="opciones_botones">
-    </div> 
-    
+    </div>
+
     <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -183,6 +202,12 @@ input[type="radio"] {
     </div>
 </div>
 
+    <br>
+    <hr>
+<p style="font-size: 37px;font-family: system-ui;color: #fb5170;margin-top: -64px;"   ><b> Pedidos Cocina</b></p><br><br>
+<div class="row">
+      <div id="idpedidos_cocina" class="col-sm-10 row" style="flex-wrap: nowrap;"></div>
+</div>
 
 <script runat="server">
   public void Page_Load(Object sender, EventArgs e)
@@ -190,7 +215,7 @@ input[type="radio"] {
     // Define the name and type of the client scripts on the page.
     String csname1 = "PopupScript";
     Type cstype = this.GetType();
-        
+
     // Get a ClientScriptManager reference from the Page class.
     ClientScriptManager cs = Page.ClientScript;
 
@@ -209,11 +234,14 @@ input[type="radio"] {
 <script>
 $(document).ready(function() {
     ListarMesas('#mesascantidad');
+    ListarMesasPedidos();
+    $("#kt_toolbar").remove();
+
 });
 </script>
 
 
-<?php if ($_SESSION['idperfil'] == 1) { ?>
+<?php if ($_SESSION['idperfil'] == 1) {?>
 <!--COCINA -->
 <div class="modal-body">
     <div class="row" id="idpedidos_cocina">
@@ -225,6 +253,6 @@ $(document).ready(function() {
 });
 </script>
 <?php
-    }
-    ?>
+}
+?>
 </div>

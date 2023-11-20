@@ -62,9 +62,7 @@ html {
     display: flex;
     margin-top: calc(-1 * var(--bs-gutter-y));
     margin-right: calc(-.5 * var(--bs-gutter-x));
-    margin-left: calc(-.5 * var(--bs-gutter-x));
-    /* flex-direction: row-reverse; */
-    /* justify-content: flex-end; */
+    margin-left: calc(-.5 * var(--bs-gutter-x)); 
     flex-wrap: nowrap;
 }
 
