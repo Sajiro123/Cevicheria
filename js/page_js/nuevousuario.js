@@ -36,7 +36,6 @@ function CargarPersona() {
                                 this.idtipodoc = "CARNET EXTRA."
                                 break;
                         }
-                        debugger;
                         switch (this.idperfil) {
                             case "1":
                                 this.idperfil = "Cocinero"
@@ -106,7 +105,6 @@ function CargarPersona() {
  
 
 $("#form").on('submit', function(e) {
-    debugger;
 
      if ($('#password').val().trim() == "") {document.getElementById("reqpassword").innerHTML = "* La contraseña es obligatorio.";$('#password').focus();return false;} 
 

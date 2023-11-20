@@ -32,7 +32,7 @@ $(document).ready(function () {
   $("button[data-dismiss='modal']").click(function () {
     $(".modal").modal('hide');
   });
-  debugger
+  
   CargarProductos();
   ListarPlatosSearch()
   $('#title_secundary').text('El Nº de Mesa es ' + $('#idmesas').val())
@@ -52,7 +52,7 @@ function CargarCategoria() {
       success: function (data) {
         var data_ = JSON.parse(data);
         array_productos=data_;
-        debugger
+        
         ListarPedido();
       },
     });
@@ -61,9 +61,14 @@ function CargarCategoria() {
   }
   function ListarPedido(){
     debugger
-    $('#tbDetalleProducto tbody').empty();  
-  
+    
     var idpedido= $('#idpedido').val();
+
+    if(idpedido == undefined)
+        return false;
+  
+   $("#tbDetalleProducto tbody").empty();
+
     table_status=true;
       $.ajax({
       url: "./controller/pedidoController.php",
@@ -179,7 +184,7 @@ function CargarDataCategoria() {
       $('#idimagenes').prepend(
         '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3" onclick="CargarDataProducto(' + this.idcategoria + ')">' +
         '<div class="jumbotron">' +
-        '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -24px;">' + this.nombre + '</h3>' +
+        '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -6px;">' + this.nombre + '</h3>' +
         '</div>' +
         '</div">'
       );
@@ -207,7 +212,7 @@ function CargarDataCategoria() {
               $('#idimagenes').prepend(
                 '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3" onclick="CargarDataProducto(' + this.idcategoria + ')">' +
                 '<div class="jumbotron">' +
-                '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -24px;">' + this.nombre + '</h3>' +
+                '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -6px;">' + this.nombre + '</h3>' +
                 '</div>' +
                 '</div">'
               );
@@ -229,7 +234,7 @@ function OnchangeProducto() {
 }
 
 function RegresarProducto() {
-  debugger
+  
   if (STATUS_PEDIDO == 1) {
     CargarDataCategoria();
     return;
@@ -258,7 +263,7 @@ function RegresarProducto() {
           '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3" onclick="agregarProducto($(this))">' +
           '<span style="display: none">' + data + '</span>' + 
           '<div class="jumbotron">' +
-          '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -24px;">' + this.nombre + '</h3>' +
+          '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -6px;">' + this.nombre + '</h3>' +
           '</div>' +
           '</div">'
         );
@@ -266,7 +271,7 @@ function RegresarProducto() {
         $('#idimagenes').prepend(
           '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3" onclick=\"CargarDataProducto(' + this.idcategoria + ',\'' + this.idproducto + '\',' + this.idarbol + ')\" >' +
            '<div class="jumbotron">' +
-          '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -24px;">' + this.nombre + '</h3>' +
+          '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -6px;">' + this.nombre + '</h3>' +
           '</div>' +
           '</div">'
          );
@@ -290,7 +295,7 @@ function RegresarProducto() {
         '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3" onclick="agregarProducto($(this))" >' +
         '<span style="display: none">' + data + '</span>' + 
          '<div class="jumbotron">' +
-        '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -24px;">' + this.nombre + '</h3>' +
+        '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -6px;">' + this.nombre + '</h3>' +
         '</div>' +
         '</div">'  
        );
@@ -330,7 +335,7 @@ function CargarDataProducto(idcategoria, codigo = "0", idarbol = "0") {
             '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3" onclick="agregarProducto($(this))">' +
             '<span style="display: none">' + data + '</span>' + 
              '<div class="jumbotron">' +
-            '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -24px;">' + this.nombre + '</h3>' +
+            '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -6px;">' + this.nombre + '</h3>' +
             '</div>' +
             '</div">'
          );
@@ -338,7 +343,7 @@ function CargarDataProducto(idcategoria, codigo = "0", idarbol = "0") {
         $('#idimagenes').prepend(
           '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3" onclick=\"CargarDataProducto(' + this.idcategoria + ',\'' + this.idproducto + '\',' + this.idarbol + ')\">' +
           '<div class="jumbotron">' +
-          '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -24px;">' + this.nombre + '</h3>' +
+          '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -6px;">' + this.nombre + '</h3>' +
           '</div>' +
           '</div">'
         );
@@ -361,7 +366,7 @@ function CargarDataProducto(idcategoria, codigo = "0", idarbol = "0") {
         '<div class="col-md-3 col-xl-3 col-sm-3 col-lg-3 " onclick="agregarProducto($(this))" >' +
         '<span style="display: none">' + data + '</span>' +
         '<div class="jumbotron">' +
-        '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -24px;">' + this.nombre + '</h3>' +
+        '<h3 class="text-center" style="font-size: 21px;font-family:Poppins;font-weight: 600;margin-top: -6px;">' + this.nombre + '</h3>' +
         '</div>' +
         '</div">'
        );
@@ -529,7 +534,7 @@ function cantidadPlatos(row) {
 }
 
 function RegistrarPedido() {
-  debugger
+  
 
 
   if ($("#tbDetalleProducto tbody tr").length == 1 && table_status == false) {
@@ -570,7 +575,7 @@ function RegistrarPedido() {
         var tr = $(this);
         //OPCIONES 
         $.each($(tr), function (j, x) {
-          debugger
+          
           var opcionesarray = [];
 
           var opcionesobject = { idproducto: "", opciones: [] };
@@ -891,7 +896,7 @@ function OpcionesPlato(row) {
   $('#dataopcionplato').val(idproducto);
   $('#dataopcioncorrelativo').val(idcorrelativo);
 
-  debugger
+  
   var OPCIONES_PRODUCTO_temp = OPCIONES_PRODUCTO.filter(function (producto) {
     return producto.idproducto === idproducto;
   });
@@ -957,7 +962,7 @@ function ListarPedidoNumeroCalculadora(){
         type:"p.numero_carta" 
        },
       success: function (data) {
-        debugger
+        
         var data = JSON.parse(data);
         if(data.length == 0){
           $('#NumberLote').val('')

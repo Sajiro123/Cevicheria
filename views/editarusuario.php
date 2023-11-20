@@ -5,7 +5,7 @@ if(isset($_GET['idusuario'])){
  }
 
 ?>
-<script type="text/javascript" src="./js/page_js/NuevoPedido.js"></script>
+<script type="text/javascript" src="./js/page_js/pedido.js"></script>
 
 <style>
     .nav-pills .nav-link.active,
@@ -220,7 +220,7 @@ if(isset($_GET['idusuario'])){
             },  
             success: function(data) {
                 var result = JSON.parse(data); 
-                debugger;
+                
                     $.each(result, function() { 
                         $('#apellidopat').val(this.apellidopat);
                         $('#nombres').val(this.nombres);
@@ -251,7 +251,7 @@ $("#datepicker").datepicker({
 
     
 $("#formActualizar").on('submit', function(e) {
-    debugger;
+    
 
     if ($('#password').val().trim() == "") {document.getElementById("reqpassword").innerHTML = "* La contraseña es obligatorio.";$('#password').focus();return false;} 
 
@@ -263,7 +263,7 @@ $("#formActualizar").on('submit', function(e) {
        url: form.attr('action'),
        data: form.serialize()
      }).done(function(data) {
-         debugger;
+         
        var result = JSON.parse(data);
 
       

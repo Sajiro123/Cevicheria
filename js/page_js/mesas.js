@@ -407,6 +407,8 @@ function estadoPedido(row){
                function: "ActualizarEstado"
          } 
         }).done(function() {
+            debugger
+            ListarMesasPedidos();
             ARRAY_PEDIDO.forEach(function(values,index){
                 if(values.idpedidodetalle == row.id){
                     ARRAY_PEDIDO[index]['pedido_estado']=1;
@@ -432,6 +434,8 @@ function estadoPedido(row){
                 function: "ActualizarEstado"
           } 
          }).done(function() {
+            debugger
+            ListarMesasPedidos();
             $("#overlay").fadeOut(); 
             ARRAY_PEDIDO.forEach(function(values,index){
                 if(values.idpedidodetalle == row.id){
