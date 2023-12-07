@@ -75,6 +75,18 @@ class pedidoController extends cnSql
         echo json_encode($row_registro);
     }
 
+    function ReporteProductoDetallePover($idpedido)
+    {
+        $sql = "select p1.opcionespedido, p1.pedido_estado, p.descuento,p.comentario, p1.lugarpedido, p1.idproducto,p2.idcategoria, p.idpedido, p1.cantidad,p2.nombre,p1.cantidad,p1.precioU,p1.total,p.mesa,c.nombre categoria,p.total totalidad FROM pedido p" .
+            " INNER JOIN pedidodetalle p1 ON p.idpedido=p1.idpedido" .
+            " INNER JOIN producto p2 ON p1.idproducto=p2.idproducto " .
+            " INNER JOIN categoria c ON c.idcategoria=p1.idcategoria" .
+            " WHERE  p.idpedido='$idpedido' AND p.deleted  IS null  AND p1.deleted  IS null ORDER BY p.mesa;";
+        $row_registro = $this->SelectSql($sql);
+        echo json_encode($row_registro);
+    }
+
+
     function InsertarProducto($total, $total_pedidos, $fecha, $mesa, $descuento, $comentario)
     {
         $idcliente = $_SESSION['id_user'];
@@ -299,6 +311,9 @@ switch ($function) {
     case "ReporteProductoDetalle":
         $pedidoclass->ReporteProductoDetalle((isset($_REQUEST['idpedido']) ? $_REQUEST['idpedido'] : ''));
         break;
+    case "ReporteProductoDetallePover":
+        $pedidoclass->ReporteProductoDetallePover((isset($_REQUEST['idpedido']) ? $_REQUEST['idpedido'] : ''));
+            break;
     case "TicketPdf":
         $pedidoclass->TicketPdf($_REQUEST['idpedido']);
         break;

@@ -92,7 +92,7 @@
             </tr>
           </tbody>
         </table>
-      </div> 
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" onclick="cambiarPrecio() ">Guardar</button>
@@ -104,6 +104,7 @@
 </div>
 
 <script type="text/javascript">
+
   function DetalleList(fecha) {
     $('#ModalReportDiario').modal('show');
 
@@ -139,42 +140,63 @@
               '<td class="text-center" >' + (this.efectivo == null ? "" : this.efectivo) + '</td>' +
               '<td class="text-center" >' + (this.visa == null ? "" : this.visa) + '</td>' +
               '<td class="text-center" >' + (this.total == null ? "" : this.total) + '</td>' +
-              '<td><button onclick="pedidodetalle(this,'+i+')" class="btn btn-secondary" ><i class="far fa-regular fa-eye"></i></button></td>'
+              '<td><button id="myPopover_'+i+'" type="button" onclick="pedidodetalle(this,'+this.idpedido+')" class="btn btn-lg btn-danger" data-toggle="popover"><i class="far fa-regular fa-eye"></i></button></td>'
             '</tr>';
+
           });
         }
         $('#data-table-diario tbody').append(strHTML);
       },
     },
       JSON
-    );  
-    
+    );
+
   }
 
-  function pedidodetalle(html,position) {
-    position=position -1 ;
-    var strHTML="";
-    $($($($($(html).parent()).parent())).parent()).children().each(function(index,row){
-     
-      strHTML+='<tr>'+row.innerHTML+'</tr>' 
-      if(index == position){
-        strHTML+='<tr><td>aqui toy</td></tr>'
-      }
-    })
-    $('#data-table-diario tbody').empty();
+  function pedidodetalle(html,idpedido) {
+    var id ="#"+html.id;
+    var platos="";
 
-    $('#data-table-diario tbody').append(strHTML);
+    $.ajax({
+      url: "./controller/pedidoController.php",
+      type: "POST",
+      datatype: "json",
+      data: {
+        function: "ReporteProductoDetallePover",
+        idpedido:idpedido,
+        },
+      success: function (data) {
+        var result = JSON.parse(data); 
+           $.each(result, function () {
+            platos+=" "+this.nombre+"----"+this.precioU+"-----\n\n\n";
+        });
+        $(id).popover({title : platos}); 
+        },JSON});
+
+
+
+    setTimeout(() => {
+      $(id).popover({title : platos});
+    $(id).popover();
+    }, 2000);
+
+    // position=position -1 ;
+    // var strHTML="";
+    // $($($($($(html).parent()).parent())).parent()).children().each(function(index,row){
+    //   strHTML+='<tr>'+row.innerHTML+'</tr>'
+    //   if(index == position){
+    //     strHTML+='<tr><td>aqui toy</td></tr>'
+    //   }
+    // })
+    // $('#data-table-diario tbody').empty();
+
+    // $('#data-table-diario tbody').append(strHTML);
 
     // append('<tr><td>aqui toy</td></tr>')
   }
 
   $(function () {
     moment.locale('es');
-
-
-
-
-
     $('input[name="datefilter"]').daterangepicker({
       autoUpdateInput: false,
       locale: {
