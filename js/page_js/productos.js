@@ -171,7 +171,6 @@ function Editarproducto(idproducto) {
     OPCIONES_PRODUCTO_temp = OPCIONES_PRODUCTO.filter(function (row) {
              return (row.idproducto == idproducto);
     });
-    var nombre ="alex"
 
         var i=0;
         $.each(OPCIONES_PRODUCTO_temp, function() { 
