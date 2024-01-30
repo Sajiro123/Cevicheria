@@ -41,7 +41,8 @@
         <th class="text-center">Efectivo</th>
         <th class="text-center"> <img src="images/plin.png" style="width: 44px;height: 42px;" /></th>
         <th class="text-center">Total</th>
-        <th class="text-center"></th>
+        <th class="text-center" width="100"></th>
+        <th class="text-center" width="100"></th>
       </tr>
     </thead>
     <tfoot>
@@ -103,6 +104,27 @@
 </div>
 </div>
 
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Imprimir cierre</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="pdf_div"> 
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
 
   function DetalleList(fecha) {
@@ -140,8 +162,9 @@
               '<td class="text-center" >' + (this.efectivo == null ? "" : this.efectivo) + '</td>' +
               '<td class="text-center" >' + (this.visa == null ? "" : this.visa) + '</td>' +
               '<td class="text-center" >' + (this.total == null ? "" : this.total) + '</td>' +
+ 
               '<td><button id="myPopover_'+i+'" type="button" onclick="pedidodetalle(this,'+this.idpedido+')" class="btn btn-lg btn-danger" data-toggle="popover"><i class="far fa-regular fa-eye"></i></button></td>'
-            '</tr>';
+             '</tr>';
 
           });
         }
@@ -152,11 +175,37 @@
     );
 
   }
+ 
+  function ExportarPdf(inicio) {
 
+    $('#pdf_div').empty();
+    $('#pdf_div').append('<iframe  width="470px" height="700px" src="controller/ReportesController.php?function=ReporteDiario&inicio=' + inicio + '&fin=' + inicio + '&imprimir=true"></iframe>')
+    $('#exampleModalLong').modal('show');
+
+    // $.ajax({
+    //   url: "./controller/ReportesController.php",
+    //   type: "POST",
+    //   datatype: "json",
+    //   data: {
+    //     function: "ReporteDiario",
+    //     inicio: inicio,
+    //     fin: inicio,
+    //     imprimir: true
+    //   },
+    //   success: function (data) {
+
+    //   },
+    // },
+    //   JSON
+    // );
+  }
+
+
+   
   function pedidodetalle(html,idpedido) {
     var id ="#"+html.id;
     var platos="";
-
+ 
     $.ajax({
       url: "./controller/pedidoController.php",
       type: "POST",
@@ -235,6 +284,7 @@
             var TOTAL_TOTAL = 0;
 
             $.each(result, function () {
+              debugger
               yape_total += parseInt(this.YAPE);
               plin_total += parseInt(this.PLIN);
               visa_total += parseInt(this.VISA);
@@ -259,6 +309,7 @@
                 '<td class="text-center" >' + (this.PLIN == null ? "" : this.PLIN) + '</td>' +
                 '<td class="text-center" >' + (total == null ? "" : total) + '</td>' +
                 '<td class="" > <button onclick="DetalleList(\'' + this.fecha + '\')" class="btn btn-sm  btn-success" style="margin-top: -8px;padding: 6px;">Ver Detalle </button></td>' +
+                '<td class="" > <button onclick="ExportarPdf(\'' + this.fecha + '\')" class="btn btn-sm  btn-danger" style="margin-top: -8px;padding: 6px;">Imprimir </button></td>' +
                 '</tr>';
             });
           }
